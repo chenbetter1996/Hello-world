@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[MySQL中文乱码]]></title>
+    <url>%2F2019%2F07%2F11%2Fmysql%2Fmysql-zhong-wen-luan-ma%2F</url>
+    <content type="text"><![CDATA[插入乱码即便数据库和表如下utf8编码配置 CREATE DATABASE `db_name` DEFAULT CHARACTER SET utf8; CREATE TABLE `tb_name` (...) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT=''; 这样INSERT INTO tb_name..依然中文乱码 SQLException: /xx /xx这种 如下可以查看内部编码： mysql> show variables like '%character%'; +--------------------------+----------------------------------------+ | Variable_name | Value | +--------------------------+----------------------------------------+ | character_set_client | gbk | | character_set_connection | gbk | | character_set_database | utf8 | | character_set_filesystem | binary | | character_set_results | gbk | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | G:\mysql-8.0.16-winx64\share\charsets\ | +--------------------------+----------------------------------------+ 8 rows in set, 1 warning (0.00 sec) 可以暂时修改，但是仅限本session有效，退出或者重启服务无效 SET character_set_client=utf8; ... 长期有效要改数据库配置文件，my.ini之类的不在安装目录，会在C盘的数据区。 附录Windows安装Mysql]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Apache Thrift初识]]></title>
+    <url>%2F2019%2F06%2F24%2Fthrift%2Fthrift-chu-shi%2F</url>
+    <content type="text"><![CDATA[Apache ThriftFacebook开发的，一个RPC通讯的王者。比XML，JSON传输更优秀。基于一个Socket。 xx.thrift是其文件格式，里面是对接口方法的描写，需要本地编译成xx.java接口文件。所以需要安装一些编译原理的词法语法语义环境的工具，比如flex，bison等等。 本地的IDEA可以安装这个Thrift插件，把xx.thrift编译为xx.java接口。然后，写一个需要传输的类实现这个接口就可以了。启动Thrift服务端，就类似于ServerSocket，然后本地客户端可以连接，调用访问里面的方法。 REST VS RPC其实个人感觉REST也是一种RPC，只是其协议是HTTP。但是RPC框架底层协议除了有socket，管道之类的也有HTTP。感觉RPC是个父集合一样。]]></content>
+      <categories>
+        <category>Thrift</category>
+      </categories>
+      <tags>
+        <tag>RPC</tag>
+        <tag>Thrift</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM调参和GC日志简记]]></title>
+    <url>%2F2019%2F06%2F20%2Fjvm%2Fjvm-diao-can-he-gc-ri-zhi%2F</url>
+    <content type="text"><![CDATA[垃圾回收内存分配 1. Minor GC&emsp;&emsp;当Eden区满的时候回触发一次Minor GC（Survivor区满不会）。这次GC仅仅回收年轻代。&emsp;&emsp;使用的是复制算法，就是把Eden和Survivor1中存活的对象复制到Survivor2上，然后清空。(可以肯定的是Eden区的对象没了。Survivor1和和Survivor2可能来回copy)&emsp;&emsp;每进行一次Minor GC（年轻代回收），对象的年龄就增加1岁（初始为0），当年龄增加到一定程度（默认15岁），就会被移到老年代。 2. Full GC 当年老代满时会引发Full GC，Full GC将会同时回收年轻代、年老代 当永久（方法区）代满时也会引发Full GC，会导致Class、Method元信息的卸载 GC日志public class Test1 { private static final int MB = 1024 * 1024; public static void main(String[] args) { byte[] b1, b2, b3, b4; b1 = new byte[2 * MB]; b1 = new byte[2 * MB]; b3 = new byte[2 * MB]; b4 = new byte[4 * MB]; } } 编译这个简单的案例，执行 $ java -Xms20M -Xmx21M -Xmn10M -XX:SurvivorRatio=8 -XX:+PrintGCDetails Test1 Heap PSYoungGen total 9216K, used 7456K [0x00000000ff600000, 0x0000000100000000, 0x0000000100000000) eden space 8192K, 91% used [0x00000000ff600000,0x00000000ffd48038,0x00000000ffe00000) from space 1024K, 0% used [0x00000000fff00000,0x00000000fff00000,0x0000000100000000) to space 1024K, 0% used [0x00000000ffe00000,0x00000000ffe00000,0x00000000fff00000) ParOldGen total 10240K, used 4096K [0x00000000fea00000, 0x00000000ff400000, 0x00000000ff600000) object space 10240K, 40% used [0x00000000fea00000,0x00000000fee00010,0x00000000ff400000) Metaspace used 2626K, capacity 4486K, committed 4864K, reserved 1056768K class space used 281K, capacity 386K, committed 512K, reserved 1048576K -verbose:gc 或者 -XX:+PrintGC 都可以输出GC简要信息。 -XX:+PrintGCDetails 可以打印详细信息。 -Xms20M 是初始化堆的大小为20M，-Xmx21M 是堆最大是21M，-Xmn10M 是年轻代分配10M -XX:SurvivorRatio=8 是指新生代Eden区:一个Survivor = 8，（两个Survivor大小一样）。默认是8，则两个Survivor区与一个Eden区的比值为2:8,一个Survivor区占整个年轻代的1/10。调小这个参数将增大survivor区，让对象尽量在survitor区呆长一点，减少进入年老代的对象。去掉救助空间的想法是让大部分不能马上回收的数据尽快进入年老代，加快年老代的回收频率，减少年老代暴涨的可能性，这个是通过将-XX:SurvivorRatio 设置成比较大的值（比如65536)来做到。 &emsp;&emsp;从打印情况可以看出各个区的大小，以及使用情况。from对应Survivor1, to是Survivor2。这里没有GC(Minor GC)过。因为那个new byte[6 MB] 大对象直接被初始化到老年代去了，所以年轻代够用。可以使用 System.gc()* 建议触发一次GC&emsp;&emsp;不知道为啥PSYougGen的total才9216K(1024x9)，而后面的eden，from，to加起来刚刚好10M 这里我们配置的10M用的是直接的1024，就是相对于2进制对2进制了。因为平时人们会把1024当做1000，比如储存SD卡就是，4GB说的是用了1000替换的后的角度的，所以再变为二进制就小了，4GB（1000视角）= 4 1000 1000B = 4 1000 1000 / 1024 / 1024G = 3.814，然后卡系统分区占用了些，就大概剩下3.6GB（1024视角） 参考 Jvm 系列(五):Java GC 分析 . 纯洁的微信 JVM性能调优 . 纯粹的码农 . CSDN JVM垃圾回收机制入门 . 简书]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[图片分类批量测试]]></title>
+    <url>%2F2019%2F06%2F16%2Ftensorflow%2Ftu-pian-fen-lei-pi-liang-ce-shi%2F</url>
+    <content type="text"><![CDATA[核心实现保存了模型后，需要对模型测试，图片集路径为 path = '../data/*.jpg' 导入模型后，测试的原理就是替换，把训练的图片改为测试的图片。模型中还报错了最后一个全连接层的输出logits，把其从模型中读取出来，更改图片，再运行模型几个得出结果。 测试集图片命名按照路飞1xx.jpg，罗宾2xx.jpg…就是打个标签而已，paths[i][-7:] 读取出1,2,3…，和模型结果对比即可。 from skimage import io,transform import tensorflow as tf import numpy as np import glob path = '../data/*.jpg' image_dict = {0: '路飞',1:'罗宾',2:'娜美',3:'乔巴',4:'索隆'} w=100 h=100 c=3 def read_one_image(path): img = io.imread(path) img = transform.resize(img,(w,h)) return np.asarray(img) with tf.Session() as sess: data = [] # 目录列表 paths = glob.glob(path) for img in paths: data.append(read_one_image(img)) saver = tf.train.import_meta_graph('../../finalmodel/rate_07_model/model.ckpt.meta') saver.restore(sess,tf.train.latest_checkpoint('../../finalmodel/rate_07_model/')) graph = tf.get_default_graph() x = graph.get_tensor_by_name("x:0") feed_dict = {x:data} logits = graph.get_tensor_by_name("logits_eval:0") classification_result = sess.run(logits,feed_dict) #打印出预测矩阵 print("\n预测矩阵:\n", classification_result) #打印出预测矩阵每一行最大值的索引 print("\n简略结果:\n", tf.argmax(classification_result,1).eval(), '\n') print("具体情况: ") #根据索引通过字典对应人物的分类 output = [] output = tf.argmax(classification_result,1).eval() count = 0 for i in range(len(output)): # output[i]是测试结果编码，paths[i])[-7]是原定图片编号（路飞1） flag = False if str(output[i]+1) == paths[i][-7]: flag = True count += 1 print("第 " + str(i+1) + " 张 (" + paths[i][-7:] + ") 人物预测: " + image_dict[output[i]] + " " + str(flag)) print("\n准确率: {:.2f}%".format(count / len(output) * 100 )) 结果展示]]></content>
+      <categories>
+        <category>TensorFlow</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>TensorFlow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python绘图matplotlib类库]]></title>
+    <url>%2F2019%2F06%2F09%2Fpython%2Fpython-hui-tu-matplotlib%2F</url>
+    <content type="text"><![CDATA[代码 简单画图 import numpy as np import matplotlib.pyplot as plt #自变量x的范围以及步幅 x = np.arange(1, 11, 1) plt.plot(x, x * 2, label="First") plt.plot(x, x * 3, label="Second") plt.plot(x, x * 4, label="Third") #参数：loc设置显示的位置，0是自适应；ncol设置显示的列数 plt.legend(loc=0, ncol=1) plt.show() 画机器学习结果图 #训练和测试数据，可将n_epoch设置更大一些 n_epoch=20 batch_size=32 sess=tf.InteractiveSession() sess.run(tf.global_variables_initializer()) # 自定义保存数据列表 trainlosslist = [] trainacclist = [] validationlosslist = [] validationacclist = [] for epoch in range(n_epoch): start_time = time.time() #training train_loss, train_acc, n_batch = 0, 0, 0 for x_train_a, y_train_a in minibatches(x_train, y_train, batch_size, shuffle=True): _,err,ac=sess.run([train_op,loss,acc], feed_dict={x: x_train_a, y_: y_train_a}) train_loss += err; train_acc += ac; n_batch += 1 print(" train loss: %f" % (train_loss/ n_batch)) print(" train acc: %f" % (train_acc/ n_batch)) # 添加到列表 trainlosslist.append(train_loss/ n_batch) trainacclist.append(train_acc/ n_batch) #validation val_loss, val_acc, n_batch = 0, 0, 0 for x_val_a, y_val_a in minibatches(x_val, y_val, batch_size, shuffle=False): err, ac = sess.run([loss,acc], feed_dict={x: x_val_a, y_: y_val_a}) val_loss += err; val_acc += ac; n_batch += 1 print(" validation loss: %f" % (val_loss/ n_batch)) print(" validation acc: %f" % (val_acc/ n_batch)) # 添加到列表 validationlosslist.append(val_loss/ n_batch) validationacclist.append(val_acc/ n_batch) sess.close() # 绘图 x = np.arange(1, n_epoch, 1) plt.plot(x, np.array(trainacclist)[x-1], label="train-acc") plt.plot(x, np.array(validationacclist)[x-1], label="validation-acc") plt.plot(x, np.array(trainlosslist)[x-1], label="train-loss") plt.plot(x, np.array(validationlosslist)[x-1], label="validation-loss") # 画两条基准线(1和0，也不能直接写) plt.plot(x, x/x, label="one") plt.plot(x, x-x, label="zero") # 参数：loc设置显示的位置，0是自适应；ncol设置显示的列数 plt.legend(loc=0, ncol=1) plt.show() 主要y变量如果是列表要使用np.array(list)做转化，不然报错：TypeError: only integer scalar arrays can be converted to a scalar index]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python实现文件批量重命名]]></title>
+    <url>%2F2019%2F06%2F08%2Fpython%2Fpython-shi-xian-wen-jian-pi-liang-chong-ming-ming%2F</url>
+    <content type="text"><![CDATA[实现import os # 需要批量改名的文件所在文件夹 path_name='photo/路飞/' # 命名从1开始 i = 1 for item in os.listdir(path_name): # 进入到文件夹内，对每个文件进行循环遍历 # os.path.join(path_name, item)表示找到每个文件的绝对路径并进行拼接操作 os.rename(os.path.join(path_name, item), os.path.join(path_name, (str(i) + '.png'))) i += 1 ` 注意的是如果新名字如2.png在原文件存在，会报错。可以先统一改后缀为txt等啥的（目录下不存在的），然后再运行一次为想要的即可。 效果]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python根据关键词爬取Google搜索的图片]]></title>
+    <url>%2F2019%2F06%2F07%2Fpython%2Fpython-gen-ju-guan-jian-ci-pa-qu-google-sou-suo-de-tu-pian%2F</url>
+    <content type="text"><![CDATA[实现代码# -*- coding: UTF-8 -*- import os,shutil import re from selenium import webdriver import time import urllib import requests #输出目录 OUTPUT_DIR = 'photo' #关键字数组：将在输出目录内创建以以下关键字们命名的txt文件 SEARCH_KEY_WORDS = ['路飞','娜美', '索隆', '乔巴', '罗宾'] # 页数 PAGE_NUM = 12 repeateNum = 0 preLen = 0 def getSearchUrl(keyWord): if(isEn(keyWord)): return 'https://www.google.com.hk/search?q=' + keyWord + '&amp;safe=strict&amp;source=lnms&amp;tbm=isch' else: return 'https://www.google.com.hk/search?q=' + keyWord + '&amp;safe=strict&amp;hl=zh-CN&amp;source=lnms&amp;tbm=isch' def isEn(keyWord): return all(ord(c) &lt; 128 for c in keyWord) # 启动Firefox浏览器 driver = webdriver.Firefox() if os.path.exists(OUTPUT_DIR) == False: os.makedirs(OUTPUT_DIR) def output(SEARCH_KEY_WORD): global repeateNum global preLen print('搜索' + SEARCH_KEY_WORD + '图片中，请稍后...') # 如果此处为搜搜，搜索郁金香，此处可配置为：http://pic.sogou.com/pics?query=%D3%F4%BD%F0%CF%E3&amp;di=2&amp;_asf=pic.sogou.com&amp;w=05009900&amp;sut=9420&amp;sst0=1523883106480 # 爬取页面地址，该处为google图片搜索url url = getSearchUrl(SEARCH_KEY_WORD) # 如果是搜搜，此处配置为：'//div[@id="imgid"]/ul/li/a/img' # 目标元素的xpath，该处为google图片搜索结果内img标签所在路径 xpath = '//div[@id="rg"]/div/div/a/img' # 浏览器打开爬取页面 driver.get(url) outputFile = OUTPUT_DIR + '/' + SEARCH_KEY_WORD + '.txt' outputSet = set() # 模拟滚动窗口以浏览下载更多图片 pos = 0 m = 0 # 图片编号 for i in range(PAGE_NUM): pos += i*600 # 每次下滚600 js = "document.documentElement.scrollTop=%d" % pos driver.execute_script(js) time.sleep(1) for element in driver.find_elements_by_xpath(xpath): img_url = element.get_attribute('src') if img_url is not None and img_url.startswith('http'): outputSet.add(img_url) if preLen == len(outputSet): if repeateNum == 2: repeateNum = 0 preLen = 0 break else: repeateNum = repeateNum + 1 else: repeateNum = 0 preLen = len(outputSet) print('写入' + SEARCH_KEY_WORD + '图片中，请稍后...') file = open(outputFile, 'w') index = 0 for val in outputSet: # 保存url到txt文件 file.write(val + '\n') index += 1 r = requests.get(val) img_name = str(index) + '.png' # 保存图片 with open('photo/' + SEARCH_KEY_WORD + '/' + img_name, 'wb') as f: f.write(r.content) file.close() print(SEARCH_KEY_WORD+'图片搜索写入完毕') print(len(outputSet)) for val in SEARCH_KEY_WORDS: output(val) driver.close() 注意事项 改配置 # 输出目录 OUTPUT_DIR = 'photo' # 关键字数组：将在输出目录内创建以以下关键字们命名的txt文件，图片另外保存 SEARCH_KEY_WORDS = ['路飞','娜美', '索隆', '乔巴', '罗宾'] # 检索页数 PAGE_NUM = 12 输出目录’photo’这里和climbpic.py是同目录下，所以可以用相对路径。关键字用列表保存，页数是搜索的深度，越大图片越多。 图片保存 print('写入' + SEARCH_KEY_WORD + '图片中，请稍后...') file = open(outputFile, 'w') index = 0 for val in outputSet: # 保存url到txt文件 file.write(val + '\n') index += 1 r = requests.get(val) img_name = str(index) + '.png' # 保存图片 with open('photo/' + SEARCH_KEY_WORD + '/' + img_name, 'wb') as f: f.write(r.content) file.close() 这里我保存了链接，也保存了图片，所以图片目录要预先创建好。比如‘路飞’目录等 环境安装除了引用的那些类库需要pip安装外，还有一个核心要配置。就是这个用到了其实火狐浏览器检索（必须要安装火狐），运行会自动打开火狐浏览器，这需要类似一个驱动支持。需要下载对应系统的mozilla/geckodriver，放到浏览器的安装路径下。比如windows的C:\Program Files\Mozilla Firefox目录下。并为此添加环境变量到path]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo博客部分404大小写问题]]></title>
+    <url>%2F2019%2F06%2F01%2Fza-ji%2Fhexo-bo-ke-bu-fen-404-da-xiao-xie-wen-ti%2F</url>
+    <content type="text"><![CDATA[问题不知道为啥，突然部分博客404，去看了github.io仓库是没有问题的，对应路径的index.html都有。但是细细发现，目录文件夹大小写不一样。这是chgl16.github.io情况，红色框的是有问题时候的，都是目录都是大写。这说明是按照我本地目录名提交的，我本地的都是大写目录名。 # URL ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/' url: https://cglzwz.xyz root: / permalink: :year/:month/:day/:title/ permalink_defaults: 这是hexo博客根目录下的配置文件的url配置，没有问题。 之前也没有问题，估计是我之前访问的URL也是大写的，所以目录名才对上。但是不知道为啥最近新写博客，发现URL变成小写了。提交到github.io的新文章也是小写目录（本地命名大写目录）。很奇怪。 hexo clean hexo d -g 这些都无效。但是本地.deploy_git目录下却生成小写的（所以使用hexo s本地测试不存在404问题）。就是提交不上仓库。。完全不理解 解决这个大小写问题很乱，但是也发现了解决方法。修改.deploy_git/.git/目录下的confi文件把ignorecase属性改为false，然后重新hexo d -g就可以了，虽然本地目录大写，但是githu.io仓库会生成小写的，对应小写的URL。图片1黄色框就是后来生成可用的。当然重复的可以删除。]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>404</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[TensorFlow安装]]></title>
+    <url>%2F2019%2F06%2F01%2Ftensorflow%2Ftensorflow-an-zhuang%2F</url>
+    <content type="text"><![CDATA[TensorFlow分类TensorFlow分为纯CPU和使用GPU（比如有NVIDIA显卡）两种，类库会不一样。 电脑没有英伟达显卡，这里安装仅支持CPU的TensorFlow。 TensorFlow安装安装要先保证已经安装了python环境，pip 使用pip原生安装 # 纯CPU版 pip3 install --upgrade tensorflow # GPU版 pip3 install --upgrade tensorflow-gpu 会自动下载其他依赖 使用Anaconda进行安装 这个要去其官网下载这个工具，然后使用它安装TensorFlow]]></content>
+      <categories>
+        <category>TensorFlow</category>
+      </categories>
+      <tags>
+        <tag>安装</tag>
+        <tag>TensorFlow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RabbitMQ使用]]></title>
+    <url>%2F2019%2F05%2F20%2Frabbitmq%2Frabbitmq-shi-yong%2F</url>
+    <content type="text"><![CDATA[1. 服务端先启动服务器 sudo rabbitmq-server start 这里可以看到消息的情况，现在是单个Node，显示了服务器端的一些配置信息。 自带8种交换机，可以在这里直接添加自定义的交换机，配置名字，可持久化等属性；也可以点击交换机列表进入指定交换机查看详情，里面可以绑定队列(需要指定routing key)，配置等等。 队列默认是没有的，可以点击添加，队列表格也有各个现存队列的信息，消息情况，点击进去可以看到具体的，也可以手动往队列发消息，purge清空队列等等。 2. 消费者先写消费者，是因为消费者绑定队列，消费者可以直接注册队列交换机等需要的信息。当然也可以手动在服务器端创建。 其实很好理解，类似发信件，每个收件人都有一个邮箱，相当于队列。这是绑定的队列，交换机是一个邮递员，负责根据信件的目的地址（Routing key)路由分发。而邮箱和快递员等我们可以抽出来成为服务器端，我要寄件去找专门的邮递员（交换机）投递即可。 /** * 接收消费订单消息 * @author chgl16 * @date 2019-05-17 10:04 * @version 1.0 */ @Component public class OrderReceiver { @RabbitListener(bindings = @QueueBinding( value = @Queue(value = "order-queue", durable = "true"), exchange = @Exchange(value = "order-exchange", type = "topic"), key = "order.*" ) ) @RabbitHandler // 标识为消息消费者 public void receive(@Payload Order order, Channel channel, // 手动确认需要使用channel @Headers Map&lt;String, Object> headers ) throws Exception { System.err.println("-------接收消息，开始消费-------"); System.err.println("订单ID: " + order.getId()); // 从Header获取确认标识 Long deliveryTag = (Long)headers.get(AmqpHeaders.DELIVERY_TAG); // 手动确认ACK channel.basicAck(deliveryTag, false); } } 注意这里是手动确认，这个方法无需手动调用，它是一个监听器，收到消息自动触发。 3. 生产者/** * 生成消息，发送 * @author chgl16 * @date 2019-05-16 21:27 * @version 1.0 */ @Component public class OrderSender { /** * 使用提供的集成模板操作 */ @Autowired private RabbitTemplate rabbitTemplate; public void send(Order order) throws Exception { // 设置相关消息唯一标识 CorrelationData correlationData = new CorrelationData(); correlationData.setId(order.getMessageId()); rabbitTemplate.convertAndSend( "order-exchange", // exchange "order.chgl16", // routing key order, // message correlationData // 唯一标识 ); } } 直接使用模板，需要手动调用]]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Git撤销commit]]></title>
+    <url>%2F2019%2F05%2F20%2Fgit%2Fgit-che-xiao-commit%2F</url>
+    <content type="text"><![CDATA[问题1：无法commiterror: pathspec 'fix:修复排版' did not match any file(s) known to 其实原因很明显，虽然git status看到了修改的文件，但是却没有匹配的，是因为没有保存，记得Crtl + S 也有网友的是因为git commit ‘xx’使用了单引号的缘故 问题2：撤销commit有时候没有commit了，但是不想提交到远程仓库，或者pull的时候需要提交，我们不想，可以如下操作 找到上次提交的commit-idgit log 版本回退,同时也有撤销的效果git reset --hard commit-id]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java序列化问题]]></title>
+    <url>%2F2019%2F05%2F19%2Fjava%2Fjava-xu-lie-hua-wen-ti%2F</url>
+    <content type="text"><![CDATA[1. 序列化序列化是将对象转为文件，方便传输共享，比如消息队列传输的消息 &emsp;&emsp;Java实现序列化只需要实现Serializable接口即可，该接口源码内容只有一个SerialVersionUID常量，再深入为Native了。 Class MyClass implements Serializable { private static final long serialVersionUID = -2926828973935247000L; /* ... */ } serialVersionUID默认是1L，这个是序列化与反序列化比对的关键信息。可以使用插件GenerateSerialVersionUID随机生成。一般都是20个数。 2. 序列化与反序列化问题2.1 判断原理&emsp;&emsp;序列化与反序列化需要判断很多，以下举RabbitMQ消息生产者和消费者传递的消息Order对象为例子。 首先SerialVersionUID就需要一致，就是两边的Order类都使用同一个SerialVersionUID。 类的属性方法等一致，包名一致（重点），我们序列化与反序列化常常是跨项目的，但是Order包名不一样是不能反序列化的，会报错ClassNotFound，因此我们常用的解决方法是保证包名一致，比如xyz.cglzwz.common.entity.Order，多写一个。或者将这个类使用Jar包作为依赖共享。 2.2 序列化与反序列化转换实现：&emsp;&emsp;可以手写实现，主要使用FileOutputStream, ObjectOutputStream,FileInputStream,ObjectInputStream。 当然如果是内部封装好了的反序列化，比如上面的RabbitMQ消费者那里对消息的反序列化就是Spring内部完整的，我们就无法修改了。 代码后续补上，参考]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Serializable接口</tag>
+        <tag>序列化与反序列化</tag>
+        <tag>无法反序列化ClassNotFound</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IDEA一个窗口多个项目]]></title>
+    <url>%2F2019%2F05%2F17%2Fkai-fa-gong-ju%2Fidea-yi-ge-chuang-kou-duo-ge-xiang-mu%2F</url>
+    <content type="text"><![CDATA[多个并列(推荐)平时IDEA都是默认一个窗口一个项目，当开发到Spring Cloud或者中间件这种我们要消费者提供者等等的时候，并不方便。并列也很简单。每个项目都是一个Module。操作：&emsp;&emsp;我们在只有一个项目的窗口，选择new -&gt; Module from existing sources即可。然后开发就很方便。 父子项目(不推荐) 案例：&emsp;&emsp;创建的父项目是空的基本，比如一开始做的那个RabbitMQ的demo, 我想父项目命名为rabbitmq-demo，然后pom.xml加载spring-boot-starter-amqp依赖，以后再写两个子项目 &emsp;&emsp;分别是producer和cunsumer，正好两个都继承父项目的依赖，就不用再导入amqp依赖了。 操作： 先使用Spring Initializr创建一个父项目，然后把它的src删除，配置好pom.xml 分别创建两个子项目，使用new -&gt; Module创建，一样使用Spring Initialzr。然后这两个项目的pom.xml再改为就继承父项目的即可 弊端： 下次导入IDEA的话，或者从Git导入的话很麻烦。因为重新打开默认了父项目是一个项目，里面的两个子项目变成了纯文件夹，虽然可以改Project Structure，但是仍然不乐观。]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[grep命令]]></title>
+    <url>%2F2019%2F05%2F16%2Flinux%2Fgrep-ming-ling%2F</url>
+    <content type="text"><![CDATA[介绍&emsp;&emsp;Linux系统中grep命令是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹 配的行打印出来。grep全称是Global Regular Expression Print，表示全局正则表达式版本，它的使用权限是所有用户。 &emsp;&emsp;grep的工作方式是这样的，它在一个或多个文件中搜索字符串模板。如果模板包括空格，则必须被引用，模板后的所有字符串被看作文件名。搜索的结果被送到标准输出，不影响原文件内容。 &emsp;&emsp;grep可用于shell脚本，因为grep通过返回一个状态值来说明搜索的状态，如果模板搜索成功，则返回0，如果搜索不成功，则返回1，如果搜索的文件不存在，则返回2。我们利用这些返回值就可进行一些自动化的文本处理工作。 正则表达式^ #锚定行的开始 如：'^grep'匹配所有以grep开头的行。 $ #锚定行的结束 如：'grep$'匹配所有以grep结尾的行。 . #匹配一个非换行符的字符 如：'gr.p'匹配gr后接一个任意字符，然后是p。 * #匹配零个或多个先前字符 如：'*grep'匹配所有一个或多个空格后紧跟grep的行。 .* #一起用代表任意字符。 [] #匹配一个指定范围内的字符，如'[Gg]rep'匹配Grep和grep。 [^] #匹配一个不在指定范围内的字符，如：'[^A-FH-Z]rep'匹配不包含A-R和T-Z的一个字母开头，紧跟rep的行。 \(..\) #标记匹配字符，如'\(love\)'，love被标记为1。 \&lt; #锚定单词的开始，如:'\&lt;grep'匹配包含以grep开头的单词的行。 \> #锚定单词的结束，如'grep\>'匹配包含以grep结尾的单词的行。 x\{m\} #重复字符x，m次，如：'0\{5\}'匹配包含5个o的行。 x\{m,\} #重复字符x,至少m次，如：'o\{5,\}'匹配至少有5个o的行。 x\{m,n\} #重复字符x，至少m次，不多于n次，如：'o\{5,10\}'匹配5--10个o的行。 \w #匹配文字和数字字符，也就是[A-Za-z0-9]，如：'G\w*p'匹配以G后跟零个或多个文字或数字字符，然后是p。 \W #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。 \b #单词锁定符，如: '\bgrep\b'只匹配grep。 使用 检索文件中的关键信息grep pattern file chgl16@chgl16-laptop:~/Blog/hexo-blog$ grep "ta" README.md ├── _data └── tags 这里的”ta”表示包含”ta”的行，可以不加双引号，也可以加单引号，主要是为了区分。 做输出过滤管道 chgl16@chgl16-laptop:~/Blog/hexo-blog$ netstat -tnpl | grep "80" (Not all processes could be identified, non-owned process info will not be shown, you would have to be root to see it all.) tcp 0 0 127.0.0.1:1080 0.0.0.0:* LISTEN 2809/python 把前面的一个输出做”80”过滤]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>grep</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[进程监控命令]]></title>
+    <url>%2F2019%2F05%2F16%2Flinux%2Fjin-cheng-jian-kong-ming-ling%2F</url>
+    <content type="text"><![CDATA[1. ps显示的是一个当前进程的快照，不是实时监听的，那个要用top chgl16@chgl16-laptop:~$ ps -ef # 用户 进程ID 父进程 终端ID 进程使用CPU的时间 UID PID PPID C STIME TTY TIME CMD root 1 0 0 5月15 ? 00:00:30 /sbin/init splash root 2 0 0 5月15 ? 00:00:00 [kthreadd] root 4 2 0 5月15 ? 00:00:00 [kworker/0:0H] root 6 2 0 5月15 ? 00:00:00 [mm_percpu_wq] root 7 2 0 5月15 ? 00:00:01 [ksoftirqd/0] root 8 2 0 5月15 ? 00:01:41 [rcu_sched] root 9 2 0 5月15 ? 00:00:00 [rcu_bh] .... 常用-ef参数，-e表示every，等价-A。-f是显示更多的字段，比如UID，PPID等这些都是不带参数的ps没有的。 2. toptop可以实时监控，对应kill pid即可 3. netstat常用 netstat -tpln; -t： tcp -p: 显示PID -l: 显示监听的服务sockets -n: 序列化，不解析显示主机名（太慢了） 4. lsoflsof - list open files也可以看看进程端口情况 chgl16@chgl16-laptop:~$ lsof -i:15672 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME chrome 2893 chgl16 90u IPv4 582906 0t0 TCP localhost:58926->localhost:15672 (ESTABLISHED)]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>ps</tag>
+        <tag>top</tag>
+        <tag>netstat</tag>
+        <tag>lsof</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RabbitMQ架构和核心概念]]></title>
+    <url>%2F2019%2F05%2F15%2Frabbitmq%2Frabbitmq-jia-gou-he-he-xin-gai-nian%2F</url>
+    <content type="text"><![CDATA[架构图 AMQP核心概念 Server: 又称Broker，接受客户端的连接，实现AMQP实体服务 Connection: 连接，应用程序与Broker的网络连接 Channel: 网络信道，几乎所有的操作都是在Channel中进行，Channel是进行消息读写的通道。客户端可建立多个Channel，每个Channel代表一个会话任务 Message: 消息，服务端和应用程序之间传送的数据。由Properties和Body组成。Properties可以对消息进行修饰，比如优先级、延迟等高级功能，Body则就是消息内容。 Virtual host: 虚拟主机，用于进行逻辑隔离，最上层的消息路由。一个Virtual host里面可以有若干个Exchange和Queue，同一个Virtual host内不能有相同名字的Exchange或Queue Exchange： 交换机，接收消息，根据路由键（routing key)转发到相应绑定的队列，常用的有直连、主题、广播 Binding: Exchange和Queue之间的虚拟连接，Binding中包含Routing key Routing key: 一个路由规则，比如关键词 Queue： 消息队列 Publisher: 生产者，通过Channel发送消息到服务端的Exchange，即指定了Exchange和Routing key Cunsumer: 消费者，监听某个对象。]]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RabbitMQ介绍&安装]]></title>
+    <url>%2F2019%2F05%2F15%2Frabbitmq%2Frabbitmq-an-zhuang%2F</url>
+    <content type="text"><![CDATA[介绍 RabbitMQ是一种基于AMQP（高级消息队列协议）的消息中间件。 分为消息生产者、消费者 服务端是一个broker，里面就是一个虚拟主机，虚拟主机里面有三种交换机和绑定的队列 直连、主题、广播三种交换机，根据关键字单词匹配 安装安装比较繁琐，因为RabbitMQ是基于Erlang语言编写的，需要安装那个语言的环境，类似安装Tomcat需要安装JDK。 可以去官网下载最新包或者源码安装，以下直接使用shell自带的源安装，估计会有些老版本，后期配置麻烦点。 安装Erlang语言环境 sudo apt-get install erlang-nox 安装RabbitMQ sudo apt update sudo apt install rabbitmq-server 启动使用sudo rabbitmq-server start 但是刚刚安装完已经启动了，会报错 ERROR: node with name "rabbit" already running on "chgl16-laptop" 使用restart也一样报这个错误。解决方法使用top查看到rabbitmq进程把它sudo kill pid，再启动即可 成功启动后如下 chgl16@chgl16-laptop:~$ sudo rabbitmq-server restart RabbitMQ 3.6.10. Copyright (C) 2007-2017 Pivotal Software, Inc. ## ## Licensed under the MPL. See http://www.rabbitmq.com/ ## ## ########## Logs: /var/log/rabbitmq/rabbit@chgl16-laptop.log ###### ## /var/log/rabbitmq/rabbit@chgl16-laptop-sasl.log ########## Starting broker... completed with 0 plugins. 打开默认localhost:15672 打不开，可以看到上面完成了0个插件，就是因为插件没有配置加载造成的。 使用如下命令加载命令，记得使用权限，不然报错 sudo rabbitmq-plugins enable rabbitmq_management 命令可以打出前面一部分然后双击tab键，会显示可用的匹配命令。 重启成功 配置使用双tab补全rabbit可用看到如下命令 rabbitmqadmin rabbitmqctl rabbitmq-plugins rabbitmq-server 一开始是没有账号的，需要使用rabbitmqctl配置 # 用户名为root, 密码为mima sudo rabbitmqctl add_user root mima # 设置root为管理员 sudo rabbitmqctl set_user_tags root administrator # 赋予操作虚拟机内容的权限 sudo rabbitmqctl set_permissions -p / root '.*' '.*']]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
+        <tag>安装</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo使用本地图片]]></title>
+    <url>%2F2019%2F05%2F04%2Fza-ji%2Fhexo-shi-yong-ben-di-tu-pian%2F</url>
+    <content type="text"><![CDATA[分析先保存自己本地使用的图片，发现放到GitHub仓库的是public文件夹，我那时候试了在本地public下直接创建一个images文件夹放图片，URL使用仓库图片地址。是可以的，但是hexo clean后化为乌有。 因此我尝试在本地的themes/当前主题下/source/medias/创建images文件夹，因为发现主题的图片不会被删掉，而且是在里面引用。会被解析到public，换其他主题，只需要把其拷贝 引用themes/主题/source下的目录会投影到GitHub仓库的根目录，因此medias就是一个更目录，而我们旗下的images相对路径引用就简单了 url: '/medias/images/tree.png']]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[intern方法及字符串拼接]]></title>
+    <url>%2F2019%2F04%2F27%2Fjava%2Fintern-fang-fa-ji-zi-fu-chuan-pin-jie%2F</url>
+    <content type="text"><![CDATA[1. intern()方法 Returns a canonical representation for the string object.A pool of strings, initially empty, is maintained privately by the class String. When the intern method is invoked, if the pool already contains a string equal to this String object as determined by the equals(Object) method, then the string from the pool is returned. Otherwise, this String object is added to the pool and a reference to this String object is returned. It follows that for any two strings s and t, s.intern() == t.intern() is true if and only if s.equals(t) is true. All literal strings and string-valued constant expressions are interned. String literals are defined in section 3.10.5 of the The Java™ Language Specification. Returns:a string that has the same contents as this string, but is guaranteed to be from a pool of unique strings. 这是方法原文解析，这是个native本地方法。 public native String intern(); 这个方法就是用来返回调用对象或者引用在常量池中的地址。在输出上没有特别，主要是地址问题。比如： String str1 = "ab"; str1.intern(); // "ab" 这种是”ab”已经在常量池有了，所以调用intern是直接返回这个地址的，str1这个变量本来就是指向常量池”ab”的地址的。 String str2 = new String("cd"); str2.intern(); // "cd" 这个如果常量池没有”cd”会在常量池创建，然后再堆区创建，指向常量池，作为引用str2是指向堆区的，str2.intern是指向常量池的。 2. 字符串拼接问题String str="ab"; String str1 = "a"; String str2 = "b"; String combo1 = "a" + "b"; // 第一种情况 String combo2 = str1 + str2; // 第二种情况 System.out.println(str == combo1); // true System.out.println(str == combo2); // false System.out.println(combo1 == combo2); // false 这个拼接不同是因为如果是变量的拼接（第二种情况）是使用StringBuffer（或者StringBuilder）实现的，本地有创建对象，返回的是堆区地址。而常量拼接是直接在常量池创建的，地址是常量池。]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>intern()</tag>
+        <tag>str1 + str2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Object对象方法]]></title>
+    <url>%2F2019%2F04%2F24%2Fjava%2Fobject-dui-xiang-fang-fa%2F</url>
+    <content type="text"><![CDATA[Object对象方法public final native Class&lt;?> getClass() public native int hashCode() public boolean equals(Object obj) protected native Object clone() throws CloneNotSupportedException public String toString() public final native void notify() public final native void notifyAll() public final native void wait(long timeout) throws InterruptedException public final void wait(long timeout, int nanos) throws InterruptedException public final void wait() throws InterruptedException protected void finalize() throws Throwable { } 一共11个，3个重载的wait方法，所以可以说是9个 谨记子类的equals()方法也是Object参数，boolean返回值，String类重写的也是。以下是String重写equals的源码 public boolean equals(Object anObject) { if (this == anObject) { return true; } if (anObject instanceof String) { String anotherString = (String)anObject; int n = value.length; if (n == anotherString.value.length) { char v1[] = value; char v2[] = anotherString.value; int i = 0; while (n-- != 0) { if (v1[i] != v2[i]) return false; i++; } return true; } } return false; } } clone()方法这里可以重写，不然只是浅拷贝，因为涉及到对象的依赖关系。 hashCode()：在Object类里面是native修饰的方法，就没法看了，可以看看String对其的重写，很简单的对字符转为ASCII码加乘。 public int hashCode() { int h = hash; if (h == 0 &amp;&amp; value.length > 0) { char val[] = value; for (int i = 0; i &lt; value.length; i++) { h = 31 * h + val[i]; } hash = h; } return h; } finalize(): 是一个建议GC的方法]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Object</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CAS机制初识]]></title>
+    <url>%2F2019%2F04%2F23%2Fduo-xian-cheng-bing-fa-bian-cheng%2Fcas-chu-shi%2F</url>
+    <content type="text"><![CDATA[问题提出对于count++的多线程问题，三步需要保证原子性，volatile关键字做不到，synchronized是可以的，但是synchronized是悲观锁，以最坏的加锁做保证，线程上下文切换和阻塞的花销很大，虽然后期jdk对其做了优化。但是还是有一种更好的方式解决这个问题。就是CAS，一种乐观锁机制。 CAS]]></content>
+      <categories>
+        <category>Java</category>
+        <category>多线程并发编程</category>
+      </categories>
+      <tags>
+        <tag>CAS</tag>
+        <tag>乐观锁&amp;悲观锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java虚拟机类加载机制]]></title>
+    <url>%2F2019%2F04%2F21%2Fjvm%2Flei-jia-zai-guo-cheng%2F</url>
+    <content type="text"><![CDATA[类加载过程类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Verification）、准备(Preparation)、解析(Resolution)、初始化(Initialization)、使用(Using)和卸载(Unloading)7个阶段。其中准备、验证、解析3个部分统称为连接（Linking）。如图所示。 加载、验证、准备、初始化和卸载这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。以下陈述的内容都已HotSpot为基准。 1. 加载在加载阶段（可以参考java.lang.ClassLoader的loadClass()方法），虚拟机需要完成以下3件事情： 通过一个类的全限定名来获取定义此类的二进制字节流（并没有指明要从一个Class文件中获取，可以从其他渠道，譬如：网络、动态生成、数据库等）； 将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构； 在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口；(如果没有，使用双亲委派机制加载) 加载阶段和连接阶段（Linking）的部分内容（如一部分字节码文件格式验证动作）是交叉进行的，加载阶段尚未完成，连接阶段可能已经开始，但这些夹在加载阶段之中进行的动作，仍然属于连接阶段的内容，这两个阶段的开始时间仍然保持着固定的先后顺序。 2. 验证验证是连接阶段的第一步，这一阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求（版本类型之类的，有很多第三方虚拟机），并且不会危害虚拟机自身的安全。验证阶段大致会完成4个阶段的检验动作： 文件格式验证：验证字节流是否符合Class文件格式的规范；例如：是否以魔术0xCAFEBABE开头、主次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型。 元数据验证：对字节码描述的信息进行语义分析（注意：对比javac编译阶段的语义分析），以保证其描述的信息符合Java语言规范的要求；例如：这个类是否有父类，除了java.lang.Object之外。 字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。 符号引用验证：确保解析动作能正确执行。验证阶段是非常重要的，但不是必须的，它对程序运行期没有影响，如果所引用的类经过反复验证，那么可以考虑采用-Xverifynone参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。 3. 准备准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。这时候进行内存分配的仅包括类变量（被static修饰的变量），而不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在堆中。其次，这里所说的初始值“通常情况”下是数据类型的零值，假设一个类变量的定义为： public static int value=123; 那变量value在准备阶段过后的初始值为0而不是123。因为这时候尚未开始执行任何Java方法，而把value赋值为123的putstatic指令是程序被编译后，存放于类构造器()方法之中，所以把value赋值为123的动作将在初始化阶段才会执行。至于“特殊情况”是指：public static final int value=123，即当类字段的字段属性是ConstantValue时，会在准备阶段初始化为指定的值，所以标注为final之后，value的值在准备阶段初始化为123而非0。 也就是只会给static的类变量或者语句块初始化，赋予的还是默认值。final static的会直接在常量池创建，有应该的值。 4. 解析解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。 5. 初始化类初始化阶段是类加载过程的最后一步，到了初始化阶段，才真正开始执行类中定义的java程序代码。在准备极端，变量已经付过一次系统要求的初始值，而在初始化阶段，则根据程序猿通过程序制定的主管计划去初始化类变量和其他资源，或者说：初始化阶段是执行类构造器\()方法的过程。\()方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块static{}中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问 剩下的就是使用和卸载了 参考附录 Java虚拟机类加载机制 两道面试题，带你解析Java类加载机制 【深入Java虚拟机】之四：类加载机制]]></content>
+      <tags>
+        <tag>JVM</tag>
+        <tag>类加载机制</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[重定向和转发]]></title>
+    <url>%2F2019%2F04%2F21%2Fhttp%2Fqing-qiu-he-chong-ding-xiang%2F</url>
+    <content type="text"><![CDATA[调用 在Server端sendRedirect重定向 在Server端使用jsp或RequestDispatcher进行forward转发 在Browser端使用Javascript进行重定向 在Browser端使用html标签进行重定向 这是最常用的四种情况，也是存在的四种。 区别 重定向sendRedirect更像是客户端的行为，URL会发生改变，当然服务端也可以使用response.sendRedirect(url);来完成重定向，效果一样。 跳转forward这里只能是服务端的行为，比如&lt;jsp:forward page="url" /> return "forward:/url"; 常见状态码 状态码 具体 301（永久转移） 请求的网页已永久移动到新位置。服务器返回此响应（对 GET 或 HEAD 请求的响应）时，会自动将请求者转到新位置。您应使用此代码告诉 Googlebot 某个网页或网站已永久移动到新位置。 302（临时转移） 服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来响应以后的请求。此代码与响应 GET 和 HEAD 请求的 301 代码类似，会自动将请求者转到不同的位置，但您不应使用此代码来告诉 Googlebot 某个网页或网站已经移动，因为 Googlebot 会继续抓取原有位置并编制索引。也是常见的server的sendRedirect 303（查看其它位置） 请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。对于除 HEAD 之外的所有请求，服务器会自动转到其他位置。 304（未修改） 自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容。如果网页自请求者上次请求后再也没有更改过，您应将服务器配置为返回此响应（称为 If-Modified-Since HTTP 标头）。服务器可以告诉 Googlebot 自从上次抓取后网页没有变更，进而节省带宽和开销。其实就是缓存，但是还是会请求服务端，不过响应头的字段是未修改。 可以使用F5和Ctrl + F5看network 305（使用代理） 请求者只能使用代理访问请求的网页。如果服务器返回此响应，还表示请求者应使用代理。 更多见参考附录的《HTTP 304状态码的详细讲解》 参考 实现页面重定向（跳转）的4种方式 HTTP中的重定向和请求转发的区别 HTTP 304状态码的详细讲解 http重定向301/302/303/307]]></content>
+      <categories>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>重定向sendRedirect</tag>
+        <tag>转发forward</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[surrounded-regions搜索]]></title>
+    <url>%2F2019%2F04%2F21%2Fleetcode%2Fsurrounded-regions-sou-suo%2F</url>
+    <content type="text"><![CDATA[题目题目地址Given a 2D board containing’X’and’O’, capture all regions surrounded by’X’.A region is captured by flipping all’O’s into’X’s in that surrounded region . For example, X X X XX O O XX X O XX O X X After running your function, the board should be: X X X XX X X XX X X XX O X X 就是如果不全被包括（四个方向）的’O’就保留，所以从边缘出发深度优先搜索很容易解决，把满足条件的替换为’D’，就是分块了，到不了的还是’O’最后替换为’X’，而’D’最后替换为’O’。 代码public class Solution { public void solve(char[][] board) { // 应该最先判断 if (board == null || board.length == 0) return; int rlen = board.length; int clen = board[0].length; // 搜索四边 for (int i = 0; i &lt; clen; ++i) { dfs(board, 0, i); dfs(board, rlen - 1, i); } // 去掉重合的两个点 for (int i = 1; i &lt; rlen - 1; ++i) { dfs(board, i, 0); dfs(board, i, clen - 1); } for (int i = 0; i &lt; rlen; ++i) for (int j = 0; j &lt; clen; ++j) { if (board[i][j] == 'O') board[i][j] = 'X'; if (board[i][j] == 'D') board[i][j] = 'O'; } } public void dfs(char[][] board, int row, int col) { if (row &lt; 0 || row >= board.length || col &lt; 0 || col >= board[0].length || board[row][col] != 'O') return; board[row][col] = 'D'; // 上右下左顺时针方向 dfs(board, row - 1, col); dfs(board, row, col + 1); dfs(board, row + 1, col); dfs(board, row, col - 1); } } 养成最先处理边界、空值是习惯 二维数组的board.length是行数，board[0].length是列数]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+        <tag>矩阵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[跨域]]></title>
+    <url>%2F2019%2F04%2F19%2Fqian-duan%2Fkua-yu%2F</url>
+    <content type="text"><![CDATA[什么是跨域常见的调用接口被阻碍了，爆跨域问题。也就是从一个源下载的文档或者脚本与来自另一个源的资源进行交互被限制了。 跨域的原因出现跨域完全是浏览器搞的，浏览器的同源策略，其实是一种安全机制，用来隔离潜在的恶意文件的安全机制。是药三分毒，所以对于我们的一些调用有时候也会被隔离了。但是它整体是个好东西。而且对于我们自己需要调用的好东西跨域了，我们是有正确的解决方法的。主要是接口请求和DOM查询。 参考文章 不要再问我跨域的问题了]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>跨域</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java中的volatile关键字]]></title>
+    <url>%2F2019%2F04%2F18%2Fduo-xian-cheng-bing-fa-bian-cheng%2Fjava-zhong-de-volatile-guan-jian-zi%2F</url>
+    <content type="text"><![CDATA[1. volatile概述&emsp;&emsp;volatile是Java的一个关键字，只能用于修饰变量，目的是解决共享变量内存可见性问题，保证了可见性（每次读写都刷新内存），但是不保证原子性。对比笨重的锁机制（线程上下文的切换开销大），如synchronized内置锁，这个volatile就是Java提供的一种弱形式的同步。 2. 例子以下这个代码没有使用任何同步措施，再多线程下的value的读写是不安全的。 public vlass ThreadSafeInteger { private int value; public void getValue() { reutrn value; } public void setValue(int value) { this.value = value; } } 以下使用synchronized关键字，声明为隐式对象锁，可以解决问题，但是开销是问题。 public vlass ThreadSafeInteger { private int value; public synchronized void getValue() { reutrn value; } public synchronized void setValue(int value) { this.value = value; } } 看看下面的使用volatile，也是可以的 public vlass ThreadSafeInteger { private volatile int value; public void getValue() { reutrn value; } public void setValue(int value) { this.value = value; } } 前面提到volatile只能保证变量在多线程环境的可见性，这里的作用和synchronized是等价的，只是锁有开销，前后阻塞啥的，volatile就不会阻塞 3. 保证可见性 &amp; 不保证原子性&emsp;&emsp;可见性好理解，每次都啥刷新内存。原子性是指一些列操作时，要么全部执行，要么全部不执行，不会只执行一部分。常见的是count++; count++; // 是三步：获取-计算-写入 如下代码 package xyz.cglzwz.thread_concurrency.other._volatile; /** * 验证volatile关键字的可见性 * volatile只能保证他们操作的count是同一块内存，但依然可能出现写入脏数据的情况。 * @author chgl16 * @date 2019-04-16 */ public class VolatileDemo { volatile static int count; public static void main(String[] args) throws InterruptedException { Runnable r = () -> { for (int i = 0; i &lt; 10000; ++i) count++; }; Thread t1 = new Thread(r, "t1"); Thread t2 = new Thread(r, "t2"); t1.start(); t2.start(); t1.join(); t2.join(); System.out.println(count); } } 结果仍然是 &lt; 20000, 大约15000左右。 时有synchronized可以解决这里的原子性问题，但是并发量高的时候是个大开销。这种问题可以CAS操作解决 而volatile不保证原子性，所以一般就以下两种情况时有volatile关键字： 不需要原子性的同步操作变量； 没有加锁的，因为加锁已经保证了同步了。]]></content>
+      <categories>
+        <category>Java</category>
+        <category>多线程并发编程</category>
+      </categories>
+      <tags>
+        <tag>volatile</tag>
+        <tag>可见性&amp;原子性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[从上往下打印二叉树]]></title>
+    <url>%2F2019%2F04%2F14%2Fjian-zhi-offer%2Fcong-shang-wang-xia-da-yin-er-cha-shu%2F</url>
+    <content type="text"><![CDATA[题目描述从上往下打印出二叉树的每个节点，同层节点从左至右打印。 =&gt;题目地址 AC代码import java.util.ArrayList; import java.util.LinkedList; import java.util.Queue; class TreeNode { int val = 0; TreeNode left = null; TreeNode right = null; public TreeNode(int val) { this.val = val; } } public class Solution { public ArrayList&lt;Integer> PrintFromTopToBottom(TreeNode root) { ArrayList&lt;Integer> list = new ArrayList&lt;Integer>(); // 空返回 if (root == null) return list; // 定义队列 Queue&lt;TreeNode> queue = new LinkedList&lt;TreeNode>(); queue.offer(root); while (!queue.isEmpty()) { TreeNode temp = queue.poll(); list.add(temp.val); if (temp.left != null) queue.offer(temp.left); if (temp.right != null) queue.offer(temp.right); } return list; } } 使用队列实现，Java的Queue可以参考菜鸟教程 offer()是插入元素到队尾 poll()是返回队头元素，并从队伍删去，peek()和element()方法不会删除 注意二叉树为空的处理]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>Java队列Queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[测试]]></title>
+    <url>%2F2019%2F01%2F14%2Fza-ji%2Fce-shi%2F</url>
+    <content type="text"><![CDATA[测试显示加重内容 正文…. ==使用颜色标志== 加粗 斜体 引用… // ... System.out.println("Java 代码");]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[使用Hexo搭建博客总结]]></title>
+    <url>%2F2019%2F01%2F04%2Fza-ji%2Fhexo-bo-ke-da-jian-zong-jie%2F</url>
+    <content type="text"><![CDATA[重要操作 将source下的个人md博客文件生成html、css、js到public目录下# generate 可缩写为g，打开localhost:4000 hexo generate 部署到本地服务器，可做测试 # server 可缩写为s hexo server 关联到github.io仓库 安装deploy git# 这个是：hexo 和git自动对接上传的关键组件 npm install hexo-deployer-git --save 修改_config.yml全局配置文件的部署仓库地址deploy: type: git repository: https://github.com/chgl16/chgl16.github.io.git branch: maste 将本地博客(主要是public文件夹的内容)部署到github.io # deploy 可缩写为d, 需要清空缓存，不然提交的不是更新的 hexo clean hexo deploy -g hexo博客站点美化 参考附录 5分钟 0元搭建个人独立博客网站（一） 5分钟 0元搭建个人独立博客网站（二） Node.js、npm hexo使用next主题美化 hexo使用hexo-themes-matery主题 matery主题折腾博客]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
