@@ -410,7 +410,7 @@ CREATE TABLE `tb_name` (...) ENGINE=InnoDB A">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        165
+                        254
                     </div>
                     
 
@@ -450,11 +450,19 @@ CREATE TABLE `tb_name` (...) ENGINE=InnoDB A">
 +--------------------------+----------------------------------------+
 8 rows <span class="token keyword">in</span> set, 1 warning <span class="token punctuation">(</span>0.00 sec<span class="token punctuation">)</span>
 </code></pre>
-<p>可以暂时修改，但是仅限本session有效，退出或者重启服务无效</p>
+<p>可以暂时修改，但是仅限本session有效，当然可以SET global char…，但是重启服务就没了。</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">SET</span> character_set_client<span class="token operator">=</span>utf8<span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 </code></pre>
-<p>长期有效要改数据库配置文件，my.ini之类的不在安装目录，会在C盘的数据区。</p>
+<p>长期有效要改数据库配置文件，my.ini之类在安装目录是没有的，网上又说在C盘的数据区的，但是找不到。</p>
+<p>最后发现在Windows上的高版本MySQL，解决中文乱码，真的只能在根目录下创建一个默认被识别的my.ini配置文件，在里面做根本配置。如下<br>my.ini</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>mysqld<span class="token punctuation">]</span>
+character-set-server<span class="token operator">=</span>utf8
+
+<span class="token punctuation">[</span>client<span class="token punctuation">]</span>
+default-character-set<span class="token operator">=</span>utf8
+</code></pre>
+<p>重启服务即可成功</p>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p><a href="https://www.cnblogs.com/reyinever/p/8551977.html" target="_blank" rel="noopener">Windows安装Mysql</a></p>
 
             </div>
@@ -724,7 +732,7 @@ CREATE TABLE `tb_name` (...) ENGINE=InnoDB A</div>
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">12.1k</span>
+                <span class="white-color">12.2k</span>
             
 
             
