@@ -28,6 +28,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[MyBatis结合Spring的一些回顾]]></title>
+    <url>%2F2019%2F07%2F05%2Fspring%2Fmybatis-jie-he-spring-hui-gu%2F</url>
+    <content type="text"><![CDATA[MyBatis结合Spring 好久没打这代码了，回顾一下。 两者整合不仅可以减少代码量，减少配置。也可以保持MyBatis的灵活性。 1. 依赖&lt;dependency> &lt;groupId>org.mybatis&lt;/groupId> &lt;artifactId>mybatis-spring&lt;/artifactId> &lt;version>1.3.2&lt;/version> &lt;/dependency> 这个整合依赖是MyBatis社区提供的，Spring只是为了早期的Batis提供了整合依赖。现在好像还有MyBatis-Plus了.. 2. mybatis-config.xml&lt;?xml version="1.0" encoding="UTF-8" ?> &lt;!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> &lt;configuration> &lt;!-- 配置全局属性 --> &lt;settings> &lt;!-- 插入获取自增主键 --> &lt;setting name="useGeneratedKeys" value="true"/> &lt;!-- 使用列别名替代列名 --> &lt;setting name="useColumnLabel" value="true"/> &lt;!-- 使用驼峰映射 --> &lt;setting name="mapUnderscoreToCamelCase" value="true"/> &lt;/settings> &lt;!-- 数据源连接池、类型别名typeAliases、mappers映射器位置等由Spring整合 --> &lt;/configuration> 这是最简化的MyBatis的全局配置文件，只是配了几个常用的setting。数据库，别名，mapper映射器位置这些都留给Spring整合了。 3. XxxDao.xml&lt;?xml version="1.0" encoding="UTF-8" ?> &lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> &lt;mapper namespace="xyz.cglzwz.dao.SeckillDao"> &lt;update id="reduceNumber"> &lt;!-- xml会解析&lt;为语法，因此可以用&lt;!CDATA[]]>免除 --> UPDATE `t_seckill` SET `number` = `number` - 1 WHERE `seckill_id` = #{seckillId} AND `number` > 0 AND `start_time` &lt;![CDATA[ &lt;= ]]> #{killTime} AND `end_time` >= #{killTime} &lt;/update> &lt;select id="queryById" resultType="Seckill" parameterType="long"> SELECT `seckill_id`, `name`, `number`, `start_time`, `end_time`, `create_time` FROM `t_seckill` WHERE `seckill_id` = #{seckillId} &lt;/select> &lt;select id="queryAll" resultType="Seckill"> SELECT `seckill_id`, `name`, `number`, `start_time`, `end_time`, `create_time` FROM `t_seckill` ORDER BY `create_time` DESC LIMIT #{offset}, #{limit} &lt;/select> &lt;/mapper> mapper是其实算是只要写接口，不用实现类的实现类了。有点拗口。比如： Seckill queryById(long seckillId); /* 结果集 行为 参数 */ &lt;select id="queryById" resultType="Seckill" parameterType="long"> SELECT `seckill_id`, `name`, `number`, `start_time`, `end_time`, `create_time` FROM `t_seckill` WHERE `seckill_id` = #{seckillId} &lt;/select> 这种Dao接口的一个方法，MyBatis是底层封装了JDBC，不用写这个的实现是因为我们这个mapper的这个就相当于实现了，类似JDBC，有了参数，PreparedStatement行为就是SQL，返回值就是结果集ResultSet，信息完整了，可以交给底层JDBC实现。 此外由Spring 接管这些mapper，是可以直接生成对应DAO的实现类自动注入IOC的。 spring-dao.xml整合`xml&lt;?xml version=”1.0” encoding=”UTF-8” ?&gt; &lt;context:property-placeholder location=”classpath:jdbc.properties”/&gt; `数据库信息和连接池是标配的，核心是sqlSessionFactory和Dao实现注入。这些class都是mybatis-spring整合依赖提供。平时基本是约定习惯大于配置。这些包扫描路径都是习惯约定。 备注 MyBatis官方中文文档]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>MyBatis</tag>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MySQL各种多表连接]]></title>
     <url>%2F2019%2F07%2F02%2Fmysql%2Fmysql-ge-chong-duo-biao-lian-jie%2F</url>
     <content type="text"><![CDATA[简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。 1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接： SELECT * FROM tb1, tb2 2. 自然连接如果要列出两个表中所有同名字段相等的记录，并且去除重复字段，使用自然连接： SELECT * FROM tb1 NATURAL JOIN tb2; 3. 内连接如果要对满足条件的记录进行连接，使用 θ-连接： SELECT * FROM tb1 INNER JOIN tb2 on condition; 4. 外连接外连接分为外左连接和外右连接如果既要列出两表相匹配的记录，同时又要列出没有匹配项的记录，使用外连接： SELECT * FROM tb1 LEFT OUTER JOIN tb2; SELECT * FROM tb1 RIGHT OUTER JOIN tb2;]]></content>
