@@ -4,9 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo使用本地图片, blog">
-    <meta name="description" content="分析先保存自己本地使用的图片，发现放到GitHub仓库的是public文件夹，我那时候试了在本地public下直接创建一个images文件夹放图片，URL使用仓库图片地址。是可以的，但是hexo clean后化为乌有。
-因此我尝试在本地的t">
+    <meta name="keywords" content="8.x高版本MySQL连接配置, blog">
+    <meta name="description" content="driver高版本的依赖是
+&amp;lt;dependency&gt;
+    &amp;lt;groupId&gt;mysql&amp;lt;/groupId&gt;
+    &amp;lt;artifactId&gt;mysql-connector-java&amp;lt;/artifactId&gt;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hexo使用本地图片 | Chgl16</title>
+    <title>8.x高版本MySQL连接配置 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -261,13 +263,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/11/5d2757718616580779.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hexo使用本地图片
+                        8.x高版本MySQL连接配置
                     </div>
                 </div>
             </div>
@@ -378,8 +380,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/hexo/" target="_blank">
-                                <span class="chip bg-color">hexo</span>
+                            <a href="/tags/MySQL/" target="_blank">
+                                <span class="chip bg-color">MySQL</span>
                             </a>
                         
                     </div>
@@ -390,8 +392,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/杂记/" class="post-category" target="_blank">
-                                杂记
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                MySQL
                             </a>
                         
                     </div>
@@ -402,14 +404,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-05-04
+                    2019-06-26
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        186
+                        130
                     </div>
                     
 
@@ -427,11 +429,20 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>先保存自己本地使用的图片，发现放到GitHub仓库的是public文件夹，我那时候试了在本地public下直接创建一个images文件夹放图片，URL使用仓库图片地址。是可以的，但是<em>hexo clean</em>后化为乌有。<br><br></p>
-<p>因此我尝试在本地的themes/当前主题下/source/medias/创建images文件夹，因为发现主题的图片不会被删掉，而且是在里面引用。会被解析到public，换其他主题，只需要把其拷贝<br><img src="/2019/05/04/za-ji/hexo-shi-yong-ben-di-tu-pian/medias/images/tree.png" alt="tree"><br><br></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>themes/主题/source下的目录会投影到GitHub仓库的根目录，因此medias就是一个更目录，而我们旗下的images相对路径引用就简单了</p>
-<pre class=" language-bash"><code class="language-bash">url: <span class="token string">'/medias/images/tree.png'</span>
+                <h2 id="driver"><a href="#driver" class="headerlink" title="driver"></a>driver</h2><p>高版本的依赖是</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>8.0.15<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
 </code></pre>
+<pre class=" language-yaml"><code class="language-yaml">driver=com.mysql.cj.jdbc.Driver
+</code></pre>
+<p>中间多了个cj的包</p>
+<h2 id="url"><a href="#url" class="headerlink" title="url"></a>url</h2><pre class=" language-yaml"><code class="language-yaml">url=jdbc<span class="token punctuation">:</span>mysql<span class="token punctuation">:</span>//127.0.0.1<span class="token punctuation">:</span>3306/db<span class="token punctuation">?</span>useUnicode=true<span class="token important">&amp;characterEncoding</span>=utf8<span class="token important">&amp;serverTimezone</span>=UTC
+</code></pre>
+<p>比如加服务器时间标准类型，不然运行报错。<br>com.mysql.cj.core.exceptions.<em>InvalidConnectionAttributeException: The server time zone value ‘?й???????’</em></p>
+<h2 id="user"><a href="#user" class="headerlink" title="user"></a>user</h2><p>用户不要写出username。因为在Spring获取jdbc.properties的时候，使用的是 <em>${user}</em>，使用 ${username} 会获取到系统用户名，一个小bug</p>
 
             </div>
             <hr/>
@@ -455,7 +466,7 @@
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/05/04/za-ji/hexo-shi-yong-ben-di-tu-pian/" class="b-link-green">Hexo使用本地图片</a>
+                    <a href="/2019/06/26/mysql/gao-ban-ben-mysql-lian-jie-pei-zhi/" class="b-link-green">8.x高版本MySQL连接配置</a>
                 </p>
             </div>
         </div>
@@ -480,33 +491,30 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/05/15/rabbitmq/rabbitmq-an-zhuang/">
+                <a href="/2019/07/02/mysql/mysql-ge-chong-duo-biao-lian-jie/">
                     <div class="card-image">
                         
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgcACm5UIkU3YD0_L-mYYdc7YLZwteeJKAtUXQvq1sMfYxQ4ucBQ" class="responsive-img" alt="RabbitMQ介绍&安装">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL各种多表连接">
                         
-                        <span class="card-title">RabbitMQ介绍&安装</span>
+                        <span class="card-title">MySQL各种多表连接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">介绍
+                    <div class="summary block-with-text">简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。
+1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接：
+SELECT * FROM tb1, tb2
 
-RabbitMQ是一种基于AMQP（高级消息队列协议）的消息中间件。
-分为消息生产者、消费者
-服务端是一个broker，里面就是一个虚拟主机，虚拟主机里面有三种交换机和绑定的队列
-直连、主题、广播三种交换机，根据关键字单词匹配
-
-安</div>
+2. 自然连接如果要列出两个表中所有同</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-15
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-02
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/RabbitMQ/" class="post-category" target="_blank">
-                                    RabbitMQ
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
                                 </a>
                             
                             
@@ -516,12 +524,8 @@ RabbitMQ是一种基于AMQP（高级消息队列协议）的消息中间件。
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/RabbitMQ/" target="_blank">
-                        <span class="chip bg-color">RabbitMQ</span>
-                    </a>
-                    
-                    <a href="/tags/安装/" target="_blank">
-                        <span class="chip bg-color">安装</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -535,28 +539,27 @@ RabbitMQ是一种基于AMQP（高级消息队列协议）的消息中间件。
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/27/java/intern-fang-fa-ji-zi-fu-chuan-pin-jie/">
+                <a href="/2019/06/24/thrift/thrift-chu-shi/">
                     <div class="card-image">
                         
+                        <img src="https://raw.githubusercontent.com/apache/thrift/master/doc/images/thrift-layers.png" class="responsive-img" alt="Apache Thrift初识">
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="intern方法及字符串拼接">
-                        
-                        <span class="card-title">intern方法及字符串拼接</span>
+                        <span class="card-title">Apache Thrift初识</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">1. intern()方法
-Returns a canonical representation for the string object.A pool of strings, initially empty, is maintained</div>
+                    <div class="summary block-with-text">Apache ThriftFacebook开发的，一个RPC通讯的王者。比XML，JSON传输更优秀。基于一个Socket。    
+xx.thrift是其文件格式，里面是对接口方法的描写，需要本地编译成xx.java接口文件。所以需要安装</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-27
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-24
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                    Java
+                            <a href="/categories/Thrift/" class="post-category" target="_blank">
+                                    Thrift
                                 </a>
                             
                             
@@ -566,12 +569,12 @@ Returns a canonical representation for the string object.A pool of strings, init
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/intern/" target="_blank">
-                        <span class="chip bg-color">intern()</span>
+                    <a href="/tags/RPC/" target="_blank">
+                        <span class="chip bg-color">RPC</span>
                     </a>
                     
-                    <a href="/tags/str1-str2/" target="_blank">
-                        <span class="chip bg-color">str1 + str2</span>
+                    <a href="/tags/Thrift/" target="_blank">
+                        <span class="chip bg-color">Thrift</span>
                     </a>
                     
                 </div>
