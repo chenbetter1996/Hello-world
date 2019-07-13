@@ -28,6 +28,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[MySQL各种多表连接]]></title>
+    <url>%2F2019%2F07%2F02%2Fmysql%2Fmysql-ge-chong-duo-biao-lian-jie%2F</url>
+    <content type="text"><![CDATA[简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。 1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接： SELECT * FROM tb1, tb2 2. 自然连接如果要列出两个表中所有同名字段相等的记录，并且去除重复字段，使用自然连接： SELECT * FROM tb1 NATURAL JOIN tb2; 3. 内连接如果要对满足条件的记录进行连接，使用 θ-连接： SELECT * FROM tb1 INNER JOIN tb2 on condition; 4. 外连接外连接分为外左连接和外右连接如果既要列出两表相匹配的记录，同时又要列出没有匹配项的记录，使用外连接： SELECT * FROM tb1 LEFT OUTER JOIN tb2; SELECT * FROM tb1 RIGHT OUTER JOIN tb2;]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Apache Thrift初识]]></title>
     <url>%2F2019%2F06%2F24%2Fthrift%2Fthrift-chu-shi%2F</url>
     <content type="text"><![CDATA[Apache ThriftFacebook开发的，一个RPC通讯的王者。比XML，JSON传输更优秀。基于一个Socket。 xx.thrift是其文件格式，里面是对接口方法的描写，需要本地编译成xx.java接口文件。所以需要安装一些编译原理的词法语法语义环境的工具，比如flex，bison等等。 本地的IDEA可以安装这个Thrift插件，把xx.thrift编译为xx.java接口。然后，写一个需要传输的类实现这个接口就可以了。启动Thrift服务端，就类似于ServerSocket，然后本地客户端可以连接，调用访问里面的方法。 REST VS RPC其实个人感觉REST也是一种RPC，只是其协议是HTTP。但是RPC框架底层协议除了有socket，管道之类的也有HTTP。感觉RPC是个父集合一样。]]></content>
