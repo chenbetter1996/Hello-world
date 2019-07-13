@@ -417,7 +417,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        989
+                        990
                     </div>
                     
 
@@ -504,10 +504,7 @@
 </code></pre>
 <p>这种Dao接口的一个方法，MyBatis是底层封装了JDBC，不用写这个的实现是因为我们这个mapper的这个就相当于实现了，类似JDBC，有了参数，PreparedStatement行为就是SQL，返回值就是结果集ResultSet，信息完整了，可以交给底层JDBC实现。</p>
 <p>此外由Spring 接管这些mapper，是可以直接生成对应DAO的实现类自动注入IOC的。</p>
-<ol start="4">
-<li>spring-dao.xml整合  </li>
-</ol>
-<pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span>
+<h3 id="4-spring-dao-xml整合"><a href="#4-spring-dao-xml整合" class="headerlink" title="4. spring-dao.xml整合"></a>4. spring-dao.xml整合</h3><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
        <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
        <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span>
