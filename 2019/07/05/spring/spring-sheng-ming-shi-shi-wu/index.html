@@ -4,8 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="CAS机制初识, blog">
-    <meta name="description" content="问题提出对于count++的多线程问题，三步需要保证原子性，volatile关键字做不到，synchronized是可以的，但是synchronized是悲观锁，以最坏的加锁做保证，线程上下文切换和阻塞的花销很大，虽然后期jdk对其做了优化">
+    <meta name="keywords" content="Spring声明式事务, blog">
+    <meta name="description" content="Spring声明式事务  
+事务是对于多个SQL执行才有必要，一个就算了。推荐使用第三种@Transactional，毕竟事务声明是很严谨重要的点。这个可读性等更好。
+注解声明配置方式spring-service.xml  
+&amp;lt;?xm">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>CAS机制初识 | Chgl16</title>
+    <title>Spring声明式事务 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +263,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://imgcdn.sdk.cn/article/qgYfRVuf0XkpYM914y8p.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        CAS机制初识
+                        Spring声明式事务
                     </div>
                 </div>
             </div>
@@ -377,12 +380,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CAS/" target="_blank">
-                                <span class="chip bg-color">CAS</span>
+                            <a href="/tags/Spring/" target="_blank">
+                                <span class="chip bg-color">Spring</span>
                             </a>
                         
-                            <a href="/tags/乐观锁-悲观锁/" target="_blank">
-                                <span class="chip bg-color">乐观锁&amp;悲观锁</span>
+                            <a href="/tags/事务/" target="_blank">
+                                <span class="chip bg-color">事务</span>
                             </a>
                         
                     </div>
@@ -393,12 +396,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                Java
-                            </a>
-                        
-                            <a href="/categories/Java/多线程并发编程/" class="post-category" target="_blank">
-                                多线程并发编程
+                            <a href="/categories/Spring/" class="post-category" target="_blank">
+                                Spring
                             </a>
                         
                     </div>
@@ -409,14 +408,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-23
+                    2019-07-05
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        105
+                        354
                     </div>
                     
 
@@ -434,8 +433,34 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="问题提出"><a href="#问题提出" class="headerlink" title="问题提出"></a>问题提出</h1><p>对于count++的多线程问题，三步需要保证原子性，volatile关键字做不到，synchronized是可以的，但是synchronized是悲观锁，以最坏的加锁做保证，线程上下文切换和阻塞的花销很大，虽然后期jdk对其做了优化。但是还是有一种更好的方式解决这个问题。就是CAS，一种乐观锁机制。</p>
-<h1 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h1>
+                <h2 id="Spring声明式事务"><a href="#Spring声明式事务" class="headerlink" title="Spring声明式事务"></a>Spring声明式事务</h2><p><img src="https://img.mukewang.com/5d1577a7000126cc12800720.jpg" alt="使用方式">  </p>
+<p>事务是对于多个SQL执行才有必要，一个就算了。推荐使用第三种@Transactional，毕竟事务声明是很严谨重要的点。这个可读性等更好。</p>
+<h2 id="注解声明配置方式"><a href="#注解声明配置方式" class="headerlink" title="注解声明配置方式"></a>注解声明配置方式</h2><p>spring-service.xml  </p>
+<pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>tx</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/tx<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>component-scan</span> <span class="token attr-name">base-package</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xyz.cglzwz.service<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+
+    <span class="token comment" spellcheck="true">&lt;!-- 配置事务管理器 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>transactionManager<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.jdbc.datasource.DataSourceTransactionManager<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token comment" spellcheck="true">&lt;!-- 注入数据库连接池 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dataSource<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dataSource<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+
+    <span class="token comment" spellcheck="true">&lt;!-- 基于注解的声明式事务 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">tx:</span>annotation-driven</span> <span class="token attr-name">transaction-manager</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>transactionManager<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="Spring声明事务回滚"><a href="#Spring声明事务回滚" class="headerlink" title="Spring声明事务回滚"></a>Spring声明事务回滚</h2><p>Spring声明事务回滚的默认情况是 <strong>抛出运行期异常</strong></p>
+<h2 id="事务的嵌套传播"><a href="#事务的嵌套传播" class="headerlink" title="事务的嵌套传播"></a>事务的嵌套传播</h2><p>多个事务嵌套，当内/外回滚提交都出现的时候，不同情况有不同结果。现在暂时没打理。这个也和事务隔离级别有关，MySQL默认是可重复读。<br><a href="http://xiaorui.cc/2017/01/14/%E8%AE%A9%E4%BA%BA%E6%97%A0%E8%AF%AD%E7%9A%84mysql%E5%B5%8C%E5%A5%97%E4%BA%8B%E5%8A%A1/" target="_blank" rel="noopener">一个博主的分享</a>。<br>这里内层事务一旦start transaction就强制前面的外层事务提交了。</p>
+<h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p><a href="https://www.jianshu.com/p/4e3edbedb9a8" target="_blank" rel="noopener">简书一个博客</a>待验证。</p>
+
             </div>
             <hr/>
 
@@ -458,7 +483,7 @@
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/23/duo-xian-cheng-bing-fa-bian-cheng/cas-chu-shi/" class="b-link-green">CAS机制初识</a>
+                    <a href="/2019/07/05/spring/spring-sheng-ming-shi-shi-wu/" class="b-link-green">Spring声明式事务</a>
                 </p>
             </div>
         </div>
@@ -483,30 +508,27 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/24/java/object-dui-xiang-fang-fa/">
+                <a href="/2019/07/10/za-ji/ri-zhi-cai-ji-xi-tong-si-lu/">
                     <div class="card-image">
                         
+                        <img src="https://i.loli.net/2019/07/12/5d289a11de1b072988.jpg" class="responsive-img" alt="日志采集系统思路">
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Object对象方法">
-                        
-                        <span class="card-title">Object对象方法</span>
+                        <span class="card-title">日志采集系统思路</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">Object对象方法public final native Class&lt;?> getClass()
-public native int hashCode()
-public boolean equals(Object obj)
-prot</div>
+                    <div class="summary block-with-text">需求服务器上的日志会实时生成，争对这些日志记录，有些有用的数据需要采集记录入库。因此有很多思路方案。
+1. ELK这个很常见。是 Elasticsearch、Logstash 和 Kibana 三种软件产品的首字母缩写。这三者都是开源软件，</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-24
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-10
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                    Java
+                            <a href="/categories/杂记/" class="post-category" target="_blank">
+                                    杂记
                                 </a>
                             
                             
@@ -516,8 +538,28 @@ prot</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Object/" target="_blank">
-                        <span class="chip bg-color">Object</span>
+                    <a href="/tags/日志采集/" target="_blank">
+                        <span class="chip bg-color">日志采集</span>
+                    </a>
+                    
+                    <a href="/tags/Filebeat/" target="_blank">
+                        <span class="chip bg-color">Filebeat</span>
+                    </a>
+                    
+                    <a href="/tags/Kafka/" target="_blank">
+                        <span class="chip bg-color">Kafka</span>
+                    </a>
+                    
+                    <a href="/tags/Logstash/" target="_blank">
+                        <span class="chip bg-color">Logstash</span>
+                    </a>
+                    
+                    <a href="/tags/HDFS/" target="_blank">
+                        <span class="chip bg-color">HDFS</span>
+                    </a>
+                    
+                    <a href="/tags/Hive/" target="_blank">
+                        <span class="chip bg-color">Hive</span>
                     </a>
                     
                 </div>
@@ -531,24 +573,33 @@ prot</div>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/21/jvm/lei-jia-zai-guo-cheng/">
+                <a href="/2019/07/05/spring/mybatis-jie-he-spring-hui-gu/">
                     <div class="card-image">
                         
-                        <img src="https://i.ytimg.com/vi/G1ubVOl9IBw/maxresdefault.jpg" class="responsive-img" alt="Java虚拟机类加载机制">
+                        <img src="https://mp.baomidou.com/img/relationship-with-mybatis.png" class="responsive-img" alt="MyBatis结合Spring的一些回顾">
                         
-                        <span class="card-title">Java虚拟机类加载机制</span>
+                        <span class="card-title">MyBatis结合Spring的一些回顾</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">类加载过程类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Verification）、准备(Preparation)、解析(Resolution)、初始化(Initialization)、</div>
+                    <div class="summary block-with-text">MyBatis结合Spring
+好久没打这代码了，回顾一下。  
+
+两者整合不仅可以减少代码量，减少配置。也可以保持MyBatis的灵活性。
+1. 依赖&lt;dependency>
+    &lt;groupId>org.mybatis&</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-21
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-05
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring/" class="post-category" target="_blank">
+                                    Spring
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -556,12 +607,12 @@ prot</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/" target="_blank">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/MyBatis/" target="_blank">
+                        <span class="chip bg-color">MyBatis</span>
                     </a>
                     
-                    <a href="/tags/类加载机制/" target="_blank">
-                        <span class="chip bg-color">类加载机制</span>
+                    <a href="/tags/Spring/" target="_blank">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>
