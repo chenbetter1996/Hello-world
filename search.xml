@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Spring声明式事务]]></title>
+    <url>%2F2019%2F07%2F14%2Fspring%2Fspring-sheng-ming-shi-shi-wu%2F</url>
+    <content type="text"><![CDATA[Spring声明式事务 事务是对于多个SQL执行才有必要，一个就算了。推荐使用第三种@Transactional，毕竟事务声明是很严谨重要的点。这个可读性等更好。 注解声明配置方式spring-service.xml &lt;?xml version="1.0" encoding="UTF-8" ?> &lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"> &lt;context:component-scan base-package="xyz.cglzwz.service"/> &lt;!-- 配置事务管理器 --> &lt;bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> &lt;!-- 注入数据库连接池 --> &lt;property name="dataSource" ref="dataSource"> &lt;/bean> &lt;!-- 基于注解的声明式事务 --> &lt;tx:annotation-driven transaction-manager="transactionManager"/> &lt;/beans> Spring声明事务回滚Spring声明事务回滚的默认情况是 抛出运行期异常 事务的嵌套传播多个事务嵌套，当内/外回滚提交都出现的时候，不同情况有不同结果。现在暂时没打理。这个也和事务隔离级别有关，MySQL默认是可重复读。一个博主的分享。这里内层事务一旦start transaction就强制前面的外层事务提交了。 事务隔离级别简书一个博客待验证。]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+        <tag>事务</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MySQL中文乱码]]></title>
     <url>%2F2019%2F07%2F11%2Fmysql%2Fmysql-zhong-wen-luan-ma%2F</url>
     <content type="text"><![CDATA[插入乱码即便数据库和表如下utf8编码配置 CREATE DATABASE `db_name` DEFAULT CHARACTER SET utf8; CREATE TABLE `tb_name` (...) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT=''; 这样INSERT INTO tb_name..依然中文乱码 SQLException: /xx /xx这种 如下可以查看内部编码： mysql> show variables like '%character%'; +--------------------------+----------------------------------------+ | Variable_name | Value | +--------------------------+----------------------------------------+ | character_set_client | gbk | | character_set_connection | gbk | | character_set_database | utf8 | | character_set_filesystem | binary | | character_set_results | gbk | | character_set_server | utf8mb4 | | character_set_system | utf8 | | character_sets_dir | G:\mysql-8.0.16-winx64\share\charsets\ | +--------------------------+----------------------------------------+ 8 rows in set, 1 warning (0.00 sec) 可以暂时修改，但是仅限本session有效，当然可以SET global char…，但是重启服务就没了。 SET character_set_client=utf8; ... 长期有效要改数据库配置文件，my.ini之类在安装目录是没有的，网上又说在C盘的数据区的，但是找不到。 最后发现在Windows上的高版本MySQL，解决中文乱码，真的只能在根目录下创建一个默认被识别的my.ini配置文件，在里面做根本配置。如下my.ini [mysqld] character-set-server=utf8 [client] default-character-set=utf8 重启服务即可成功 附录Windows安装Mysql]]></content>
@@ -25,18 +37,6 @@
         <tag>Logstash</tag>
         <tag>HDFS</tag>
         <tag>Hive</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Spring声明式事务]]></title>
-    <url>%2F2019%2F07%2F05%2Fspring%2Fspring-sheng-ming-shi-shi-wu%2F</url>
-    <content type="text"><![CDATA[Spring声明式事务 事务是对于多个SQL执行才有必要，一个就算了。推荐使用第三种@Transactional，毕竟事务声明是很严谨重要的点。这个可读性等更好。 注解声明配置方式spring-service.xml &lt;?xml version="1.0" encoding="UTF-8" ?> &lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"> &lt;context:component-scan base-package="xyz.cglzwz.service"/> &lt;!-- 配置事务管理器 --> &lt;bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> &lt;!-- 注入数据库连接池 --> &lt;property name="dataSource" ref="dataSource"> &lt;/bean> &lt;!-- 基于注解的声明式事务 --> &lt;tx:annotation-driven transaction-manager="transactionManager"/> &lt;/beans> Spring声明事务回滚Spring声明事务回滚的默认情况是 抛出运行期异常 事务的嵌套传播多个事务嵌套，当内/外回滚提交都出现的时候，不同情况有不同结果。现在暂时没打理。这个也和事务隔离级别有关，MySQL默认是可重复读。一个博主的分享。这里内层事务一旦start transaction就强制前面的外层事务提交了。 事务隔离级别简书一个博客待验证。]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-        <tag>事务</tag>
       </tags>
   </entry>
   <entry>
