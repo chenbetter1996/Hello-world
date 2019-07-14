@@ -62,6 +62,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java使用MD5加密]]></title>
+    <url>%2F2019%2F06%2F25%2Fjava%2Fjava-shi-yong-md5-jia-mi%2F</url>
+    <content type="text"><![CDATA[使用到了spring的一个工具类 import org.junit.Test; import org.springframework.util.DigestUtils; public class MD5Test { @Test public void test() { String slat = "xafd65!@#$%6"; String key = "123"; String base = key + "/" + slat; String md5 = DigestUtils.md5DigestAsHex(base.getBytes()); System.out.println(md5); } } 封装一下 private String slat = "@#$%XCDFFASAVDA56asdfaf"; private String getMD5(String message) { String base = message + "/" + slat; String md5 = DigestUtils.md5DigestAsHex(base.getBytes()); return md5; }]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>MD5</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Apache Thrift初识]]></title>
     <url>%2F2019%2F06%2F24%2Fthrift%2Fthrift-chu-shi%2F</url>
     <content type="text"><![CDATA[Apache ThriftFacebook开发的，一个RPC通讯的王者。比XML，JSON传输更优秀。基于一个Socket。 xx.thrift是其文件格式，里面是对接口方法的描写，需要本地编译成xx.java接口文件。所以需要安装一些编译原理的词法语法语义环境的工具，比如flex，bison等等。 本地的IDEA可以安装这个Thrift插件，把xx.thrift编译为xx.java接口。然后，写一个需要传输的类实现这个接口就可以了。启动Thrift服务端，就类似于ServerSocket，然后本地客户端可以连接，调用访问里面的方法。 REST VS RPC其实个人感觉REST也是一种RPC，只是其协议是HTTP。但是RPC框架底层协议除了有socket，管道之类的也有HTTP。感觉RPC是个父集合一样。]]></content>

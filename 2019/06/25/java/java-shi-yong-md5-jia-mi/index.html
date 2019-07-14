@@ -4,11 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Object对象方法, blog">
-    <meta name="description" content="Object对象方法public final native Class&amp;lt;?&gt; getClass()
-public native int hashCode()
-public boolean equals(Object obj)
-prot">
+    <meta name="keywords" content="Java使用MD5加密, blog">
+    <meta name="description" content="使用到了spring的一个工具类
+import org.junit.Test;
+import org.springframework.util.DigestUtils;
+
+public class MD5Test {
+    @Test
+ ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +19,7 @@ prot">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Object对象方法 | Chgl16</title>
+    <title>Java使用MD5加密 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -263,13 +266,13 @@ prot">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('http://techdifferences.net/wp-content/uploads/2018/12/MD5.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Object对象方法
+                        Java使用MD5加密
                     </div>
                 </div>
             </div>
@@ -380,8 +383,8 @@ prot">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Object/" target="_blank">
-                                <span class="chip bg-color">Object</span>
+                            <a href="/tags/MD5/" target="_blank">
+                                <span class="chip bg-color">MD5</span>
                             </a>
                         
                     </div>
@@ -404,14 +407,14 @@ prot">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-24
+                    2019-06-25
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        285
+                        73
                     </div>
                     
 
@@ -429,64 +432,30 @@ prot">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Object对象方法"><a href="#Object对象方法" class="headerlink" title="Object对象方法"></a>Object对象方法</h1><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">native</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">native</span> <span class="token keyword">int</span> <span class="token function">hashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Object obj<span class="token punctuation">)</span>
-<span class="token keyword">protected</span> <span class="token keyword">native</span> Object <span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> CloneNotSupportedException
-<span class="token keyword">public</span> String <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">native</span> <span class="token keyword">void</span> <span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">native</span> <span class="token keyword">void</span> <span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">native</span> <span class="token keyword">void</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token keyword">long</span> timeout<span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token keyword">long</span> timeout<span class="token punctuation">,</span> <span class="token keyword">int</span> nanos<span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException
-<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">finalize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Throwable <span class="token punctuation">{</span> <span class="token punctuation">}</span>
-</code></pre>
-<p>一共11个，3个重载的wait方法，所以可以说是9个</p>
-<ol>
-<li><p>谨记子类的equals()方法也是Object参数，boolean返回值，String类重写的也是。以下是String重写equals的源码</p>
-<pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Object anObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">==</span> anObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
-     <span class="token keyword">if</span> <span class="token punctuation">(</span>anObject <span class="token keyword">instanceof</span> <span class="token class-name">String</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-         String anotherString <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span>anObject<span class="token punctuation">;</span>
-         <span class="token keyword">int</span> n <span class="token operator">=</span> value<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
-         <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">==</span> anotherString<span class="token punctuation">.</span>value<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-             <span class="token keyword">char</span> v1<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span>
-             <span class="token keyword">char</span> v2<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> anotherString<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-             <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-             <span class="token keyword">while</span> <span class="token punctuation">(</span>n<span class="token operator">--</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                 <span class="token keyword">if</span> <span class="token punctuation">(</span>v1<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> v2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
-                     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-                 i<span class="token operator">++</span><span class="token punctuation">;</span>
-             <span class="token punctuation">}</span>
-             <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-         <span class="token punctuation">}</span>
-     <span class="token punctuation">}</span>
-     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-</li>
-<li><p>clone()方法这里可以重写，不然只是浅拷贝，因为涉及到对象的依赖关系。</p>
-</li>
-<li><p>hashCode()：在Object类里面是native修饰的方法，就没法看了，可以看看String对其的重写，很简单的对字符转为ASCII码加乘。</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">hashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
- <span class="token keyword">int</span> h <span class="token operator">=</span> hash<span class="token punctuation">;</span>
- <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> value<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-     <span class="token keyword">char</span> val<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span>
+                <p>使用到了spring的一个工具类</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span>Test<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>util<span class="token punctuation">.</span>DigestUtils<span class="token punctuation">;</span>
 
-     <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> value<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            h <span class="token operator">=</span> <span class="token number">31</span> <span class="token operator">*</span> h <span class="token operator">+</span> val<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-     <span class="token punctuation">}</span>
-      hash <span class="token operator">=</span> h<span class="token punctuation">;</span>
- <span class="token punctuation">}</span>
- <span class="token keyword">return</span> h<span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MD5Test</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String slat <span class="token operator">=</span> <span class="token string">"xafd65!@#$%6"</span><span class="token punctuation">;</span>
+        String key <span class="token operator">=</span> <span class="token string">"123"</span><span class="token punctuation">;</span>
+        String base <span class="token operator">=</span> key <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> slat<span class="token punctuation">;</span>
+        String md5 <span class="token operator">=</span> DigestUtils<span class="token punctuation">.</span><span class="token function">md5DigestAsHex</span><span class="token punctuation">(</span>base<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>md5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-</li>
-<li>finalize(): 是一个建议GC的方法</li>
-</ol>
+<p>封装一下</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> String slat <span class="token operator">=</span> <span class="token string">"@#$%XCDFFASAVDA56asdfaf"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">private</span> String <span class="token function">getMD5</span><span class="token punctuation">(</span>String message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    String base <span class="token operator">=</span> message <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> slat<span class="token punctuation">;</span>
+    String md5 <span class="token operator">=</span> DigestUtils<span class="token punctuation">.</span><span class="token function">md5DigestAsHex</span><span class="token punctuation">(</span>base<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">return</span> md5<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 
             </div>
             <hr/>
@@ -510,7 +479,7 @@ prot">
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/24/java/object-dui-xiang-fang-fa/" class="b-link-green">Object对象方法</a>
+                    <a href="/2019/06/25/java/java-shi-yong-md5-jia-mi/" class="b-link-green">Java使用MD5加密</a>
                 </p>
             </div>
         </div>
@@ -535,28 +504,29 @@ prot">
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/27/java/intern-fang-fa-ji-zi-fu-chuan-pin-jie/">
+                <a href="/2019/06/26/mysql/gao-ban-ben-mysql-lian-jie-pei-zhi/">
                     <div class="card-image">
                         
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="8.x高版本MySQL连接配置">
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="intern方法及字符串拼接">
-                        
-                        <span class="card-title">intern方法及字符串拼接</span>
+                        <span class="card-title">8.x高版本MySQL连接配置</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">1. intern()方法
-Returns a canonical representation for the string object.A pool of strings, initially empty, is maintained</div>
+                    <div class="summary block-with-text">driver高版本的依赖是
+&lt;dependency>
+    &lt;groupId>mysql&lt;/groupId>
+    &lt;artifactId>mysql-connector-java&lt;/artifactId></div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-27
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-26
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                    Java
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
                                 </a>
                             
                             
@@ -566,12 +536,8 @@ Returns a canonical representation for the string object.A pool of strings, init
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/intern/" target="_blank">
-                        <span class="chip bg-color">intern()</span>
-                    </a>
-                    
-                    <a href="/tags/str1-str2/" target="_blank">
-                        <span class="chip bg-color">str1 + str2</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -585,31 +551,27 @@ Returns a canonical representation for the string object.A pool of strings, init
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/23/duo-xian-cheng-bing-fa-bian-cheng/cas-chu-shi/">
+                <a href="/2019/06/24/thrift/thrift-chu-shi/">
                     <div class="card-image">
                         
+                        <img src="https://raw.githubusercontent.com/apache/thrift/master/doc/images/thrift-layers.png" class="responsive-img" alt="Apache Thrift初识">
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="CAS机制初识">
-                        
-                        <span class="card-title">CAS机制初识</span>
+                        <span class="card-title">Apache Thrift初识</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">问题提出对于count++的多线程问题，三步需要保证原子性，volatile关键字做不到，synchronized是可以的，但是synchronized是悲观锁，以最坏的加锁做保证，线程上下文切换和阻塞的花销很大，虽然后期jdk对其做了优化</div>
+                    <div class="summary block-with-text">Apache ThriftFacebook开发的，一个RPC通讯的王者。比XML，JSON传输更优秀。基于一个Socket。    
+xx.thrift是其文件格式，里面是对接口方法的描写，需要本地编译成xx.java接口文件。所以需要安装</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-23
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-24
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                    Java
-                                </a>
-                            
-                            <a href="/categories/Java/多线程并发编程/" class="post-category" target="_blank">
-                                    多线程并发编程
+                            <a href="/categories/Thrift/" class="post-category" target="_blank">
+                                    Thrift
                                 </a>
                             
                             
@@ -619,12 +581,12 @@ Returns a canonical representation for the string object.A pool of strings, init
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CAS/" target="_blank">
-                        <span class="chip bg-color">CAS</span>
+                    <a href="/tags/RPC/" target="_blank">
+                        <span class="chip bg-color">RPC</span>
                     </a>
                     
-                    <a href="/tags/乐观锁-悲观锁/" target="_blank">
-                        <span class="chip bg-color">乐观锁&amp;悲观锁</span>
+                    <a href="/tags/Thrift/" target="_blank">
+                        <span class="chip bg-color">Thrift</span>
                     </a>
                     
                 </div>
