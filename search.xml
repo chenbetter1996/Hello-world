@@ -51,6 +51,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java枚举]]></title>
+    <url>%2F2019%2F06%2F26%2Fjava%2Fjava-mei-ju%2F</url>
+    <content type="text"><![CDATA[枚举类有些情况下某些对象或者属性的值数量是有限固定的。比如季节，响应状态。是可以一一列举的。对比直接使用常量，枚举更好的封装，可读性和可维护性更好。 例子 一个星期 // 定义一个星期的枚举类 public enum WeekEnum { // 在第一行显式地列出7个枚举实例(枚举值)，系统会自动添加 public static final 修饰 SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY; } 状态响应`javapackage xyz.cglzwz.enums; public enum SeckillStatusEnum { SUCCESS(1, “秒杀成功”), END(0, “秒杀结束”), REPERT_KILL(-1, “重复秒杀”), DATA_REWRITE(-2, “数据篡改”), INNER_ERROR(-3, “系统异常”); private int status; private String statusInfo; SeckillStatusEnum(int status, String statusInfo) { this.status = status; this.statusInfo = statusInfo; } public static String getStatusInfo(int status) { for (SeckillStatusEnum seckillStatusEnum : SeckillStatusEnum.values()) { if (seckillStatusEnum.getStatus() == status) return seckillStatusEnum.statusInfo; } return null; } public int getStatus() { return status; } public void setStatus(int status) { this.status = status; } public String getStatusInfo() { return statusInfo; } public void setStatusInfo(String statusInfo) { this.statusInfo = statusInfo; } }` 这里的每个枚举成员都有带参，因此要先定义好对应的构造函数，参数列别要一至。不然报错。XxxEnum.values() 返回一个包含全部枚举值的数组，可以用来遍历所有枚举值; 参考 简书. Java 中的枚举 (enum) CSDN. Java 枚举(enum) 详解7种常见的用法]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>enum</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[8.x高版本MySQL连接配置]]></title>
     <url>%2F2019%2F06%2F26%2Fmysql%2Fgao-ban-ben-mysql-lian-jie-pei-zhi%2F</url>
     <content type="text"><![CDATA[driver高版本的依赖是 &lt;dependency> &lt;groupId>mysql&lt;/groupId> &lt;artifactId>mysql-connector-java&lt;/artifactId> &lt;version>8.0.15&lt;/version> &lt;/dependency> driver=com.mysql.cj.jdbc.Driver 中间多了个cj的包 urlurl=jdbc:mysql://127.0.0.1:3306/db?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC 比如加服务器时间标准类型，不然运行报错。com.mysql.cj.core.exceptions.InvalidConnectionAttributeException: The server time zone value ‘?й???????’ user用户不要写出username。因为在Spring获取jdbc.properties的时候，使用的是 ${user}，使用 ${username} 会获取到系统用户名，一个小bug]]></content>
