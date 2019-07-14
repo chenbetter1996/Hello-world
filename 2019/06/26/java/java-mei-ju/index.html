@@ -445,43 +445,52 @@ public enum WeekEnum {
 <span class="token punctuation">}</span> 
 </code></pre>
 </li>
-<li><p>状态响应<br><code>`</code>java<br>package xyz.cglzwz.enums;</p>
+<li><p>状态响应  </p>
 </li>
 </ol>
-<p>public enum SeckillStatusEnum {<br>    SUCCESS(1, “秒杀成功”),<br>    END(0, “秒杀结束”),<br>    REPERT_KILL(-1, “重复秒杀”),<br>    DATA_REWRITE(-2, “数据篡改”),<br>    INNER_ERROR(-3, “系统异常”);</p>
-<pre><code>private int status;
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> xyz<span class="token punctuation">.</span>cglzwz<span class="token punctuation">.</span>enums<span class="token punctuation">;</span>
 
-private String statusInfo;
+<span class="token keyword">public</span> <span class="token keyword">enum</span> SeckillStatusEnum <span class="token punctuation">{</span>
+    <span class="token function">SUCCESS</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"秒杀成功"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">END</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"秒杀结束"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">REPERT_KILL</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"重复秒杀"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">DATA_REWRITE</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"数据篡改"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">INNER_ERROR</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"系统异常"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-SeckillStatusEnum(int status, String statusInfo) {
-    this.status = status;
-    this.statusInfo = statusInfo;
-}
+    <span class="token keyword">private</span> <span class="token keyword">int</span> status<span class="token punctuation">;</span>
 
-public static String getStatusInfo(int status) {
-    for (SeckillStatusEnum seckillStatusEnum : SeckillStatusEnum.values()) {
-        if (seckillStatusEnum.getStatus() == status)
-            return seckillStatusEnum.statusInfo;
-    }
-    return null;
-}
+    <span class="token keyword">private</span> String statusInfo<span class="token punctuation">;</span>
 
-public int getStatus() {
-    return status;
-}
+    <span class="token function">SeckillStatusEnum</span><span class="token punctuation">(</span><span class="token keyword">int</span> status<span class="token punctuation">,</span> String statusInfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>status <span class="token operator">=</span> status<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>statusInfo <span class="token operator">=</span> statusInfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-public void setStatus(int status) {
-    this.status = status;
-}
+    <span class="token keyword">public</span> <span class="token keyword">static</span> String <span class="token function">getStatusInfo</span><span class="token punctuation">(</span><span class="token keyword">int</span> status<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>SeckillStatusEnum seckillStatusEnum <span class="token operator">:</span> SeckillStatusEnum<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>seckillStatusEnum<span class="token punctuation">.</span><span class="token function">getStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> status<span class="token punctuation">)</span>
+                <span class="token keyword">return</span> seckillStatusEnum<span class="token punctuation">.</span>statusInfo<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-public String getStatusInfo() {
-    return statusInfo;
-}
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> status<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-public void setStatusInfo(String statusInfo) {
-    this.statusInfo = statusInfo;
-}
-</code></pre><p>}<br><code>`</code></p>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token keyword">int</span> status<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>status <span class="token operator">=</span> status<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getStatusInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> statusInfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setStatusInfo</span><span class="token punctuation">(</span>String statusInfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>statusInfo <span class="token operator">=</span> statusInfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <blockquote>
 <p>这里的每个枚举成员都有带参，因此要先定义好对应的构造函数，参数列别要一至。不然报错。<br>XxxEnum.values() 返回一个包含全部枚举值的数组，可以用来遍历所有枚举值;</p>
 </blockquote>
