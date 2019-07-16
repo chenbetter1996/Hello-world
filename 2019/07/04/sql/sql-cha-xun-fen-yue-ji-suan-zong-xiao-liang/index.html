@@ -5,8 +5,9 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="SQL查询分月计算总销量, blog">
-    <meta name="description" content="分别统计每个月份的数量和mysql&gt; select * from t1;                                                                              
-+----">
+    <meta name="description" content="分别统计每个月份的数量和mysql&gt; select * from t1;                                 
++----+---------------------+------+
+| id | date   ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -427,7 +428,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="分别统计每个月份的数量和"><a href="#分别统计每个月份的数量和" class="headerlink" title="分别统计每个月份的数量和"></a>分别统计每个月份的数量和</h2><pre class=" language-sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1<span class="token punctuation">;</span>                                                                              
+                <h2 id="分别统计每个月份的数量和"><a href="#分别统计每个月份的数量和" class="headerlink" title="分别统计每个月份的数量和"></a>分别统计每个月份的数量和</h2><pre class=" language-sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1<span class="token punctuation">;</span>                                 
 <span class="token operator">+</span><span class="token comment" spellcheck="true">----+---------------------+------+</span>
 <span class="token operator">|</span> id <span class="token operator">|</span> <span class="token keyword">date</span>                <span class="token operator">|</span> num  <span class="token operator">|</span>
 <span class="token operator">+</span><span class="token comment" spellcheck="true">----+---------------------+------+</span>
@@ -439,7 +440,7 @@
 <span class="token operator">+</span><span class="token comment" spellcheck="true">----+---------------------+------+</span>
 <span class="token number">5</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
 </code></pre>
-<h2 id="方法1，使用MONTH-date-、YEAR-date-、SUM-num-内置函数"><a href="#方法1，使用MONTH-date-、YEAR-date-、SUM-num-内置函数" class="headerlink" title="方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数"></a>方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数</h2><pre class=" language-sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">select</span> month<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 月份<span class="token punctuation">,</span> <span class="token function">sum</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token keyword">as</span> 总量 <span class="token keyword">from</span> t1 <span class="token keyword">where</span> year<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token string">'2019'</span> <span class="token keyword">group</span> <span class="token keyword">by</span> month<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="方法1，使用MONTH-date-、YEAR-date-、SUM-num-内置函数"><a href="#方法1，使用MONTH-date-、YEAR-date-、SUM-num-内置函数" class="headerlink" title="方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数"></a>方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数</h2><pre class=" language-sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">select</span> month<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 月份<span class="token punctuation">,</span> <span class="token function">sum</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token keyword">as</span> 总量 <span class="token keyword">from</span> t1 <span class="token keyword">where</span> year<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token string">'2019'</span> <span class="token keyword">group</span> <span class="token keyword">by</span> month<span class="token punctuation">(</span><span class="token keyword">date</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token operator">+</span><span class="token comment" spellcheck="true">--------+--------+</span>
 <span class="token operator">|</span> 月份   <span class="token operator">|</span> 总量   <span class="token operator">|</span>
 <span class="token operator">+</span><span class="token comment" spellcheck="true">--------+--------+</span>
