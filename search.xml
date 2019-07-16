@@ -52,6 +52,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[SQL查询分月计算总销量]]></title>
+    <url>%2F2019%2F07%2F04%2Fsql%2Fsql-cha-xun-fen-yue-ji-suan-zong-xiao-liang%2F</url>
+    <content type="text"><![CDATA[分别统计每个月份的数量和mysql> select * from t1; +----+---------------------+------+ | id | date | num | +----+---------------------+------+ | 1 | 2019-01-05 00:00:00 | 100 | | 2 | 2019-01-06 00:00:00 | 200 | | 3 | 2019-02-06 00:00:00 | 200 | | 4 | 2019-03-12 00:00:00 | 600 | | 5 | 2019-05-09 00:00:00 | 500 | +----+---------------------+------+ 5 rows in set (0.00 sec) 方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数mysql> select month(date) as 月份, sum(num) as 总量 from t1 where year(date)='2019' group by month(date); ]); +--------+--------+ | 月份 | 总量 | +--------+--------+ | 1 | 300 | | 2 | 200 | | 3 | 600 | | 5 | 500 | +--------+--------+ 4 rows in set (0.00 sec)]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MySQL各种多表连接]]></title>
     <url>%2F2019%2F07%2F02%2Fmysql%2Fmysql-ge-chong-duo-biao-lian-jie%2F</url>
     <content type="text"><![CDATA[简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。 1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接： SELECT * FROM tb1, tb2 2. 自然连接如果要列出两个表中所有同名字段相等的记录，并且去除重复字段，使用自然连接： SELECT * FROM tb1 NATURAL JOIN tb2; 3. 内连接如果要对满足条件的记录进行连接，使用 θ-连接： SELECT * FROM tb1 INNER JOIN tb2 on condition; 4. 外连接外连接分为外左连接和外右连接如果既要列出两表相匹配的记录，同时又要列出没有匹配项的记录，使用外连接： SELECT * FROM tb1 LEFT OUTER JOIN tb2; SELECT * FROM tb1 RIGHT OUTER JOIN tb2;]]></content>
