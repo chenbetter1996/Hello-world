@@ -54,7 +54,7 @@
   <entry>
     <title><![CDATA[SQL查询分月计算总销量]]></title>
     <url>%2F2019%2F07%2F04%2Fsql%2Fsql-cha-xun-fen-yue-ji-suan-zong-xiao-liang%2F</url>
-    <content type="text"><![CDATA[分别统计每个月份的数量和mysql> select * from t1; +----+---------------------+------+ | id | date | num | +----+---------------------+------+ | 1 | 2019-01-05 00:00:00 | 100 | | 2 | 2019-01-06 00:00:00 | 200 | | 3 | 2019-02-06 00:00:00 | 200 | | 4 | 2019-03-12 00:00:00 | 600 | | 5 | 2019-05-09 00:00:00 | 500 | +----+---------------------+------+ 5 rows in set (0.00 sec) 方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数mysql> select month(date) as 月份, sum(num) as 总量 from t1 where year(date)='2019' group by month(date); ]); +--------+--------+ | 月份 | 总量 | +--------+--------+ | 1 | 300 | | 2 | 200 | | 3 | 600 | | 5 | 500 | +--------+--------+ 4 rows in set (0.00 sec)]]></content>
+    <content type="text"><![CDATA[分别统计每个月份的数量和mysql> select * from t1; +----+---------------------+------+ | id | date | num | +----+---------------------+------+ | 1 | 2019-01-05 00:00:00 | 100 | | 2 | 2019-01-06 00:00:00 | 200 | | 3 | 2019-02-06 00:00:00 | 200 | | 4 | 2019-03-12 00:00:00 | 600 | | 5 | 2019-05-09 00:00:00 | 500 | +----+---------------------+------+ 5 rows in set (0.00 sec) 方法1，使用MONTH(date)、YEAR(date)、SUM(num)内置函数mysql> select month(date) as 月份, sum(num) as 总量 from t1 where year(date)='2019' group by month(date); ]); +--------+--------+ | 月份 | 总量 | +--------+--------+ | 1 | 300 | | 2 | 200 | | 3 | 600 | | 5 | 500 | +--------+--------+ 4 rows in set (0.00 sec) 方法2， 使用case关键字]]></content>
       <categories>
         <category>SQL</category>
       </categories>
