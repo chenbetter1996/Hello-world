@@ -528,23 +528,20 @@ mysql<span class="token operator">></span> <span class="token keyword">explain</
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/07/02/mysql/mysql-ge-chong-duo-biao-lian-jie/">
+                <a href="/2019/06/30/mysql/mysql-shi-jian-zheng-chang-cha-ru-ji-lu-xiao-8-ge-xiao-shi/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL各种多表连接">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL时间正常，插入记录小8个小时">
                         
-                        <span class="card-title">MySQL各种多表连接</span>
+                        <span class="card-title">MySQL时间正常，插入记录小8个小时</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。
-1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接：
-SELECT * FROM tb1, tb2
-
-2. 自然连接如果要列出两个表中所有同</div>
+                    <div class="summary block-with-text">问题插入DATETIME或者TIMESTAMP类型的字段。Java程序的时间正常，MySQL数据库时间SELECT NOW();也是正常的。但是插入后小8个小时。
+不知道是不是高版本MySQL的问题。毕竟程序和数据库自身的时间都是正常的。估</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-02
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-30
                         </span>
                         <span class="publish-author">
                             
@@ -576,27 +573,31 @@ SELECT * FROM tb1, tb2
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/06/28/mysql/mysql-shi-jian-zheng-chang-cha-ru-ji-lu-xiao-8-ge-xiao-shi/">
+                <a href="/2019/06/26/java/java-mei-ju/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL时间正常，插入记录小8个小时">
+                        <img src="http://openfile.shixinke.com/images/posts/2019/01/733938c2f13d09f34aa50b2dbfd47934.png" class="responsive-img" alt="Java枚举">
                         
-                        <span class="card-title">MySQL时间正常，插入记录小8个小时</span>
+                        <span class="card-title">Java枚举</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">问题插入DATETIME或者TIMESTAMP类型的字段。Java程序的时间正常，MySQL数据库时间SELECT NOW();也是正常的。但是插入后小8个小时。
-不知道是不是高版本MySQL的问题。毕竟程序和数据库自身的时间都是正常的。估</div>
+                    <div class="summary block-with-text">枚举类有些情况下某些对象或者属性的值数量是有限固定的。比如季节，响应状态。是可以一一列举的。对比直接使用常量，枚举更好的封装，可读性和可维护性更好。
+例子
+一个星期  
+
+// 定义一个星期的枚举类
+public enum WeekEnum</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-28
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/MySQL/" class="post-category" target="_blank">
-                                    MySQL
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
                                 </a>
                             
                             
@@ -606,8 +607,12 @@ SELECT * FROM tb1, tb2
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/" target="_blank">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/Java/" target="_blank">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/enum/" target="_blank">
+                        <span class="chip bg-color">enum</span>
                     </a>
                     
                 </div>
