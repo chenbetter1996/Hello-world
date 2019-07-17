@@ -193,6 +193,31 @@
     
     
     <entry>
+      <title>MySQL时间正常，插入记录小8个小时</title>
+      <link href="/2019/06/28/mysql/mysql-shi-jian-zheng-chang-cha-ru-ji-lu-xiao-8-ge-xiao-shi/"/>
+      <url>/2019/06/28/mysql/mysql-shi-jian-zheng-chang-cha-ru-ji-lu-xiao-8-ge-xiao-shi/</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>插入DATETIME或者TIMESTAMP类型的字段。Java程序的时间正常，MySQL数据库时间SELECT NOW();也是正常的。但是插入后小8个小时。</p><p>不知道是不是高版本MySQL的问题。毕竟程序和数据库自身的时间都是正常的。估计是URL问题，使用的是UTC，小八个时区。但是以往都没有问题。    </p><pre class=" language-bash"><code class="language-bash">url <span class="token operator">=</span> jdbc:mysql:///db?serverTimezone<span class="token operator">=</span>UTC</code></pre><p>UTC是协调世界时间时，就是0经度时间，所有我们东八区快8个小时。但是之前好像没有问题。网上说改time_zone变量测试没用。  </p><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><pre class=" language-bash"><code class="language-bash">url <span class="token operator">=</span> jdbc:mysql:///db?serverTimezone<span class="token operator">=</span>Asia/Shanghai</code></pre><p>就这样一步就可以了。</p><p>测试了配置全局的</p><pre class=" language-xml"><code class="language-xml">default-time-zone = '+8:00'</code></pre><p>没有意义</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Java枚举</title>
       <link href="/2019/06/26/java/java-mei-ju/"/>
       <url>/2019/06/26/java/java-mei-ju/</url>

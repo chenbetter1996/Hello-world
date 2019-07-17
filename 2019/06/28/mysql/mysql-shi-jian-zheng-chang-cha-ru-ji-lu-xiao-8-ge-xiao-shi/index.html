@@ -4,13 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="重定向和转发, blog">
-    <meta name="description" content="调用
-在Server端sendRedirect重定向
-在Server端使用jsp或RequestDispatcher进行forward转发
-在Browser端使用Javascript进行重定向
-在Browser端使用html标签进行重定向
-">
+    <meta name="keywords" content="MySQL时间正常，插入记录小8个小时, blog">
+    <meta name="description" content="问题插入DATETIME或者TIMESTAMP类型的字段。Java程序的时间正常，MySQL数据库时间SELECT NOW();也是正常的。但是插入后小8个小时。
+不知道是不是高版本MySQL的问题。毕竟程序和数据库自身的时间都是正常的。估">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>重定向和转发 | Chgl16</title>
+    <title>MySQL时间正常，插入记录小8个小时 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -265,13 +261,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/11/5d2757718616580779.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        重定向和转发
+                        MySQL时间正常，插入记录小8个小时
                     </div>
                 </div>
             </div>
@@ -382,12 +378,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/重定向sendRedirect/" target="_blank">
-                                <span class="chip bg-color">重定向sendRedirect</span>
-                            </a>
-                        
-                            <a href="/tags/转发forward/" target="_blank">
-                                <span class="chip bg-color">转发forward</span>
+                            <a href="/tags/MySQL/" target="_blank">
+                                <span class="chip bg-color">MySQL</span>
                             </a>
                         
                     </div>
@@ -398,8 +390,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/HTTP/" class="post-category" target="_blank">
-                                HTTP
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                MySQL
                             </a>
                         
                     </div>
@@ -410,21 +402,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-21
+                    2019-06-28
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        647
+                        188
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        1 分
                     </div>
                     
                 
@@ -435,59 +427,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><ul>
-<li>在Server端sendRedirect重定向</li>
-<li>在Server端使用jsp或RequestDispatcher进行forward转发</li>
-<li>在Browser端使用Javascript进行重定向</li>
-<li>在Browser端使用html标签进行重定向</li>
-</ul>
-<p>这是最常用的四种情况，也是存在的四种。</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol>
-<li>重定向sendRedirect更像是客户端的行为，URL会发生改变，当然服务端也可以使用response.sendRedirect(url);来完成重定向，效果一样。</li>
-<li>跳转forward这里只能是服务端的行为，比如<pre class=" language-java"><code class="language-java"><span class="token operator">&lt;</span>jsp<span class="token operator">:</span>forward page<span class="token operator">=</span><span class="token string">"url"</span> <span class="token operator">/</span><span class="token operator">></span>
-<span class="token keyword">return</span> <span class="token string">"forward:/url"</span><span class="token punctuation">;</span>
+                <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>插入DATETIME或者TIMESTAMP类型的字段。Java程序的时间正常，MySQL数据库时间SELECT NOW();也是正常的。但是插入后小8个小时。</p>
+<p>不知道是不是高版本MySQL的问题。毕竟程序和数据库自身的时间都是正常的。估计是URL问题，使用的是UTC，小八个时区。但是以往都没有问题。    </p>
+<pre class=" language-bash"><code class="language-bash">url <span class="token operator">=</span> jdbc:mysql:///db?serverTimezone<span class="token operator">=</span>UTC
 </code></pre>
-</li>
-</ol>
-<h2 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h2><table>
-<thead>
-<tr>
-<th>状态码</th>
-<th>具体</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>301（永久转移）</td>
-<td>请求的网页已永久移动到新位置。服务器返回此响应（对 GET 或 HEAD 请求的响应）时，会自动将请求者转到新位置。您应使用此代码告诉 Googlebot 某个网页或网站已永久移动到新位置。</td>
-</tr>
-<tr>
-<td>302（临时转移）</td>
-<td>服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来响应以后的请求。此代码与响应 GET 和 HEAD 请求的 301 代码类似，会自动将请求者转到不同的位置，但您不应使用此代码来告诉 Googlebot 某个网页或网站已经移动，因为 Googlebot 会继续抓取原有位置并编制索引。<em>也是常见的server的sendRedirect</em></td>
-</tr>
-<tr>
-<td>303（查看其它位置）</td>
-<td>请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。对于除 HEAD 之外的所有请求，服务器会自动转到其他位置。</td>
-</tr>
-<tr>
-<td>304（未修改）</td>
-<td>自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容。如果网页自请求者上次请求后再也没有更改过，您应将服务器配置为返回此响应（称为 If-Modified-Since HTTP 标头）。服务器可以告诉 Googlebot 自从上次抓取后网页没有变更，进而节省带宽和开销。其实就是缓存，但是还是会请求服务端，不过响应头的字段是未修改。 <em>可以使用F5和Ctrl + F5看network</em></td>
-</tr>
-<tr>
-<td>305（使用代理）</td>
-<td>请求者只能使用代理访问请求的网页。如果服务器返回此响应，还表示请求者应使用代理。</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>更多见参考附录的《HTTP 304状态码的详细讲解》</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a href="https://blog.csdn.net/radic_feng/article/details/6798378" target="_blank" rel="noopener">实现页面重定向（跳转）的4种方式</a></li>
-<li><a href="https://blog.csdn.net/meiyalei/article/details/2129120" target="_blank" rel="noopener">HTTP中的重定向和请求转发的区别</a></li>
-<li><a href="https://blog.csdn.net/huwei2003/article/details/70139062" target="_blank" rel="noopener">HTTP 304状态码的详细讲解</a></li>
-<li><a href="https://blog.csdn.net/reliveIT/article/details/50776984" target="_blank" rel="noopener">http重定向301/302/303/307</a></li>
-</ol>
+<p>UTC是协调世界时间时，就是0经度时间，所有我们东八区快8个小时。但是之前好像没有问题。网上说改time_zone变量测试没用。  </p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><pre class=" language-bash"><code class="language-bash">url <span class="token operator">=</span> jdbc:mysql:///db?serverTimezone<span class="token operator">=</span>Asia/Shanghai
+</code></pre>
+<p>就这样一步就可以了。</p>
+<p>测试了配置全局的</p>
+<pre class=" language-xml"><code class="language-xml">default-time-zone = '+8:00'
+</code></pre>
+<p>没有意义</p>
 
             </div>
             <hr/>
@@ -511,7 +462,7 @@
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/21/http/qing-qiu-he-chong-ding-xiang/" class="b-link-green">重定向和转发</a>
+                    <a href="/2019/06/28/mysql/mysql-shi-jian-zheng-chang-cha-ru-ji-lu-xiao-8-ge-xiao-shi/" class="b-link-green">MySQL时间正常，插入记录小8个小时</a>
                 </p>
             </div>
         </div>
@@ -536,24 +487,32 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/21/jvm/lei-jia-zai-guo-cheng/">
+                <a href="/2019/06/28/mysql/mysql-explain-sql/">
                     <div class="card-image">
                         
-                        <img src="https://i.ytimg.com/vi/G1ubVOl9IBw/maxresdefault.jpg" class="responsive-img" alt="Java虚拟机类加载机制">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL explain的使用和查看介绍">
                         
-                        <span class="card-title">Java虚拟机类加载机制</span>
+                        <span class="card-title">MySQL explain的使用和查看介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">类加载过程类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Verification）、准备(Preparation)、解析(Resolution)、初始化(Initialization)、</div>
+                    <div class="summary block-with-text">explain-- 建表
+mysql> create table t1 (
+    -> id int primary key auto_increment,
+    -> date timestamp,
+    -> num bigint</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-21
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-28
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -561,12 +520,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/" target="_blank">
-                        <span class="chip bg-color">JVM</span>
-                    </a>
-                    
-                    <a href="/tags/类加载机制/" target="_blank">
-                        <span class="chip bg-color">类加载机制</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -580,27 +535,31 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/21/leetcode/surrounded-regions-sou-suo/">
+                <a href="/2019/06/26/java/java-mei-ju/">
                     <div class="card-image">
                         
+                        <img src="http://openfile.shixinke.com/images/posts/2019/01/733938c2f13d09f34aa50b2dbfd47934.png" class="responsive-img" alt="Java枚举">
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="surrounded-regions搜索">
-                        
-                        <span class="card-title">surrounded-regions搜索</span>
+                        <span class="card-title">Java枚举</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">题目题目地址Given a 2D board containing’X’and’O’, capture all regions surrounded by’X’.A region is captured by flipping all’O’</div>
+                    <div class="summary block-with-text">枚举类有些情况下某些对象或者属性的值数量是有限固定的。比如季节，响应状态。是可以一一列举的。对比直接使用常量，枚举更好的封装，可读性和可维护性更好。
+例子
+一个星期  
+
+// 定义一个星期的枚举类
+public enum WeekEnum</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-21
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/LeetCode/" class="post-category" target="_blank">
-                                    LeetCode
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
                                 </a>
                             
                             
@@ -610,12 +569,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/DFS/" target="_blank">
-                        <span class="chip bg-color">DFS</span>
+                    <a href="/tags/Java/" target="_blank">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/矩阵/" target="_blank">
-                        <span class="chip bg-color">矩阵</span>
+                    <a href="/tags/enum/" target="_blank">
+                        <span class="chip bg-color">enum</span>
                     </a>
                     
                 </div>
