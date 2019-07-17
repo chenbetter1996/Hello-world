@@ -560,29 +560,52 @@ xx.thrift是其文件格式，里面是对接口方法的描写，需要本地�
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/06/16/tensorflow/tu-pian-fen-lei-pi-liang-ce-shi/">
+                <a href="/2019/06/18/mysql/myisam-he-innodb-de-qu-bie/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/06/16/5d05eff0d258690244.jpg" class="responsive-img" alt="图片分类批量测试">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL存储引擎MyISAM和InnoDB的区别">
                         
-                        <span class="card-title">图片分类批量测试</span>
+                        <span class="card-title">MySQL存储引擎MyISAM和InnoDB的区别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">核心实现保存了模型后，需要对模型测试，图片集路径为
-path = '../data/*.jpg'
+                    <div class="summary block-with-text">
 
-导入模型后，测试的原理就是替换，把训练的图片改为测试的图片。模型中还报错了最后一个全连接层的输出logits，把其从模型中读取出来，更改图片</div>
+
+MyISAM
+InnoDB
+
+
+
+
+不支持事务
+支持事务
+
+
+不支持外键
+支持外键
+
+
+只有表级锁
+有默认的行级锁，粒度小，并发更优
+
+
+支持全文索引
+5.6后开始支持
+
+
+表记录数count(*)有专门的计数器
+select * 逐</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-16
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-18
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/TensorFlow/" class="post-category" target="_blank">
-                                    TensorFlow
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
                                 </a>
                             
                             
@@ -592,12 +615,8 @@ path = '../data/*.jpg'
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/TensorFlow/" target="_blank">
-                        <span class="chip bg-color">TensorFlow</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -718,7 +737,7 @@ path = '../data/*.jpg'
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">15k</span>
+                <span class="white-color">15.1k</span>
             
 
             

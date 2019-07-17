@@ -545,25 +545,54 @@ c<span class="token operator">=</span><span class="token number">3</span>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/06/20/jvm/jvm-diao-can-he-gc-ri-zhi/">
+                <a href="/2019/06/18/mysql/myisam-he-innodb-de-qu-bie/">
                     <div class="card-image">
                         
-                        <img src="https://i.ytimg.com/vi/G1ubVOl9IBw/maxresdefault.jpg" class="responsive-img" alt="JVM调参和GC日志简记">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL存储引擎MyISAM和InnoDB的区别">
                         
-                        <span class="card-title">JVM调参和GC日志简记</span>
+                        <span class="card-title">MySQL存储引擎MyISAM和InnoDB的区别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">垃圾回收内存分配  
-1. Minor GC&emsp;&emsp;当Eden区满的时候回触发一次Minor GC（Survivor区满不会）。这次GC仅仅回收年轻代。&emsp;&emsp;使用的是复制算法，就是把Eden和Survivo</div>
+                    <div class="summary block-with-text">
+
+
+MyISAM
+InnoDB
+
+
+
+
+不支持事务
+支持事务
+
+
+不支持外键
+支持外键
+
+
+只有表级锁
+有默认的行级锁，粒度小，并发更优
+
+
+支持全文索引
+5.6后开始支持
+
+
+表记录数count(*)有专门的计数器
+select * 逐</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-20
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-18
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -571,8 +600,8 @@ c<span class="token operator">=</span><span class="token number">3</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/" target="_blank">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -746,7 +775,7 @@ plt.plot(x, x * 2, </div>
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">15k</span>
+                <span class="white-color">15.1k</span>
             
 
             
