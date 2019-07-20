@@ -561,21 +561,22 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/11/mysql/mysql-zhong-wen-luan-ma/">
+                <a href="/2019/07/13/mysql/mysql-xing-suo-biao-suo/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL中文乱码">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL表锁行锁">
                         
-                        <span class="card-title">MySQL中文乱码</span>
+                        <span class="card-title">MySQL表锁行锁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">插入乱码即便数据库和表如下utf8编码配置
-CREATE DATABASE `db_name` DEFAULT CHARACTER SET utf8;
-CREATE TABLE `tb_name` (...) ENGINE=InnoDB A</div>
+                    <div class="summary block-with-text">对比MySQL Innodb支持行锁，而MyISAM只支持表锁。这两种主要是粒度的差别。锁是事务的关键保证。
+
+表锁：开销小实现简单，加锁快；不会出现死锁；锁定力度大，发生锁冲突概率高，并发度最低
+行锁：开销大实现复杂，加锁慢；会出现死锁；</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-11
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-13
                             </span>
                         <span class="publish-author">
                             
@@ -714,7 +715,7 @@ CREATE TABLE `tb_name` (...) ENGINE=InnoDB A</div>
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">15.1k</span>
+                <span class="white-color">15.5k</span>
             
 
             
