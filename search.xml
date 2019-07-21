@@ -285,7 +285,6 @@
       <tags>
         <tag>Serializable接口</tag>
         <tag>序列化与反序列化</tag>
-        <tag>无法反序列化ClassNotFound</tag>
       </tags>
   </entry>
   <entry>
@@ -345,6 +344,17 @@
       <tags>
         <tag>RabbitMQ</tag>
         <tag>安装</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IDEA一些快捷技巧]]></title>
+    <url>%2F2019%2F05%2F12%2Fkai-fa-gong-ju%2Fidea-kai-fa-yi-xie-kuai-jie-jian-ji-qiao%2F</url>
+    <content type="text"><![CDATA[快捷键内容操作快捷键 复制当前行 Crtl + D 删除当前行 Crtl + X 或者 Crtl + Y 本文件内容搜索 Crtl + F 本文件内容搜索替换 Crtl + R 项目全局文件内容搜索 Crtl + Shift + F 内容右对齐 Tab 内容左对齐 Shift + Tab 窗口快捷键 打开/隐藏左侧项目目录结果 Alt + 1 (小键盘数字无效) 运行窗口 Alt + 4 命令行终端 Alt + F12]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>IDEA</tag>
       </tags>
   </entry>
   <entry>
