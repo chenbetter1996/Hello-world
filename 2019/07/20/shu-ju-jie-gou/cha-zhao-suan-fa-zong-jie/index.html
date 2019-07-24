@@ -415,14 +415,14 @@ int binarySear">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        409
+                        1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        3 分
                     </div>
                     
                 
@@ -463,8 +463,36 @@ mid <span class="token operator">=</span> <span class="token punctuation">(</spa
 mid <span class="token operator">=</span> low <span class="token operator">+</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>high <span class="token operator">-</span> low<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>high<span class="token punctuation">]</span> <span class="token operator">-</span> a<span class="token punctuation">[</span>low<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token punctuation">(</span>key <span class="token operator">-</span> a<span class="token punctuation">[</span>low<span class="token punctuation">]</span><span class="token punctuation">)</span>
 </code></pre>
 <h2 id="4-斐波那契查找"><a href="#4-斐波那契查找" class="headerlink" title="4. 斐波那契查找"></a>4. 斐波那契查找</h2><h2 id="5-树查找"><a href="#5-树查找" class="headerlink" title="5. 树查找"></a>5. 树查找</h2><p>树有很多，二叉查找树，AVL二叉平衡树，红黑树，B树，B+树等</p>
+<p>AVL树即若左右子树存在，那么两者高度差绝对值小于1，而且左右子树也是平衡树。主要是为了解决二叉树退变为单链表的可能。更“匀称”化。</p>
+<p>红黑树：红黑树并不满足AVL条件，是一般二叉查找树的变形，增加颜色间隔特点。红黑树是用非严格的平衡来换取增删节点时候旋转次数的降低，任何不平衡都会在三次旋转之内解决，而AVL是严格平衡树，因此在增加或者删除节点的时候，根据不同情况，旋转的次数比红黑树要多。 <strong>所以红黑树的插入删除效率更高。</strong></p>
+<p>B-树，也就是balance-树，多路查找树，主要是用在磁盘文件系统查找上。   </p>
+<p><img src="https://i.loli.net/2019/07/24/5d38684c864e025342.jpg" alt="B树">    </p>
+<p>m阶的B树的一些性质：  </p>
+<ol>
+<li>每个节点最多有m棵子树（即最多m-1个关键字）</li>
+<li>有多层，跟结点至少两个子树。 </li>
+<li>除根之外，任何非终结点至少有m/2棵子树。</li>
+</ol>
+<p>B+树，是B树的一种变形，主要用在数据库索引上。</p>
+<p><img src="https://ivanzz1001.github.io/records/assets/img/data_structure/ds_bplus_tree1.jpg" alt="B+树"><br><strong>m阶B+树和B树的差异是:</strong></p>
+<ol>
+<li>有n棵子树的节点含有n个关键字</li>
+<li>节点的关键字会重复传递下去，因为B+非叶子结点不包含信息，只是单纯的索引。而B树每个节点都有信息，查找到就返回了，B+树要到叶子节点。  </li>
+<li>每个节点最大的关键字，在其叶子节点也是最大。B+树可以看作是没有“右边拓展”。</li>
+<li>B+树叶子节点本身依关键字自小而大顺序链接。</li>
+</ol>
 <h2 id="6-分块查找"><a href="#6-分块查找" class="headerlink" title="6. 分块查找"></a>6. 分块查找</h2><h2 id="7-hash表查找"><a href="#7-hash表查找" class="headerlink" title="7. hash表查找"></a>7. hash表查找</h2><p>常见的就是Map，就是设计一个大数据和一个hash函数，hash(key)映射到索引的位置存储。如果没有hash冲突的话，查找过程就是做一次hash计算而已，复杂度O(1)。  </p>
 <p>hash冲突解决方法：开放地址法和拉链法</p>
+<p>开放地址法分为：</p>
+<ol>
+<li>线性探测法: 即f(key + di) = hash的di是增幅为1的。直到找到空桶位置</li>
+<li>二次探测法：f(key + di^2)</li>
+<li>随机探测法：三种方法都是对di的取法有分别而已。适合不同情况。</li>
+</ol>
+<p>拉链法：<br>使用一个单链表把冲突的串起来，桶的位置为表头。hashmap的put方法如是。先判断key是否为null, hashmap有专门的null存储。然后找到数组索引，从表头遍历，key和hash一样替换value。否则作为新表头放到桶处，next节点指向原表头。</p>
+<blockquote>
+<p>jdk1.8后，解决冲突方法为单链表结合红黑树。短的时候使用单链表，长度达到一定改为红黑树。</p>
+</blockquote>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/maybe2030/p/4715035.html" target="_blank" rel="noopener">七大查找算法</a></p>
 
             </div>
@@ -723,7 +751,7 @@ int binarySear</div>
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">18.4k</span>
+                <span class="white-color">19.1k</span>
             
 
             
