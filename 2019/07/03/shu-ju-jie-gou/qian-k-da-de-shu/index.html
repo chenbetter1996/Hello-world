@@ -4,9 +4,17 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Java序列化问题, blog">
-    <meta name="description" content="1. 序列化序列化是将对象转为文件，方便传输共享，比如消息队列传输的消息
-&amp;emsp;&amp;emsp;Java实现序列化只需要实现Serializable接口即可，该接口源码内容只有一个SerialVersionUID常量，再深入为Native">
+    <meta name="keywords" content="求无序序列前k大的数, blog">
+    <meta name="description" content="考察的是排序算法，最直接的是全部排一遍。优化可以先考虑冒泡次数，然后是快排的变形。以及堆排序
+package xyz.cglzwz.demo;
+
+/**
+ * 查找前k大
+ * @author Mechrevo
+ *
+ */
+
+public">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +22,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Java序列化问题 | Chgl16</title>
+    <title>求无序序列前k大的数 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -261,13 +269,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3486036083,4180058817&fm=26&gp=0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Java序列化问题
+                        求无序序列前k大的数
                     </div>
                 </div>
             </div>
@@ -378,12 +386,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Serializable接口/" target="_blank">
-                                <span class="chip bg-color">Serializable接口</span>
+                            <a href="/tags/算法/" target="_blank">
+                                <span class="chip bg-color">算法</span>
                             </a>
                         
-                            <a href="/tags/序列化与反序列化/" target="_blank">
-                                <span class="chip bg-color">序列化与反序列化</span>
+                            <a href="/tags/数据结构/" target="_blank">
+                                <span class="chip bg-color">数据结构</span>
                             </a>
                         
                     </div>
@@ -394,8 +402,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                Java
+                            <a href="/categories/算法-数据结构/" class="post-category" target="_blank">
+                                算法&数据结构
                             </a>
                         
                     </div>
@@ -406,14 +414,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-05-19
+                    2019-07-03
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        381
+                        302
                     </div>
                     
 
@@ -431,29 +439,95 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-序列化"><a href="#1-序列化" class="headerlink" title="1. 序列化"></a>1. 序列化</h2><pre><code>序列化是将对象转为文件，方便传输共享，比如消息队列传输的消息
-</code></pre><p>&emsp;&emsp;Java实现序列化只需要实现Serializable接口即可，该接口源码内容只有一个SerialVersionUID常量，再深入为Native了。</p>
-<pre class=" language-java"><code class="language-java">Class <span class="token class-name">MyClass</span> <span class="token keyword">implements</span> <span class="token class-name">Serializable</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token operator">-</span>2926828973935247000L<span class="token punctuation">;</span>
+                <p>考察的是排序算法，最直接的是全部排一遍。优化可以先考虑冒泡次数，然后是快排的变形。以及堆排序</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> xyz<span class="token punctuation">.</span>cglzwz<span class="token punctuation">.</span>demo<span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">/*
-      ...
-    */</span>
+<span class="token comment" spellcheck="true">/**
+ * 查找前k大
+ * @author Mechrevo
+ *
+ */</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">KSort</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        KSort instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">KSort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//instance.solution1(a, 4);</span>
+        instance<span class="token punctuation">.</span><span class="token function">solution2</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> a<span class="token punctuation">.</span>length<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        instance<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 冒泡k次,  O(k * n)
+     * @param a
+     * @param k
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">solution1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> k<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> a<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">></span> i<span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">swap</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 快排思想，接近O(n)
+     * @param a
+     * @param k
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">solution2</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> mid <span class="token operator">=</span> <span class="token function">partition</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>mid <span class="token operator">==</span> k <span class="token operator">||</span> k <span class="token operator">-</span> mid <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>mid <span class="token operator">></span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">solution2</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> left<span class="token punctuation">,</span> mid <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token function">solution2</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> mid <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right<span class="token punctuation">,</span> k <span class="token operator">-</span> mid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">partition</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> pivot <span class="token operator">=</span> a<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> temp <span class="token operator">=</span> left<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> pivot<span class="token punctuation">)</span>
+                right<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">>=</span> pivot<span class="token punctuation">)</span>
+                left<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">swap</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 轴枢</span>
+        a<span class="token punctuation">[</span>temp<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> pivot<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> left<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">swap</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        a<span class="token punctuation">[</span>y<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>x<span class="token punctuation">]</span> <span class="token operator">^</span> a<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span>x<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>x<span class="token punctuation">]</span> <span class="token operator">^</span> a<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span>y<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>x<span class="token punctuation">]</span> <span class="token operator">^</span> a<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> x <span class="token operator">:</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
 <span class="token punctuation">}</span>
 </code></pre>
-<blockquote>
-<p>serialVersionUID默认是1L，这个是序列化与反序列化比对的关键信息。可以使用插件GenerateSerialVersionUID随机生成。一般都是20个数。</p>
-</blockquote>
-<h2 id="2-序列化与反序列化问题"><a href="#2-序列化与反序列化问题" class="headerlink" title="2. 序列化与反序列化问题"></a>2. 序列化与反序列化问题</h2><h4 id="2-1-判断原理"><a href="#2-1-判断原理" class="headerlink" title="2.1 判断原理"></a>2.1 判断原理</h4><p>&emsp;&emsp;序列化与反序列化需要判断很多，以下举RabbitMQ消息生产者和消费者传递的消息Order对象为例子。 </p>
-<ul>
-<li>首先SerialVersionUID就需要一致，就是两边的Order类都使用同一个SerialVersionUID。</li>
-<li>类的属性方法等一致，<strong>包名一致</strong>（重点），我们序列化与反序列化常常是跨项目的，但是Order包名不一样是不能反序列化的，会报错ClassNotFound，因此我们常用的解决方法是保证包名一致，比如xyz.cglzwz.common.entity.Order，多写一个。或者将这个类使用Jar包作为依赖共享。</li>
-</ul>
-<h4 id="2-2-序列化与反序列化转换实现："><a href="#2-2-序列化与反序列化转换实现：" class="headerlink" title="2.2 序列化与反序列化转换实现："></a>2.2 序列化与反序列化转换实现：</h4><p>&emsp;&emsp;可以手写实现，主要使用FileOutputStream, ObjectOutputStream,FileInputStream,ObjectInputStream。</p>
-<blockquote>
-<p>当然如果是内部封装好了的反序列化，比如上面的RabbitMQ消费者那里对消息的反序列化就是Spring内部完整的，我们就无法修改了。</p>
-</blockquote>
-<p>代码后续补上，<a href="https://www.jianshu.com/p/1bae21fa2cd6" target="_blank" rel="noopener">参考</a></p>
 
             </div>
             <hr/>
@@ -477,7 +551,7 @@
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/05/19/java/java-xu-lie-hua-wen-ti/" class="b-link-green">Java序列化问题</a>
+                    <a href="/2019/07/03/shu-ju-jie-gou/qian-k-da-de-shu/" class="b-link-green">求无序序列前k大的数</a>
                 </p>
             </div>
         </div>
@@ -502,28 +576,28 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/05/20/git/git-che-xiao-commit/">
+                <a href="/2019/07/04/sql/sql-cha-xun-fen-yue-ji-suan-zong-xiao-liang/">
                     <div class="card-image">
                         
-                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1559411280314&amp;di=1bd0ea005a2a88bf83db568165b245af&amp;imgtype=0&amp;src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20180807%2F3083ddbba8c3427eb23fa076b0bdf16f.jpg" class="responsive-img" alt="Git撤销commit">
+                        <img src="https://i.loli.net/2019/07/16/5d2dec06ead0433322.jpg" class="responsive-img" alt="SQL查询分月计算总销量">
                         
-                        <span class="card-title">Git撤销commit</span>
+                        <span class="card-title">SQL查询分月计算总销量</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">问题1：无法commiterror: pathspec 'fix:修复排版' did not match any file(s) known to
-
-其实原因很明显，虽然git status看到了修改的文件，但是却没有匹配的，是因为没有保存</div>
+                    <div class="summary block-with-text">分别统计每个月份的数量和mysql> select * from t1;                                 
++----+---------------------+------+
+| id | date   </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-20
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-04
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Git/" class="post-category" target="_blank">
-                                    Git
+                            <a href="/categories/SQL/" class="post-category" target="_blank">
+                                    SQL
                                 </a>
                             
                             
@@ -533,8 +607,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Git/" target="_blank">
-                        <span class="chip bg-color">Git</span>
+                    <a href="/tags/SQL/" target="_blank">
+                        <span class="chip bg-color">SQL</span>
                     </a>
                     
                 </div>
@@ -548,26 +622,30 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/05/17/kai-fa-gong-ju/idea-yi-ge-chuang-kou-duo-ge-xiang-mu/">
+                <a href="/2019/07/02/mysql/mysql-ge-chong-duo-biao-lian-jie/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/07/21/5d3422458f6c967195.png" class="responsive-img" alt="IDEA一个窗口多个项目">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="MySQL各种多表连接">
                         
-                        <span class="card-title">IDEA一个窗口多个项目</span>
+                        <span class="card-title">MySQL各种多表连接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">多个并列(推荐)平时IDEA都是默认一个窗口一个项目，当开发到Spring Cloud或者中间件这种我们要消费者提供者等等的时候，并不方便。并列也很简单。每个项目都是一个Module。操作：&emsp;&emsp;我们在只有一个项目的窗口，</div>
+                    <div class="summary block-with-text">简介对两个表进行连接操作时，根据不同的需要，选择不同的连接方式。
+1. 交叉连接这个比较普遍简单，如果要列出两个表所有记录的所有连接组合，使用交叉连接：
+SELECT * FROM tb1, tb2
+
+2. 自然连接如果要列出两个表中所有同</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-17
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/开发工具/" class="post-category" target="_blank">
-                                    开发工具
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
                                 </a>
                             
                             
@@ -577,8 +655,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/IDEA/" target="_blank">
-                        <span class="chip bg-color">IDEA</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
