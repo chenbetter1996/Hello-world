@@ -394,6 +394,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[HTTP常见状态码]]></title>
+    <url>%2F2019%2F05%2F12%2Fhttp%2Fhttp-chang-jian-zhuang-tai-ma%2F</url>
+    <content type="text"><![CDATA[304这个是因为缓存问题，对于静态资源，浏览器是有缓存的。如果请求的资源没有更改。则不会去服务器加载。本地缓存拿出来即可。 如果缓存中发现了这些资源，浏览器会给请求添加上If Modified Since字段。然后再发给服务器端。服务端只要判断这个时间和当前请求的文件的修改时间就可以确定是返回 304 还是 200 。 常见情况 打开新页面 200 F5刷新 304 Ctrl + F5 删除缓存刷新 200 5055xx是服务器端错误，这个是因为服务器端无法识别请求的HTTP版本造成的，一般我们的是HTTP 1.1。其实大部分原因都是HTTP请求格式不正确造成的。 比如： GET /search/keyword/http HTTP/1.1 请求头部 GET和url多了个空格，就会报错505。要求很严格。 补充: HTTP/1.0 已经被废弃，主要是因为不支持长连接，每次发送都要重新TCP连接很耗费资源HTTP/1.1 引入长连接，现在一直在用HTTP/2 新一代的HTTP协议，好处很多，比如二进制分帧数，多路复用，首部压缩等。HTTPS HTTP + SSL]]></content>
+      <categories>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>304</tag>
+        <tag>505</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[IDEA一些快捷技巧]]></title>
     <url>%2F2019%2F05%2F12%2Fkai-fa-gong-ju%2Fidea-kai-fa-yi-xie-kuai-jie-jian-ji-qiao%2F</url>
     <content type="text"><![CDATA[快捷键内容操作快捷键 复制当前行 Crtl + D 删除当前行 Crtl + X 或者 Crtl + Y 本文件内容搜索 Crtl + F 本文件内容搜索替换 Crtl + R 项目全局文件内容搜索 Crtl + Shift + F 内容右对齐 Tab 内容左对齐 Shift + Tab 窗口快捷键 打开/隐藏左侧项目目录结果 Alt + 1 (小键盘数字无效) 运行窗口 Alt + 4 命令行终端 Alt + F12]]></content>
