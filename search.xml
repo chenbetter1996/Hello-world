@@ -416,6 +416,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[同步异步阻塞非阻塞]]></title>
+    <url>%2F2019%2F05%2F01%2Fza-ji%2Ftong-bu-he-yi-bu%2F</url>
+    <content type="text"><![CDATA[同步程序所有操作结束，才返回给用户。用户需要一直等待。而且不能做其他事情。体验很差。但是可以保证执行的顺序。 比如银行的转账系统，需要一直在那个界面等待成功。 异步两者区别主要是用户不需要等待，异步程序给用户一个反馈表示请求已经开始处理即可。用户可以去干其他的事情。最后出结果再告知用户即可。可以大大提高系统的吞吐量。 比如常用的MQ，先将请求数据放到队列。响应了用户请求后慢慢处理，也有缓存削峰的效果。 又比如常见Ajax交互，默认是异步的。 // 1 $.ajax({ type: "post", url: "", async: true, data: "", contentType: "application/json; charset=utf-8", dataType: "json", success: function (msg) { // 处理 }, error: function (error) { alert(error.responseText); } }); // 2 这async: true是默认的，即异步。当从1到Ajax时，程序可以继续2操作。而不用阻塞等待进入success或者error方法，这两个回调方法会在结果返回后再调用。 阻塞 &amp; 非阻塞很容易和同步异步混淆，阻塞和非阻塞主要对同步而言的。非阻塞就是去请求数据服务时，如果还没准备好未成功，也会立即返回结果。重要的是马上有结果，哪怕是未完成的结果。而非阻塞感觉就是没有进度条那种，一直等待期间没有任何结果说明。 比如Ajax同步时，服务器还没有处理完。那么请求一次未果就返回。过段时间再去请求。 比如煮开水的例子。 一直在那里等到煮开才走就是同步阻塞BIO。 而发现没煮开走开一段时间（返回未煮开的结果），过段时间再去看。即同步非阻塞NIO。 如果给煮水器加个煮开自动提醒功能。就等于把煮水这个任务放到消息队列里处理。结束会自动告知用户（煮开提示音之类的）。用户只需要放水去煮就可以去干其他事情。这就是异步非阻塞AIO。 至于异步阻塞，那基本太傻了。]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>同步异步</tag>
+        <tag>阻塞非阻塞</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[intern方法及字符串拼接]]></title>
     <url>%2F2019%2F04%2F27%2Fjava%2Fintern-fang-fa-ji-zi-fu-chuan-pin-jie%2F</url>
     <content type="text"><![CDATA[1. intern()方法 Returns a canonical representation for the string object.A pool of strings, initially empty, is maintained privately by the class String. When the intern method is invoked, if the pool already contains a string equal to this String object as determined by the equals(Object) method, then the string from the pool is returned. Otherwise, this String object is added to the pool and a reference to this String object is returned. It follows that for any two strings s and t, s.intern() == t.intern() is true if and only if s.equals(t) is true. All literal strings and string-valued constant expressions are interned. String literals are defined in section 3.10.5 of the The Java™ Language Specification. Returns:a string that has the same contents as this string, but is guaranteed to be from a pool of unique strings. 这是方法原文解析，这是个native本地方法。 public native String intern(); 这个方法就是用来返回调用对象或者引用在常量池中的地址。在输出上没有特别，主要是地址问题。比如： String str1 = "ab"; str1.intern(); // "ab" 这种是”ab”已经在常量池有了，所以调用intern是直接返回这个地址的，str1这个变量本来就是指向常量池”ab”的地址的。 String str2 = new String("cd"); str2.intern(); // "cd" 这个如果常量池没有”cd”会在常量池创建，然后再堆区创建，指向常量池，作为引用str2是指向堆区的，str2.intern是指向常量池的。 2. 字符串拼接问题String str="ab"; String str1 = "a"; String str2 = "b"; String combo1 = "a" + "b"; // 第一种情况 String combo2 = str1 + str2; // 第二种情况 System.out.println(str == combo1); // true System.out.println(str == combo2); // false System.out.println(combo1 == combo2); // false 这个拼接不同是因为如果是变量的拼接（第二种情况）是使用StringBuffer（或者StringBuilder）实现的，本地有创建对象，返回的是堆区地址。而常量拼接是直接在常量池创建的，地址是常量池。]]></content>
@@ -519,14 +531,6 @@
         <tag>二叉树</tag>
         <tag>Java队列Queue</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[同步异步阻塞非阻塞]]></title>
-    <url>%2F2019%2F04%2F14%2Fza-ji%2Ftong-bu-he-yi-bu%2F</url>
-    <content type="text"><![CDATA[同步程序所有操作结束，才返回给用户。用户需要一直等待。而且不能做其他事情。体验很差。但是可以保证执行的顺序。 比如银行的转账系统，需要一直在那个界面等待成功。 异步两者区别主要是用户不需要等待，异步程序给用户一个反馈表示请求已经开始处理即可。用户可以去干其他的事情。最后出结果再告知用户即可。可以大大提高系统的吞吐量。 比如常用的MQ，先将请求数据放到队列。响应了用户请求后慢慢处理，也有缓存削峰的效果。 又比如常见Ajax交互，默认是异步的。 // 1 $.ajax({ type: "post", url: "", async: true, data: "", contentType: "application/json; charset=utf-8", dataType: "json", success: function (msg) { // 处理 }, error: function (error) { alert(error.responseText); } }); // 2 这async: true是默认的，即异步。当从1到Ajax时，程序可以继续2操作。而不用阻塞等待进入success或者error方法，这两个回调方法会在结果返回后再调用。 阻塞 &amp; 非阻塞很容易和同步异步混淆，阻塞和非阻塞主要对同步而言的。非阻塞就是去请求数据服务时，如果还没准备好未成功，也会立即返回结果。重要的是马上有结果，哪怕是未完成的结果。而非阻塞感觉就是没有进度条那种，一直等待期间没有任何结果说明。 比如Ajax同步时，服务器还没有处理完。那么请求一次未果就返回。过段时间再去请求。 比如煮开水的例子。 一直在那里等到煮开才走就是同步阻塞BIO。 而发现没煮开走开一段时间（返回未煮开的结果），过段时间再去看。即同步非阻塞NIO。 如果给煮水器加个煮开自动提醒功能。就等于把煮水这个任务放到消息队列里处理。结束会自动告知用户（煮开提示音之类的）。用户只需要放水去煮就可以去干其他事情。这就是异步非阻塞AIO。 至于异步阻塞，那基本太傻了。]]></content>
-      <categories>
-        <category>杂记</category>
-      </categories>
   </entry>
   <entry>
     <title><![CDATA[测试]]></title>
