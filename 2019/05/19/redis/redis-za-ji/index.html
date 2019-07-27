@@ -5,7 +5,8 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Redis杂记, blog">
-    <meta name="description" content="Redis杂记 | Chgl16">
+    <meta name="description" content="简介redis目前支持Linux，也支持了Windows。如果不是集群，基本配置就IP和port。redis是单线程的，速度官方给出读写有10w/s。redis本身也有提供测试的模块。    
+对比常见的key-value方式的NOSQL，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -408,7 +409,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        0
+                        224
                     </div>
                     
 
@@ -426,7 +427,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>redis目前支持Linux，也支持了<a href="https://github.com/MSOpenTech/redis/releases" target="_blank" rel="noopener">Windows</a>。<br>如果不是集群，基本配置就IP和port。<br>redis是单线程的，速度官方给出读写有10w/s。redis本身也有提供测试的模块。    </p>
+<p>对比常见的key-value方式的NOSQL，比如之前的Memcached。redis更优秀。其支持的数据类型更多，不仅仅是String，适用场景也更大。而且支持持久化到磁盘，也支持主从备份。  </p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>redis支持很多数据类型，key-value方式。key都是String。我们说的数据类型指的是value。以下是常用的。</p>
+<h4 id="1-String"><a href="#1-String" class="headerlink" title="1. String"></a>1. String</h4><p>String是最常用的，如果是数值型的还可以做四则运算。而且redis的String更强大，是二进制安全的，可以存储序列化的对象或者图片啥的，最大支持512MB。</p>
+<p>也就是常用的 set key value 和 get value操作。 </p>
+<h4 id="2-list"><a href="#2-list" class="headerlink" title="2. list"></a>2. list</h4>
             </div>
             <hr/>
 
@@ -674,7 +680,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">20k</span>
+                <span class="white-color">20.2k</span>
             
 
             
