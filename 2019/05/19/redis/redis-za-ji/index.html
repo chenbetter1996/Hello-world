@@ -433,14 +433,66 @@
 <h4 id="1-String"><a href="#1-String" class="headerlink" title="1. String"></a>1. String</h4><p>String是最常用的，如果是数值型的还可以做四则运算。而且redis的String更强大，是二进制安全的，可以存储序列化的对象或者图片啥的，最大支持512MB。    </p>
 <p>应用场景：<br>可以存储序列化的对象，也可以用做存储常用的验证码，添加一个expire超时自动删除key即可。维护一致性。</p>
 <p>也就是常用的 set key value 和 get value操作。 </p>
-<h4 id="2-list"><a href="#2-list" class="headerlink" title="2. list"></a>2. list</h4><p>队列列表，FIFL。基本操作命令如下<br>| 命令 | 解释 |<br>| :–: | :–: |<br>| LPUSH listkey value | 添加一个 |<br>| BPUSH listkey value1 value2… | 添加多个|<br>| LPOP listkey | 获取第一个并得值 |<br>| LINDEX listkey index | 索引获取值 |<br>| LLEN listkey | 队列长度 |</p>
+<h4 id="2-list"><a href="#2-list" class="headerlink" title="2. list"></a>2. list</h4><p>队列列表，FIFL。基本操作命令如下   </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">LPUSH listkey value</td>
+<td style="text-align:center">添加一个</td>
+</tr>
+<tr>
+<td style="text-align:center">BPUSH listkey value1 value2…</td>
+<td style="text-align:center">添加多个</td>
+</tr>
+<tr>
+<td style="text-align:center">LPOP listkey</td>
+<td style="text-align:center">获取第一个并得值</td>
+</tr>
+<tr>
+<td style="text-align:center">LINDEX listkey index</td>
+<td style="text-align:center">索引获取值</td>
+</tr>
+<tr>
+<td style="text-align:center">LLEN listkey</td>
+<td style="text-align:center">队列长度</td>
+</tr>
+</tbody>
+</table>
 <p>list其实主要是有序的  </p>
 <ol>
 <li>比如用redis缓存库存做秒杀的时候，可以先多次 LPUSH goodsId 1 来达到商品库存数量。开始秒杀的时候依次LPOP goodsId 出队，如果不为空秒杀成功，记录用户购买信息发到异步的MQ即可。<br>或者一开始就LPUSH goodsId userId入队，秒杀中判断 LLEN goodsId == 库存 ？ 已判断秒杀结束与否。<br>反正秒杀过程中是不会等到所有用户都记录了在发到mq的，那不切实。</li>
 </ol>
-<h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><p>set对比list，其是无序的。而且是元素唯一的。内部通过哈斯表实现。因此存储查找速度都是O(1)。<br>| 命令 | 解释 |<br>| :–: | :–: |<br>|     SADD key member1 [member2]  | 添加多个|<br>|     SPOP key | 随机移除一个元素  |<br>|     SCARD key  | 集合大小 |</p>
+<h4 id="3-Set"><a href="#3-Set" class="headerlink" title="3. Set"></a>3. Set</h4><p>set对比list，其是无序的。而且是元素唯一的。内部通过哈斯表实现。因此存储查找速度都是O(1)。   </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SADD key member1 [member2]</td>
+<td style="text-align:center">添加多个</td>
+</tr>
+<tr>
+<td style="text-align:center">SPOP key</td>
+<td style="text-align:center">随机移除一个元素</td>
+</tr>
+<tr>
+<td style="text-align:center">SCARD key</td>
+<td style="text-align:center">集合大小</td>
+</tr>
+</tbody>
+</table>
 <p>set最牛的地方在于，可以对两个set提供交集、并集、差集操作。例如：查找两个人共同的好友等。</p>
-<h4 id="sorted-set"><a href="#sorted-set" class="headerlink" title="sorted set"></a>sorted set</h4><p>比普通的set多了一个权重的字段。用于排序。其余和set类似。<br>如： </p>
+<h4 id="4-Sorted-set"><a href="#4-Sorted-set" class="headerlink" title="4.Sorted set"></a>4.Sorted set</h4><p>比普通的set多了一个权重的字段。用于排序。其余和set类似。<br>如： </p>
 <pre class=" language-shell"><code class="language-shell">ZADD sortedSetKey 1 aa
 ZADD sortedSetKey 2 bb
 ...
@@ -448,13 +500,13 @@ ZADD sortedSetKey 2 bb
 ZRANGE sortedSetKey 0 5 WITHSCORES
 </code></pre>
 <p>可以获取前几名数据。比如做那种用户榜单排名。</p>
-<h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><pre class=" language-shell"><code class="language-shell">HMSET key name "redis tutorial" description "redis basic commands for caching" likes 20 visitors  3333
+<h4 id="5-Hash"><a href="#5-Hash" class="headerlink" title="5. Hash"></a>5. Hash</h4><pre class=" language-shell"><code class="language-shell">HMSET key name "redis tutorial" description "redis basic commands for caching" likes 20 visitors  3333
 
 # 获取其中的某个字段值
 HGET key name 
 </code></pre>
 <p>完全可以存入一个对象的信息</p>
-<h4 id="HypeLogLog"><a href="#HypeLogLog" class="headerlink" title="HypeLogLog"></a>HypeLogLog</h4><p>主要是用来做基数计算的，类似set</p>
+<h4 id="6-HypeLogLog"><a href="#6-HypeLogLog" class="headerlink" title="6.HypeLogLog"></a>6.HypeLogLog</h4><p>主要是用来做基数计算的，类似set</p>
 <pre class=" language-shell"><code class="language-shell">redis 127.0.0.1:6379> PFADD runoobkey "redis"
 
 1) (integer) 1
