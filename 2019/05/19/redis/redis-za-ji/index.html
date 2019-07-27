@@ -4,15 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="blog">
-    <meta name="description" content="
-title: 同步&amp;amp;异步，阻塞&amp;amp;非阻塞date: 2019-03-09 13:55author: chgl16summary: 同步和异步categories: 杂记tags: 
-
-同步异步
-阻塞非阻塞
-BIO
-NIO
-A">
+    <meta name="keywords" content="Redis杂记, blog">
+    <meta name="description" content="Redis杂记 | Chgl16">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +13,7 @@ A">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Chgl16</title>
+    <title>Redis杂记 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +260,13 @@ A">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/21/5d3418ee882ea40398.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        
+                        Redis杂记
                     </div>
                 </div>
             </div>
@@ -382,12 +375,25 @@ A">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Redis/" target="_blank">
+                                <span class="chip bg-color">Redis</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Redis/" class="post-category" target="_blank">
+                                Redis
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -395,21 +401,21 @@ A">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-27
+                    2019-05-19
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        620
+                        0
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        1 分
                     </div>
                     
                 
@@ -420,53 +426,7 @@ A">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<p>title: 同步&amp;异步，阻塞&amp;非阻塞<br>date: 2019-03-09 13:55<br>author: chgl16<br>summary: 同步和异步<br>categories: 杂记<br>tags: </p>
-<ul>
-<li>同步异步</li>
-<li>阻塞非阻塞</li>
-<li>BIO</li>
-<li>NIO</li>
-<li>AIO<br>img: <a href="https://i.loli.net/2019/07/27/5d3bd81ff1e3f25085.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/07/27/5d3bd81ff1e3f25085.jpg</a></li>
-</ul>
-<hr>
-<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>程序所有操作结束，才返回给用户。用户需要一直等待。而且不能做其他事情。体验很差。但是可以保证执行的顺序。</p>
-<p>比如银行的转账系统，需要一直在那个界面等待成功。</p>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>两者区别主要是用户不需要等待，异步程序给用户一个反馈表示请求已经开始处理即可。用户可以去干其他的事情。最后出结果再告知用户即可。可以大大提高系统的吞吐量。</p>
-<p>比如常用的MQ，先将请求数据放到队列。响应了用户请求后慢慢处理，也有缓存削峰的效果。  </p>
-<p>又比如常见Ajax交互，默认是异步的。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// 1</span>
-
-$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    type<span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
-    url<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
-    <span class="token keyword">async</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-    data<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
-    contentType<span class="token punctuation">:</span> <span class="token string">"application/json; charset=utf-8"</span><span class="token punctuation">,</span>
-    dataType<span class="token punctuation">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
-    success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 处理</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    error<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">alert</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>responseText<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">// 2</span>
-</code></pre>
-<p>这async: true是默认的，即异步。当从1到Ajax时，程序可以继续2操作。而不用阻塞等待进入success或者error方法，这两个回调方法会在结果返回后再调用。  </p>
-<h2 id="阻塞-amp-非阻塞"><a href="#阻塞-amp-非阻塞" class="headerlink" title="阻塞 &amp; 非阻塞"></a>阻塞 &amp; 非阻塞</h2><p>很容易和同步异步混淆，阻塞和非阻塞主要对同步而言的。非阻塞就是去请求数据服务时，如果还没准备好未成功，也会<strong>立即返回结果</strong>。重要的是马上有结果，哪怕是未完成的结果。而非阻塞感觉就是没有进度条那种，一直等待期间没有任何结果说明。</p>
-<p>比如Ajax同步时，服务器还没有处理完。那么请求一次未果就返回。过段时间再去请求。  </p>
-<p>比如煮开水的例子。</p>
-<ol>
-<li>一直在那里等到煮开才走就是同步阻塞BIO。  </li>
-<li>而发现没煮开走开一段时间（返回未煮开的结果），过段时间再去看。即同步非阻塞NIO。</li>
-<li><p>如果给煮水器加个煮开自动提醒功能。就等于把煮水这个任务放到消息队列里处理。结束会自动告知用户（煮开提示音之类的）。用户只需要放水去煮就可以去干其他事情。这就是异步非阻塞AIO。</p>
-</li>
-<li><p>至于异步阻塞，那基本太傻了。</p>
-</li>
-</ol>
-
+                
             </div>
             <hr/>
 
@@ -489,7 +449,7 @@ $<span class="token punctuation">.</span><span class="token function">ajax</span
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/07/27/za-ji/tong-bu-he-yi-bu/" class="b-link-green"></a>
+                    <a href="/2019/05/19/redis/redis-za-ji/" class="b-link-green">Redis杂记</a>
                 </p>
             </div>
         </div>
@@ -510,42 +470,49 @@ $<span class="token punctuation">.</span><span class="token function">ajax</span
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/07/27/za-ji/tong-bu-he-yi-bu/">
+                <a href="/2019/05/19/java/java-xu-lie-hua-wen-ti/">
                     <div class="card-image">
                         
+                        <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3486036083,4180058817&amp;fm=26&amp;gp=0.jpg" class="responsive-img" alt="Java序列化问题">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
-                        
-                        <span class="card-title"></span>
+                        <span class="card-title">Java序列化问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">
-title: 同步&amp;异步，阻塞&amp;非阻塞date: 2019-03-09 13:55author: chgl16summary: 同步和异步categories: 杂记tags: 
-
-同步异步
-阻塞非阻塞
-BIO
-NIO
-A</div>
+                    <div class="summary block-with-text">1. 序列化序列化是将对象转为文件，方便传输共享，比如消息队列传输的消息
+&emsp;&emsp;Java实现序列化只需要实现Serializable接口即可，该接口源码内容只有一个SerialVersionUID常量，再深入为Native</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-27
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-19
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Serializable接口/" target="_blank">
+                        <span class="chip bg-color">Serializable接口</span>
+                    </a>
+                    
+                    <a href="/tags/序列化与反序列化/" target="_blank">
+                        <span class="chip bg-color">序列化与反序列化</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -556,29 +523,26 @@ A</div>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/20/shu-ju-jie-gou/cha-zhao-suan-fa-zong-jie/">
+                <a href="/2019/05/17/kai-fa-gong-ju/idea-yi-ge-chuang-kou-duo-ge-xiang-mu/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg" class="responsive-img" alt="查找算法总结">
+                        <img src="https://i.loli.net/2019/07/21/5d3422458f6c967195.png" class="responsive-img" alt="IDEA一个窗口多个项目">
                         
-                        <span class="card-title">查找算法总结</span>
+                        <span class="card-title">IDEA一个窗口多个项目</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">常见的查找算法有7种
-1. 顺序查找顺序查找对序列没有排序要求ASL = 1/n(1+2+3+…+n) = (n+1)/2;T((n+1)/2)复杂度为 O(n)
-2. 折半查找也叫二分查找，必须是有序的序列。
-int binarySear</div>
+                    <div class="summary block-with-text">多个并列(推荐)平时IDEA都是默认一个窗口一个项目，当开发到Spring Cloud或者中间件这种我们要消费者提供者等等的时候，并不方便。并列也很简单。每个项目都是一个Module。操作：&emsp;&emsp;我们在只有一个项目的窗口，</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/算法-数据结构/" class="post-category" target="_blank">
-                                    算法&数据结构
+                            <a href="/categories/开发工具/" class="post-category" target="_blank">
+                                    开发工具
                                 </a>
                             
                             
@@ -588,12 +552,8 @@ int binarySear</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/算法/" target="_blank">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/数据结构/" target="_blank">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/IDEA/" target="_blank">
+                        <span class="chip bg-color">IDEA</span>
                     </a>
                     
                 </div>
