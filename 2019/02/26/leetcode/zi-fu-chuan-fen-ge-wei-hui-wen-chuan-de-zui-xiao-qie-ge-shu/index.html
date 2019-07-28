@@ -4,8 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Java中的volatile关键字, blog">
-    <meta name="description" content="1. volatile概述&amp;emsp;&amp;emsp;volatile是Java的一个关键字，只能用于修饰变量，目的是解决共享变量内存可见性问题，保证了可见性（每次读写都刷新内存），但是不保证原子性。对比笨重的锁机制（线程上下文的切换开销大），">
+    <meta name="keywords" content="字符串分割为回文串的最小切割数, blog">
+    <meta name="description" content="考虑使用动态规划方法：
+dp[i]  # 表示包括s.chatAt(i)前的字串最小切割数  
+dp[0] = 0  # 第一个不用切割
+
+有   
+dp[i] = min {dp[i-1] + 1, dp[j-1] + 1}  
+# dp">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Java中的volatile关键字 | Chgl16</title>
+    <title>字符串分割为回文串的最小切割数 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Java中的volatile关键字
+                        字符串分割为回文串的最小切割数
                     </div>
                 </div>
             </div>
@@ -375,17 +381,9 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/volatile/" target="_blank">
-                                <span class="chip bg-color">volatile</span>
-                            </a>
-                        
-                            <a href="/tags/可见性-原子性/" target="_blank">
-                                <span class="chip bg-color">可见性&amp;原子性</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -393,12 +391,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                Java
-                            </a>
-                        
-                            <a href="/categories/Java/多线程并发编程/" class="post-category" target="_blank">
-                                多线程并发编程
+                            <a href="/categories/LeetCode/" class="post-category" target="_blank">
+                                LeetCode
                             </a>
                         
                     </div>
@@ -409,21 +403,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-04-18
+                    2019-02-26
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        577
+                        237
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        1 分
                     </div>
                     
                 
@@ -434,93 +428,62 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-volatile概述"><a href="#1-volatile概述" class="headerlink" title="1. volatile概述"></a>1. volatile概述</h2><p>&emsp;&emsp;volatile是Java的一个关键字，只能用于修饰变量，<strong>目的是解决共享变量内存可见性问题，保证了可见性（每次读写都刷新内存），但是不保证原子性</strong>。对比笨重的锁机制（线程上下文的切换开销大），如synchronized内置锁，这个volatile就是Java提供的一种弱形式的同步。</p>
-<h2 id="2-例子"><a href="#2-例子" class="headerlink" title="2. 例子"></a>2. 例子</h2><p>以下这个代码没有使用任何同步措施，再多线程下的value的读写是不安全的。</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> vlass ThreadSafeInteger <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> value<span class="token punctuation">;</span>
+                <p>考虑使用动态规划方法：</p>
+<pre class=" language-shell"><code class="language-shell">dp[i]  # 表示包括s.chatAt(i)前的字串最小切割数  
+dp[0] = 0  # 第一个不用切割
 
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        reutrn value<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setValue</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span> 
+有   
+dp[i] = min {dp[i-1] + 1, dp[j-1] + 1}  
+# dp[j-1] + 1表示[j-i]为回文串，所有只需加上之前的dp[j-1]即可。（j < i, 若j -1 = -1表示整个都是回文串，即为1）
 </code></pre>
-<p>以下使用synchronized关键字，声明为隐式对象锁，可以解决问题，但是开销是问题。</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> vlass ThreadSafeInteger <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> value<span class="token punctuation">;</span>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MinCut</span> <span class="token punctuation">{</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        reutrn value<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        MinCut instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MinCut</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String t1 <span class="token operator">=</span> <span class="token string">"aabab"</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>instance<span class="token punctuation">.</span><span class="token function">minCut</span><span class="token punctuation">(</span>t1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>instance<span class="token punctuation">.</span><span class="token function">isPalindrome</span><span class="token punctuation">(</span>t1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">setValue</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minCut</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 初始化</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>j<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 判断 [j, i]是否为回文串</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isPalindrome</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">else</span> 
+                        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>             
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> dp<span class="token punctuation">[</span>len <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span> 
-</code></pre>
-<p>看看下面的使用volatile，也是可以的</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> vlass ThreadSafeInteger <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">int</span> value<span class="token punctuation">;</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        reutrn value<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isPalindrome</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> j <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> j <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token operator">!=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setValue</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span> 
-</code></pre>
-<blockquote>
-<p>前面提到volatile只能保证变量在多线程环境的可见性，这里的作用和synchronized是等价的，只是锁有开销，前后阻塞啥的，volatile就不会阻塞</p>
-</blockquote>
-<h2 id="3-保证可见性-amp-不保证原子性"><a href="#3-保证可见性-amp-不保证原子性" class="headerlink" title="3. 保证可见性 &amp; 不保证原子性"></a>3. 保证可见性 &amp; 不保证原子性</h2><p>&emsp;&emsp;可见性好理解，每次都啥刷新内存。原子性是指一些列操作时，要么全部执行，要么全部不执行，不会只执行一部分。常见的是count++;</p>
-<blockquote>
-<p>count++;   //  是三步：获取-计算-写入</p>
-</blockquote>
-<p>如下代码</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> xyz<span class="token punctuation">.</span>cglzwz<span class="token punctuation">.</span>thread_concurrency<span class="token punctuation">.</span>other<span class="token punctuation">.</span>_volatile<span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">/**
- * 验证volatile关键字的可见性
- * volatile只能保证他们操作的count是同一块内存，但依然可能出现写入脏数据的情况。
- * @author chgl16
- * @date 2019-04-16
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">VolatileDemo</span> <span class="token punctuation">{</span>
-    <span class="token keyword">volatile</span> <span class="token keyword">static</span> <span class="token keyword">int</span> count<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
-        Runnable r <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
-            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
-                count<span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-        Thread t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> <span class="token string">"t1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        Thread t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> <span class="token string">"t2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        t2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        t1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        t2<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>结果仍然是 &lt; 20000, 大约15000左右。</p>
-<blockquote>
-<p>时有synchronized可以解决这里的原子性问题，但是并发量高的时候是个大开销。这种问题可以<em>CAS</em>操作解决</p>
-</blockquote>
-<p>而<strong>volatile不保证原子性</strong>，所以一般就以下两种情况时有volatile关键字：</p>
-<ol>
-<li>不需要原子性的同步操作变量；</li>
-<li>没有加锁的，因为加锁已经保证了同步了。</li>
-</ol>
 
             </div>
             <hr/>
@@ -544,7 +507,7 @@
                     </span>
                     <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/04/18/duo-xian-cheng-bing-fa-bian-cheng/java-zhong-de-volatile-guan-jian-zi/" class="b-link-green">Java中的volatile关键字</a>
+                    <a href="/2019/02/26/leetcode/zi-fu-chuan-fen-ge-wei-hui-wen-chuan-de-zui-xiao-qie-ge-shu/" class="b-link-green">字符串分割为回文串的最小切割数</a>
                 </p>
             </div>
         </div>
@@ -569,51 +532,6 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/19/qian-duan/kua-yu/">
-                    <div class="card-image">
-                        
-                        <img src="https://i.loli.net/2019/07/21/5d342e202503185627.png" class="responsive-img" alt="跨域">
-                        
-                        <span class="card-title">跨域</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">什么是跨域常见的调用接口被阻碍了，爆跨域问题。也就是从一个源下载的文档或者脚本与来自另一个源的资源进行交互被限制了。
-跨域的原因出现跨域完全是浏览器搞的，浏览器的同源策略，其实是一种安全机制，用来隔离潜在的恶意文件的安全机制。是药三分毒，所</div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-19
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/前端/" class="post-category" target="_blank">
-                                    前端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/跨域/" target="_blank">
-                        <span class="chip bg-color">跨域</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
                 <a href="/2019/04/14/jian-zhi-offer/cong-shang-wang-xia-da-yin-er-cha-shu/">
                     <div class="card-image">
                         
@@ -631,9 +549,9 @@ AC代码import java.util.ArrayList;
 import java.util.LinkedList;
 import java.u</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-14
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -657,6 +575,48 @@ import java.u</div>
                         <span class="chip bg-color">Java队列Queue</span>
                     </a>
                     
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/21/leetcode/tong-ji-shu-zi-zai-you-xu-shu-zu-zhong-chu-xian-de-ci-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="统计数字在有序数组中出现的次数">
+                        
+                        <span class="card-title">统计数字在有序数组中出现的次数</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">这是有序数组，直接遍历也就O(n)  
+有序可以考虑折半查找。找到第一个，然后向两边扩散即可。  
+public class Findk {
+
+    public static void main(String[] args) {
+   </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/LeetCode/" class="post-category" target="_blank">
+                                    LeetCode
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
                 </div>
                 
             </div>

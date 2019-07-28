@@ -587,25 +587,26 @@ import java.u">
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/02/21/leetcode/tong-ji-shu-zi-zai-you-xu-shu-zu-zhong-chu-xian-de-ci-shu/">
+                <a href="/2019/02/26/leetcode/zi-fu-chuan-fen-ge-wei-hui-wen-chuan-de-zui-xiao-qie-ge-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="统计数字在有序数组中出现的次数">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="字符串分割为回文串的最小切割数">
                         
-                        <span class="card-title">统计数字在有序数组中出现的次数</span>
+                        <span class="card-title">字符串分割为回文串的最小切割数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">这是有序数组，直接遍历也就O(n)  
-有序可以考虑折半查找。找到第一个，然后向两边扩散即可。  
-public class Findk {
+                    <div class="summary block-with-text">考虑使用动态规划方法：
+dp[i]  # 表示包括s.chatAt(i)前的字串最小切割数  
+dp[0] = 0  # 第一个不用切割
 
-    public static void main(String[] args) {
-   </div>
+有   
+dp[i] = min {dp[i-1] + 1, dp[j-1] + 1}  
+# dp</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-26
                             </span>
                         <span class="publish-author">
                             
@@ -736,7 +737,7 @@ public class Findk {
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">21.4k</span>
+                <span class="white-color">21.7k</span>
             
 
             
