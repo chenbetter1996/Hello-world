@@ -397,7 +397,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        813
+                        830
                     </div>
                     
 
@@ -499,7 +499,8 @@ Inteface instance = new Inteface() {
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p><hr><br>对比以上两种编码量还是很大的，当然这两种对接口的抽象方法数量没有限定，但是如果抽象方法只有一个的时候，使用Lambda匿名函数更优秀。  </p>
+<p><hr><br>对比以上两种编码量还是很大的，当然这两种对接口的抽象方法数量没有限定，但是如果抽象方法只有一个的时候，使用Lambda匿名函数更优秀。    </p>
+<p>特别是对于常用的Runnabl、Callable<t>以及比较器Comparator<t>接口</t></t></p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         Runnable work <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span> 
