@@ -396,7 +396,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        825
+                        822
                     </div>
                     
 
@@ -416,7 +416,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
             <div id="articleContent">
                 <hr>
 <p>title: Java8新特性Lambada表达式<br>date: 2019-07-12 22:50<br>author: chgl16<br>summary: Java8的各种新特性，以及常用的Lambda表达式<br>categories: Java<br>tags: Lambda</p>
-<h2 id="img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg"><a href="#img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg" class="headerlink" title="img: https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg"></a>img: <a href="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg</a></h2><p>  Java8是里程碑的一个版本，不仅优化高效，也带来了很多好用的新特性。  函数式编程大大减少代码量和便于维护。  </p>
+<h2 id="img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg"><a href="#img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg" class="headerlink" title="img: https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg"></a>img: <a href="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg</a></h2><p>Java8是里程碑的一个版本，不仅优化高效，也带来了很多好用的新特性。  函数式编程大大减少代码量和便于维护。  </p>
 <h2 id="1-接口有默认方法和静态方法"><a href="#1-接口有默认方法和静态方法" class="headerlink" title="1.接口有默认方法和静态方法"></a>1.接口有默认方法和静态方法</h2><p>在此之前，接口的方法默认是 public abstract 修饰的。<br>如果一个接口有多个方法，每次即便我们只需要用一个，也需要实现全部，而新特性带来的默认接口方法完美解决了这个。其实就是接口也有实现的方法。  </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IAnimal</span> <span class="token punctuation">{</span>
     <span class="token keyword">default</span> <span class="token keyword">void</span> <span class="token function">breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -467,21 +467,33 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
 <p>这两个典型的只有一个抽象方法的接口，就是函数式接口。可以使用@java.lang.FunctionInteface注解标注。当然这只是个标注注解，可有可无。  </p>
 <h4 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h4><p>Lambda表达式也称为闭包，也是匿名函数。<br>对于之前的Runnable，Callable这种抽象出来的策略模型接口，我们使用一般有两种方法：  </p>
 <ol>
-<li>另外新建一个类实现接口，然后以此创建对象<br><code>`</code>java<br>class Work implements Runnable {<br> @Override<br> public void run() {<pre><code> // do something
-</code></pre> }<br>}</li>
+<li>另外新建一个类实现接口，然后以此创建对象   </li>
 </ol>
-<p>public class Main {<br>    public static void main(String[] args) {<br>        Thread t1 = new Thread(new Work());<br>        t1.start();<br>    }<br>}</p>
-<pre><code>
-2. 使用匿名内部类  
-因为每次都另外定义一个实现类很麻烦，很多时候我们只是使用一次。因此可以简单的写为匿名内部类的形式。  
-```java
-Inteface instance = new Inteface() {
-    @Override
-    public T function(...) {
-        // do something
-    }
-}
-</code></pre><p>这是直接new 接口，然后实现即可。比如  </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Work</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// do something</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Thread t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="2">
+<li>使用匿名内部类<br>因为每次都另外定义一个实现类很麻烦，很多时候我们只是使用一次。因此可以简单的写为匿名内部类的形式。    </li>
+</ol>
+<pre class=" language-java"><code class="language-java">Inteface instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Inteface</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> T <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// do something</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这是直接new 接口，然后实现即可。比如  </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         Thread t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
