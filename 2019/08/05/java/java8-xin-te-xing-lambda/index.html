@@ -396,7 +396,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        824
+                        825
                     </div>
                     
 
@@ -417,7 +417,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
                 <hr>
 <p>title: Java8新特性Lambada表达式<br>date: 2019-07-12 22:50<br>author: chgl16<br>summary: Java8的各种新特性，以及常用的Lambda表达式<br>categories: Java<br>tags: Lambda</p>
 <h2 id="img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg"><a href="#img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg" class="headerlink" title="img: https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg"></a>img: <a href="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg</a></h2><p>  Java8是里程碑的一个版本，不仅优化高效，也带来了很多好用的新特性。  函数式编程大大减少代码量和便于维护。  </p>
-<h2 id="1-接口有默认方法和静态方法"><a href="#1-接口有默认方法和静态方法" class="headerlink" title="1. 接口有默认方法和静态方法"></a>1. 接口有默认方法和静态方法</h2><p>在此之前，接口的方法默认是 public abstract 修饰的。<br>如果一个接口有多个方法，每次即便我们只需要用一个，也需要实现全部，而新特性带来的默认接口方法完美解决了这个。其实就是接口也有实现的方法。  </p>
+<h2 id="1-接口有默认方法和静态方法"><a href="#1-接口有默认方法和静态方法" class="headerlink" title="1.接口有默认方法和静态方法"></a>1.接口有默认方法和静态方法</h2><p>在此之前，接口的方法默认是 public abstract 修饰的。<br>如果一个接口有多个方法，每次即便我们只需要用一个，也需要实现全部，而新特性带来的默认接口方法完美解决了这个。其实就是接口也有实现的方法。  </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IAnimal</span> <span class="token punctuation">{</span>
     <span class="token keyword">default</span> <span class="token keyword">void</span> <span class="token function">breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
         System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"breath!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -435,7 +435,7 @@ title: Java8新特性Lambada表达式date: 2019-07-12 22:50author: chgl16summary
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h2 id="函数式接口FunctonInteface配合Lambda"><a href="#函数式接口FunctonInteface配合Lambda" class="headerlink" title="函数式接口FunctonInteface配合Lambda"></a>函数式接口FunctonInteface配合Lambda</h2><p>如果一个接口只有一个抽象方法，当然可以有多个默认实现的方法。这种接口称为函数式接口，可以使用Lambda表达式解决之前另外写实现类或者匿内部类的麻烦。   </p>
+<h2 id="2-函数式接口FunctonInteface配合Lambda"><a href="#2-函数式接口FunctonInteface配合Lambda" class="headerlink" title="2.函数式接口FunctonInteface配合Lambda"></a>2.函数式接口FunctonInteface配合Lambda</h2><p>如果一个接口只有一个抽象方法，当然可以有多个默认实现的方法。这种接口称为函数式接口，可以使用Lambda表达式解决之前另外写实现类或者匿内部类的麻烦。   </p>
 <p>比如Runnable和Callable</p>
 <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@FunctionalInterface</span>
 <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
