@@ -715,49 +715,54 @@ Field<span class="token punctuation">[</span><span class="token punctuation">]</
 </li>
 </ol>
 <p>这两个不知道为啥还是调用了自定义加载器的findClass方法，因为这两个应该是Spring加载器加载的，是一些bean的属性和信息类。不过并不影响使用  </p>
-<pre class=" language-console"><code class="language-console">2019-08-24 22:07:54.476  WARN 4420 --- [nio-8080-exec-8] x.c.hotloading.util.CustomClassLoader    : 使用了自定义加载器加载该类: file:///F:/project/hotloading/src/main/resources/hotLoadingClasses/xyz/cglzwz/hotloading/bo/DynamicClass7BOCustomizer.class
+<pre class=" language-bash"><code class="language-bash">2019-08-24 22:07:54.476  WARN 4420 --- <span class="token punctuation">[</span>nio-8080-exec-8<span class="token punctuation">]</span> x.c.hotloading.util.CustomClassLoader    <span class="token keyword">:</span> 使用了自定义加载器加载该类: file:///F:/project/hotloading/src/main/resources/hotLoadingClasses/xyz/cglzwz/hotloading/bo/DynamicClass7BOCustomizer.class
 java.nio.file.NoSuchFileException: F:\project\hotloading\src\main\resources\hotLoadingClasses\xyz\cglzwz\hotloading\bo\DynamicClass7BOCustomizer.class
-    at sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:79)
-    at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:97)
-    at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:102)
-    at sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:230)
-    at java.nio.file.Files.newByteChannel(Files.java:361)
-    at java.nio.file.Files.newByteChannel(Files.java:407)
-    at java.nio.file.Files.readAllBytes(Files.java:3152)
-    at xyz.cglzwz.hotloading.util.CustomClassLoader.findClass(CustomClassLoader.java:59)
-    at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
-    at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
-    at java.lang.Class.forName0(Native Method)
-    at java.lang.Class.forName(Class.java:348)
-    at com.sun.beans.finder.ClassFinder.findClass(ClassFinder.java:103)
-    at java.beans.Introspector.findCustomizerClass(Introspector.java:1301)
-    at java.beans.Introspector.getTargetBeanDescriptor(Introspector.java:1295)
-    at java.beans.Introspector.getBeanInfo(Introspector.java:425)
-    at java.beans.Introspector.getBeanInfo(Introspector.java:262)
-    at java.beans.Introspector.getBeanInfo(Introspector.java:204)
-    at org.springframework.beans.CachedIntrospectionResults.getBeanInfo(CachedIntrospectionResults.java:248)
-    at org.springframework.beans.CachedIntrospectionResults.<init>(CachedIntrospectionResults.java:273)
-    at org.springframework.beans.CachedIntrospectionResults.forClass(CachedIntrospectionResults.java:177)
-    at org.springframework.beans.BeanWrapperImpl.getCachedIntrospectionResults(BeanWrapperImpl.java:174)
-    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:230)
-    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:63)
+    at sun.nio.fs.WindowsException.translateToIOException<span class="token punctuation">(</span>WindowsException.java:79<span class="token punctuation">)</span>
+    at sun.nio.fs.WindowsException.rethrowAsIOException<span class="token punctuation">(</span>WindowsException.java:97<span class="token punctuation">)</span>
+    at sun.nio.fs.WindowsException.rethrowAsIOException<span class="token punctuation">(</span>WindowsException.java:102<span class="token punctuation">)</span>
+    at sun.nio.fs.WindowsFileSystemProvider.newByteChannel<span class="token punctuation">(</span>WindowsFileSystemProvider.java:230<span class="token punctuation">)</span>
+    at java.nio.file.Files.newByteChannel<span class="token punctuation">(</span>Files.java:361<span class="token punctuation">)</span>
+    at java.nio.file.Files.newByteChannel<span class="token punctuation">(</span>Files.java:407<span class="token punctuation">)</span>
+    at java.nio.file.Files.readAllBytes<span class="token punctuation">(</span>Files.java:3152<span class="token punctuation">)</span>
+    at xyz.cglzwz.hotloading.util.CustomClassLoader.findClass<span class="token punctuation">(</span>CustomClassLoader.java:59<span class="token punctuation">)</span>
+    at java.lang.ClassLoader.loadClass<span class="token punctuation">(</span>ClassLoader.java:424<span class="token punctuation">)</span>
+    at java.lang.ClassLoader.loadClass<span class="token punctuation">(</span>ClassLoader.java:357<span class="token punctuation">)</span>
+    at java.lang.Class.forName0<span class="token punctuation">(</span>Native Method<span class="token punctuation">)</span>
+    at java.lang.Class.forName<span class="token punctuation">(</span>Class.java:348<span class="token punctuation">)</span>
+    at com.sun.beans.finder.ClassFinder.findClass<span class="token punctuation">(</span>ClassFinder.java:103<span class="token punctuation">)</span>
+    at java.beans.Introspector.findCustomizerClass<span class="token punctuation">(</span>Introspector.java:1301<span class="token punctuation">)</span>
+    at java.beans.Introspector.getTargetBeanDescriptor<span class="token punctuation">(</span>Introspector.java:1295<span class="token punctuation">)</span>
+    at java.beans.Introspector.getBeanInfo<span class="token punctuation">(</span>Introspector.java:425<span class="token punctuation">)</span>
+    at java.beans.Introspector.getBeanInfo<span class="token punctuation">(</span>Introspector.java:262<span class="token punctuation">)</span>
+    at java.beans.Introspector.getBeanInfo<span class="token punctuation">(</span>Introspector.java:204<span class="token punctuation">)</span>
+    at org.springframework.beans.CachedIntrospectionResults.getBeanInfo<span class="token punctuation">(</span>CachedIntrospectionResults.java:248<span class="token punctuation">)</span>
+    at org.springframework.beans.CachedIntrospectionResults.<span class="token operator">&lt;</span>init<span class="token operator">></span><span class="token punctuation">(</span>CachedIntrospectionResults.java:273<span class="token punctuation">)</span>
+    at org.springframework.beans.CachedIntrospectionResults.forClass<span class="token punctuation">(</span>CachedIntrospectionResults.java:177<span class="token punctuation">)</span>
+    at org.springframework.beans.BeanWrapperImpl.getCachedIntrospectionResults<span class="token punctuation">(</span>BeanWrapperImpl.java:174<span class="token punctuation">)</span>
+    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler<span class="token punctuation">(</span>BeanWrapperImpl.java:230<span class="token punctuation">)</span>
+    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler<span class="token punctuation">(</span>BeanWrapperImpl.java:63<span class="token punctuation">)</span>
 </code></pre>
 <p>当然如果使用方法1不会出现这种情况。比较保存到外面路径的class本身就无法生成对应的XxxBeanInfo和XxxCustomizer到相同目录下。<br>疑点还是不知道为是作为父加载器的spring加载器不加载。  </p>
 <blockquote>
-<p>这种异常不影响程序执行，不会中断，为解决时可以捕获异常不处理即可。<br><code>`</code>java<br>@Override<br>protected  Class&lt;?&gt; findClass(String name) {<br>    // …    </p>
+<p>这种异常不影响程序执行，不会中断，为解决时可以捕获异常不处理即可。   </p>
 </blockquote>
-<pre><code>byte[] classBytes = null;
-Path path = null;
-try {
-    path = Paths.get(new URI(myPath));
-    classBytes = Files.readAllBytes(path);
-} catch (IOException | URISyntaxException e) {
-    // 捕获不处理，不打印
-    // e.printStackTrace();
-}
-Class cls = defineClass(name, classBytes, 0, classBytes.length);
-return cls;
-</code></pre><p>}<br><code>`</code>  </p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span>  Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">findClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...    </span>
+
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> classBytes <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    Path path <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        path <span class="token operator">=</span> Paths<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">URI</span><span class="token punctuation">(</span>myPath<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        classBytes <span class="token operator">=</span> Files<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> <span class="token operator">|</span> URISyntaxException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 捕获不处理，不打印</span>
+        <span class="token comment" spellcheck="true">// e.printStackTrace();</span>
+    <span class="token punctuation">}</span>
+    Class <span class="token class-name">cls</span> <span class="token operator">=</span> <span class="token function">defineClass</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> classBytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> classBytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> cls<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <ol start="2">
 <li>使用devtools依赖包服务重启问题。<br>如果项目加载了这个包，加载成功容器也会重启。切记去掉这个包。</li>
 </ol>
