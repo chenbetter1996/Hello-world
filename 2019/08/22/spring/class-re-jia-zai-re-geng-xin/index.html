@@ -592,7 +592,8 @@ Class<span class="token operator">&lt;</span><span class="token operator">?</spa
 </code></pre>
 <p>加载这个类用到的是自定义加载器的findClass方法，但是里面的@Autowired标注的属性会委派到Spring加载器加载。<br>因此如果属性使用@Autowired如此，在构造bean的时候是不需要手动注入属性的，Spring加载胡自动注入。  </p>
 <blockquote>
-<p>@Autowired的属性这里不需要setter/getter方法，如果没用此注解需要提供setter方法，不然无法构造属性注入  </p>
+<p>@Autowired的属性这里不需要setter/getter方法，如果没用此注解需要提供setter方法，不然无法构造属性注入    </p>
+</blockquote>
 <pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// Class注入属性</span>
 Field<span class="token punctuation">[</span><span class="token punctuation">]</span> fields <span class="token operator">=</span> cls<span class="token punctuation">.</span><span class="token function">getFields</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span>Field field <span class="token operator">:</span> fields<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -607,7 +608,6 @@ Field<span class="token punctuation">[</span><span class="token punctuation">]</
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-</blockquote>
 <ul>
 <li><p>ApplicationContext</p>
 <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
@@ -627,72 +627,95 @@ Field<span class="token punctuation">[</span><span class="token punctuation">]</
 </li>
 </ul>
 <ul>
-<li><p>RegisterBeanUtil<br><code>`</code>java<br>/**</p>
-<ul>
-<li>注册Bean<br>*</li>
-<li>@author chgl16</li>
-<li><p>@date 2019/8/24 16:20<br>*/<br>public class RegisterBeanUtil {</p>
-<p>/**</p>
-<ul>
-<li>注册一个Class到IOC容器，并且返回调用</li>
-<li>class不要求在classpath路径下<br>*</li>
-<li>@param cls  注册的bean Class</li>
-<li>@param beanName 注册的bean Id</li>
-<li><p>@return<br>*/<br>public static Object register(Class&lt;?&gt; cls, String beanName) {</p>
-<p> //将applicationContext转换为ConfigurableApplicationContext<br> ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) SpringContextUtil.getApplicationContext();</p>
-<p> // 获取bean工厂并转换为DefaultListableBeanFactory<br> DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();</p>
-<p> /*</p>
-<pre><code> 如果存在需要热更新，即先从工厂删去
- 这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断
- 因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行
-</code></pre><p>  */<br> if (defaultListableBeanFactory.isBeanNameInUse(beanName)) {</p>
-<pre><code> defaultListableBeanFactory.removeBeanDefinition(beanName);
-</code></pre><p> }</p>
-<p> // 通过BeanDefinitionBuilder创建bean定义<br> BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(cls);</p>
-<p> // 所有属性<br> Field[] fields = cls.getFields();<br> for (Field field : fields) {</p>
-<pre><code> // 容器存在这个属性则注入，按编码习惯的名字，没有按类型。（用户输入的也是名字）
- if (defaultListableBeanFactory.isBeanNameInUse(field.getName())) {
-     // 第一个参数是类的属性名，第二个是容器中需要的bean的beanNam
-     beanDefinitionBuilder.addPropertyReference(field.getName(), field.getName());
- }
-</code></pre><p> }</p>
-<p> // 注册bean<br> defaultListableBeanFactory.registerBeanDefinition(beanName, beanDefinitionBuilder.getRawBeanDefinition());</p>
-<p> // 返回<br> return SpringContextUtil.getBean(beanName);<br>}</p>
+<li>RegisterBeanUtil  </li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * 注册Bean
+ *
+ * @author chgl16
+ * @date 2019/8/24 16:20
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RegisterBeanUtil</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 注册一个Class到IOC容器，并且返回调用
+     * class不要求在classpath路径下
+     *
+     * @param cls  注册的bean Class
+     * @param beanName 注册的bean Id
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">register</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> cls<span class="token punctuation">,</span> String beanName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment" spellcheck="true">//将applicationContext转换为ConfigurableApplicationContext</span>
+        ConfigurableApplicationContext configurableApplicationContext <span class="token operator">=</span> <span class="token punctuation">(</span>ConfigurableApplicationContext<span class="token punctuation">)</span> SpringContextUtil<span class="token punctuation">.</span><span class="token function">getApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 获取bean工厂并转换为DefaultListableBeanFactory</span>
+        DefaultListableBeanFactory defaultListableBeanFactory <span class="token operator">=</span> <span class="token punctuation">(</span>DefaultListableBeanFactory<span class="token punctuation">)</span> configurableApplicationContext<span class="token punctuation">.</span><span class="token function">getBeanFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">/*
+            如果存在需要热更新，即先从工厂删去
+            这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断
+            因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行
+         */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>defaultListableBeanFactory<span class="token punctuation">.</span><span class="token function">isBeanNameInUse</span><span class="token punctuation">(</span>beanName<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            defaultListableBeanFactory<span class="token punctuation">.</span><span class="token function">removeBeanDefinition</span><span class="token punctuation">(</span>beanName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// 通过BeanDefinitionBuilder创建bean定义</span>
+        BeanDefinitionBuilder beanDefinitionBuilder <span class="token operator">=</span> BeanDefinitionBuilder<span class="token punctuation">.</span><span class="token function">genericBeanDefinition</span><span class="token punctuation">(</span>cls<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 所有属性</span>
+        Field<span class="token punctuation">[</span><span class="token punctuation">]</span> fields <span class="token operator">=</span> cls<span class="token punctuation">.</span><span class="token function">getFields</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Field field <span class="token operator">:</span> fields<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 容器存在这个属性则注入，按编码习惯的名字，没有按类型。（用户输入的也是名字）</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>defaultListableBeanFactory<span class="token punctuation">.</span><span class="token function">isBeanNameInUse</span><span class="token punctuation">(</span>field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 第一个参数是类的属性名，第二个是容器中需要的bean的beanNam</span>
+                beanDefinitionBuilder<span class="token punctuation">.</span><span class="token function">addPropertyReference</span><span class="token punctuation">(</span>field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// 注册bean</span>
+        defaultListableBeanFactory<span class="token punctuation">.</span><span class="token function">registerBeanDefinition</span><span class="token punctuation">(</span>beanName<span class="token punctuation">,</span> beanDefinitionBuilder<span class="token punctuation">.</span><span class="token function">getRawBeanDefinition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 返回</span>
+        <span class="token keyword">return</span> SpringContextUtil<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>beanName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 注册一个Class到IOC容器，并且返回调用
+     * 此name对应的class必须在classpath下
+     * 这种不会出现BeanInfo和Customize的后缀问题
+     *
+     * @param name 类的全名，如java.util.concurrent.ConcurrentHashMap
+     * @param beanName 注册的bean Id
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">register</span><span class="token punctuation">(</span>String name<span class="token punctuation">,</span> String beanName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> cls <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果此name对应的class必须在classpath下，则反射成功</span>
+            cls <span class="token operator">=</span> Class<span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ClassNotFoundException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token function">register</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> beanName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<p>最核心的一个工具类，这些spring都封装很多了，spring容器相当于把加载到方法区Class获取创建id-class对象的形式维护到一个map中，<br>这里的builder先获取class定义（创建者模式源码内部创建了一个实例，属于bean生命周期第一步）然后加入属性（就是属性setter注入，属于bean生命周期的第二步）。<br>最后就算注册到容器了。  </p>
+<blockquote>
+<p>这里的判断容器是否存在一个bean这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断。<br>因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行。<br>使用boolean defaultListableBeanFactory.isBeanNameInUse(beanName)才是正解</p>
+</blockquote>
+<h1 id="三、问题事项"><a href="#三、问题事项" class="headerlink" title="三、问题事项"></a>三、问题事项</h1><ol>
+<li>会报错XxxBeanInfo.class 或者 XxxCustomizer.class找不到  <blockquote>
+<p>Xxx表示的是加载的类名，调试源码显示除了加载DynamicClassBO，还加载了DynamicClassBOBeanInfo和DynamicClassBOCustomizer  </p>
+</blockquote>
 </li>
-</ul>
-<p>/**</p>
-<ul>
-<li>注册一个Class到IOC容器，并且返回调用</li>
-<li>此name对应的class必须在classpath下</li>
-<li>这种不会出现BeanInfo和Customize的后缀问题<br>*</li>
-<li>@param name 类的全名，如java.util.concurrent.ConcurrentHashMap</li>
-<li>@param beanName 注册的bean Id</li>
-<li>@return<br>*/<br>public static Object register(String name, String beanName) {<br> Class&lt;?&gt; cls = null;<br> try {<pre><code> // 如果此name对应的class必须在classpath下，则反射成功
- cls = Class.forName(name);
-</code></pre> } catch (ClassNotFoundException e) {<pre><code> e.printStackTrace();
-</code></pre> }<br> return register(cls, beanName);<br>}</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>}</p>
-<pre><code>最核心的一个工具类，这些spring都封装很多了，spring容器相当于把加载到方法区Class获取创建id-class对象的形式维护到一个map中，  
-这里的builder先获取class定义（创建者模式源码内部创建了一个实例，属于bean生命周期第一步）然后加入属性（就是属性setter注入，属于bean生命周期的第二步）。  
-最后就算注册到容器了。  
-
-&gt;这里的判断容器是否存在一个bean这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断。  
-&gt;因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行。  
-使用boolean defaultListableBeanFactory.isBeanNameInUse(beanName)才是正解
-
-
-# 三、问题事项
-1. 会报错XxxBeanInfo.class 或者 XxxCustomizer.class找不到  
-&gt;Xxx表示的是加载的类名，调试源码显示除了加载DynamicClassBO，还加载了DynamicClassBOBeanInfo和DynamicClassBOCustomizer  
-
-这两个不知道为啥还是调用了自定义加载器的findClass方法，因为这两个应该是Spring加载器加载的，是一些bean的属性和信息类。不过并不影响使用  
-```console
-2019-08-24 22:07:54.476  WARN 4420 --- [nio-8080-exec-8] x.c.hotloading.util.CustomClassLoader    : 使用了自定义加载器加载该类: file:///F:/project/hotloading/src/main/resources/hotLoadingClasses/xyz/cglzwz/hotloading/bo/DynamicClass7BOCustomizer.class
+</ol>
+<p>这两个不知道为啥还是调用了自定义加载器的findClass方法，因为这两个应该是Spring加载器加载的，是一些bean的属性和信息类。不过并不影响使用  </p>
+<pre class=" language-console"><code class="language-console">2019-08-24 22:07:54.476  WARN 4420 --- [nio-8080-exec-8] x.c.hotloading.util.CustomClassLoader    : 使用了自定义加载器加载该类: file:///F:/project/hotloading/src/main/resources/hotLoadingClasses/xyz/cglzwz/hotloading/bo/DynamicClass7BOCustomizer.class
 java.nio.file.NoSuchFileException: F:\project\hotloading\src\main\resources\hotLoadingClasses\xyz\cglzwz\hotloading\bo\DynamicClass7BOCustomizer.class
     at sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:79)
     at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:97)
@@ -713,12 +736,13 @@ java.nio.file.NoSuchFileException: F:\project\hotloading\src\main\resources\hotL
     at java.beans.Introspector.getBeanInfo(Introspector.java:262)
     at java.beans.Introspector.getBeanInfo(Introspector.java:204)
     at org.springframework.beans.CachedIntrospectionResults.getBeanInfo(CachedIntrospectionResults.java:248)
-    at org.springframework.beans.CachedIntrospectionResults.&lt;init&gt;(CachedIntrospectionResults.java:273)
+    at org.springframework.beans.CachedIntrospectionResults.<init>(CachedIntrospectionResults.java:273)
     at org.springframework.beans.CachedIntrospectionResults.forClass(CachedIntrospectionResults.java:177)
     at org.springframework.beans.BeanWrapperImpl.getCachedIntrospectionResults(BeanWrapperImpl.java:174)
     at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:230)
     at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:63)
-</code></pre><p>当然如果使用方法1不会出现这种情况。比较保存到外面路径的class本身就无法生成对应的XxxBeanInfo和XxxCustomizer到相同目录下。<br>疑点还是不知道为是作为父加载器的spring加载器不加载。  </p>
+</code></pre>
+<p>当然如果使用方法1不会出现这种情况。比较保存到外面路径的class本身就无法生成对应的XxxBeanInfo和XxxCustomizer到相同目录下。<br>疑点还是不知道为是作为父加载器的spring加载器不加载。  </p>
 <blockquote>
 <p>这种异常不影响程序执行，不会中断，为解决时可以捕获异常不处理即可。<br><code>`</code>java<br>@Override<br>protected  Class&lt;?&gt; findClass(String name) {<br>    // …    </p>
 </blockquote>
@@ -982,7 +1006,7 @@ categories: Java简介Jav</div>
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">27.5k</span>
+                <span class="white-color">27.4k</span>
             
 
             
