@@ -1,0 +1,1055 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="class热加载热更新实现, blog">
+    <meta name="description" content="一、需求描述
+&amp;emsp;&amp;emsp;服务使用过程中，希望在不重启服务的情况下，动态加载某些class/scalar/jar到项目中使用，即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证热更新。&amp;em">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>class热加载热更新实现 | Chgl16</title>
+    <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Chgl16</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Chgl16</div>
+        <div class="logo-desc">
+            
+            The harder, the more fortunate
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/chgl16" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>关注我
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/chgl16" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="关注我" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://sm.ms/image/OYSx1VL67l3pCcW')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        class热加载热更新实现
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spring/" target="_blank">
+                                <span class="chip bg-color">Spring</span>
+                            </a>
+                        
+                            <a href="/tags/ClassLoader/" target="_blank">
+                                <span class="chip bg-color">ClassLoader</span>
+                            </a>
+                        
+                            <a href="/tags/反射/" target="_blank">
+                                <span class="chip bg-color">反射</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spring/" class="post-category" target="_blank">
+                                Spring
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-08-22
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2.5k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        10 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="一、需求描述"><a href="#一、需求描述" class="headerlink" title="一、需求描述"></a>一、需求描述</h2><p><img src="https://i.loli.net/2019/08/24/waHUJ1583f6iOgP.png" alt="效果展示"></p>
+<p>&emsp;&emsp;服务使用过程中，希望在不重启服务的情况下，动态加载某些class/scalar/jar到项目中使用，<br>即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证<strong>热更新</strong>。<br>&emsp;&emsp;这些外部网络加载来的class一般实现服务里的某些业务接口，即希望后续动作bean组件使用。<br>指定beanName即可，这里默认beanName为类名lowCamel形式。</p>
+<h2 id="二、核心实现"><a href="#二、核心实现" class="headerlink" title="二、核心实现"></a>二、核心实现</h2><h3 id="①相关代码"><a href="#①相关代码" class="headerlink" title="①相关代码"></a>①<a href="https://github.com/chgl16/hotloading" target="_blank" rel="noopener">相关代码</a></h3><table>
+<thead>
+<tr>
+<th style="text-align:center">类 &amp; 接口</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FileStoreUtil</td>
+<td style="text-align:center">文件保存工具类</td>
+</tr>
+<tr>
+<td style="text-align:center">CustomClassLoader</td>
+<td style="text-align:center">自定义类加载器，指定父加载器为Spring的加载器</td>
+</tr>
+<tr>
+<td style="text-align:center">SpringContextUtil</td>
+<td style="text-align:center">服务的spring容器操作工具类</td>
+</tr>
+<tr>
+<td style="text-align:center">RegisterBeanUtil</td>
+<td style="text-align:center">动态注册bean到容器的工具类，会注入依赖</td>
+</tr>
+<tr>
+<td style="text-align:center">DynamicInterface</td>
+<td style="text-align:center">模拟需求存在服务的class接口</td>
+</tr>
+<tr>
+<td style="text-align:center">DynamicClass</td>
+<td style="text-align:center">模拟需求需要加载的class，提供参考，加载的是类似的DynamicClass2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="②实现方法"><a href="#②实现方法" class="headerlink" title="②实现方法"></a>②实现方法</h3><h5 id="方法1：-class文件直接保存到classpath对应的包目录下。"><a href="#方法1：-class文件直接保存到classpath对应的包目录下。" class="headerlink" title="方法1： class文件直接保存到classpath对应的包目录下。"></a>方法1： class文件直接保存到classpath对应的包目录下。</h5><p>方法这种方法实现比较简单，不需要自定义类加载器，直接  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 反射获取Class，加载到方法区</span>
+Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> cls <span class="token operator">=</span> Class<span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span><span class="token string">"class全名"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 调用注册方法，托管到Spring容器</span>
+<span class="token function">register</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> cls<span class="token punctuation">,</span> String beanName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>但是这种方法拓展性很差，一般服务打包为jar包，根本无法往里面存文件。  </p>
+<h5 id="方法2：-自定义类加载器"><a href="#方法2：-自定义类加载器" class="headerlink" title="方法2： 自定义类加载器"></a>方法2： 自定义类加载器</h5><p>这个方法不需要保存到项目classpath中class对应的目录下。可以任意目录，Class.formName()对比加载器最大就是这个区别  </p>
+<blockquote>
+<p>本项目保存到classpath:resource/hotLoadingClasses只为方便测试  </p>
+</blockquote>
+<ul>
+<li><p>CustomClassLoader</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+* 自定义类加载器加载外部class
+* 不需要重写加载的双亲委派逻辑
+*
+* @author chgl16
+* @date 2019/8/24 16:24
+*/</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomClassLoader</span> <span class="token keyword">extends</span> <span class="token class-name">ClassLoader</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">final</span> Logger logger <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 主要为了指定父加载器为Spring类加载器
+   * 因此在构造方法中配置调用
+   * 同时此加载器必须由Spring类加载器加载，即必须声明为@Component
+   */</span>
+  <span class="token keyword">public</span> <span class="token function">CustomClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">super</span><span class="token punctuation">(</span>CustomClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 加载某个目录下的一个class文件，返回类的类类型
+   *
+   * @param name 类的全名，如 java.util.concurrent.ConcurrentHashMap
+   * @return
+   */</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">protected</span>  Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">findClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 这个路径就是网络路径，必须都是 "/"，不能存在 "\"，否则URL转换失败</span>
+      String myPath <span class="token operator">=</span> <span class="token string">"file:///"</span> <span class="token operator">+</span> FileStoreUtil<span class="token punctuation">.</span>BASE_FOLDER<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"\\"</span><span class="token punctuation">,</span> <span class="token string">"/"</span><span class="token punctuation">)</span> <span class="token operator">+</span> name<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">,</span><span class="token string">"/"</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".class"</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">/*
+       * !!本打算以此去掉可能存在的后缀BeanInfo和Customizer的class信息类加载失败的问题
+       * 》实践结果：无法去掉，这是spring加载器无法加载，本加载器被迫加载造成的错误，
+       * 》而如果class在classpath下是没有问题，但是这个问题不影响使用，因此隐藏了日志
+       */</span>
+<span class="token comment" spellcheck="true">//        myPath = myPath.replace("BeanInfo", "").replace("Customizer", "");</span>
+
+      logger<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span><span class="token string">"使用了自定义加载器加载该类: "</span> <span class="token operator">+</span>  myPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> classBytes <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      Path path <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+          path <span class="token operator">=</span> Paths<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">URI</span><span class="token punctuation">(</span>myPath<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          classBytes <span class="token operator">=</span> Files<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> <span class="token operator">|</span> URISyntaxException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      Class <span class="token class-name">cls</span> <span class="token operator">=</span> <span class="token function">defineClass</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> classBytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> classBytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">return</span> cls<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>自定义类加载器只需要重写findClass(name)方法即可，调用的时候是调用loadClass(name)方法，因为这里不需要<br>破坏双亲委派逻辑，调用链为loadClass -&gt; findClass -&gt; defineClass。  </p>
+</li>
+</ul>
+<p>这里需要注意的是<strong>要保证自定义的类加载器父加载器是Spring加载器</strong>，因为加载的class存在某些spring特性类（比如注解@Autowrited）,这些是需要Spring加载器加载的。  </p>
+<p>实现方法很简单，把CustomClassLoader注册为@Component，即自定义的加载器被Spring加载器加载，那么构造方法的super(CustomClassLoader.class.getClassLoader())就是指定了父加载器。  </p>
+<p>ClassLoader源码</p>
+<pre class=" language-java"><code class="language-java"> <span class="token comment" spellcheck="true">/**
+ * Creates a new class loader using the specified parent class loader for
+ * delegation.
+ *
+ * &lt;p> If there is a security manager, its {@link
+ * SecurityManager#checkCreateClassLoader()
+ * &lt;tt>checkCreateClassLoader&lt;/tt>} method is invoked.  This may result in
+ * a security exception.  &lt;/p>
+ *
+ * @param  parent
+ *         The parent class loader
+ *
+ * @throws  SecurityException
+ *          If a security manager exists and its
+ *          &lt;tt>checkCreateClassLoader&lt;/tt> method doesn't allow creation
+ *          of a new class loader.
+ *
+ * @since  1.2
+ */</span>
+<span class="token keyword">protected</span> <span class="token function">ClassLoader</span><span class="token punctuation">(</span>ClassLoader parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token function">checkCreateClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> parent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>需要加载的class类似如下：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DynamicClassBO</span> <span class="token keyword">implements</span> <span class="token class-name">DynamicInterface</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Autowired</span><span class="token punctuation">(</span>required <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> PropertyBean propertyBean<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hi: 第一个实现类**************************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        propertyBean<span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> PropertyBean <span class="token function">getPropertyBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> propertyBean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setPropertyBean</span><span class="token punctuation">(</span>PropertyBean propertyBean<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>propertyBean <span class="token operator">=</span> propertyBean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>加载这个类用到的是自定义加载器的findClass方法，但是里面的@Autowired标注的属性会委派到Spring加载器加载。<br>因此如果属性使用@Autowired如此，在构造bean的时候是不需要手动注入属性的，Spring加载胡自动注入。  </p>
+<blockquote>
+<p>@Autowired的属性这里不需要setter/getter方法，如果没用此注解需要提供setter方法，不然无法构造属性注入  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// Class注入属性</span>
+Field<span class="token punctuation">[</span><span class="token punctuation">]</span> fields <span class="token operator">=</span> cls<span class="token punctuation">.</span><span class="token function">getFields</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>Field field <span class="token operator">:</span> fields<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 容器存在这个属性则注入，按编码习惯的名字，没有按类型。（用户输入的也是名字）</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>defaultListableBeanFactory<span class="token punctuation">.</span><span class="token function">isBeanNameInUse</span><span class="token punctuation">(</span>field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/*
+           @第一个参数是类的属性名，第二个是容器中需要的bean的beanNam
+           1. 如果是@Autowired注解的属性不需要这样添加了，注释掉下面代码
+           2. 如果不是@Autowired需要另外添加setter方法
+         */</span>
+        beanDefinitionBuilder<span class="token punctuation">.</span><span class="token function">addPropertyReference</span><span class="token punctuation">(</span>field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> field<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</blockquote>
+<ul>
+<li><p>ApplicationContext</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HotloadingApplication</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      ApplicationContext ac <span class="token operator">=</span> SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>HotloadingApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 保存同一个容器使用</span>
+      SpringContextUtil<span class="token punctuation">.</span><span class="token function">setApplicationContext</span><span class="token punctuation">(</span>ac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>容器在启动类处保存到工具类即可。保证容器唯一。<br>以下这种方法会错误失败</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">private</span> ApplicationContext applicationContext<span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>RegisterBeanUtil<br><code>`</code>java<br>/**</p>
+<ul>
+<li>注册Bean<br>*</li>
+<li>@author chgl16</li>
+<li><p>@date 2019/8/24 16:20<br>*/<br>public class RegisterBeanUtil {</p>
+<p>/**</p>
+<ul>
+<li>注册一个Class到IOC容器，并且返回调用</li>
+<li>class不要求在classpath路径下<br>*</li>
+<li>@param cls  注册的bean Class</li>
+<li>@param beanName 注册的bean Id</li>
+<li><p>@return<br>*/<br>public static Object register(Class&lt;?&gt; cls, String beanName) {</p>
+<p> //将applicationContext转换为ConfigurableApplicationContext<br> ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) SpringContextUtil.getApplicationContext();</p>
+<p> // 获取bean工厂并转换为DefaultListableBeanFactory<br> DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();</p>
+<p> /*</p>
+<pre><code> 如果存在需要热更新，即先从工厂删去
+ 这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断
+ 因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行
+</code></pre><p>  */<br> if (defaultListableBeanFactory.isBeanNameInUse(beanName)) {</p>
+<pre><code> defaultListableBeanFactory.removeBeanDefinition(beanName);
+</code></pre><p> }</p>
+<p> // 通过BeanDefinitionBuilder创建bean定义<br> BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(cls);</p>
+<p> // 所有属性<br> Field[] fields = cls.getFields();<br> for (Field field : fields) {</p>
+<pre><code> // 容器存在这个属性则注入，按编码习惯的名字，没有按类型。（用户输入的也是名字）
+ if (defaultListableBeanFactory.isBeanNameInUse(field.getName())) {
+     // 第一个参数是类的属性名，第二个是容器中需要的bean的beanNam
+     beanDefinitionBuilder.addPropertyReference(field.getName(), field.getName());
+ }
+</code></pre><p> }</p>
+<p> // 注册bean<br> defaultListableBeanFactory.registerBeanDefinition(beanName, beanDefinitionBuilder.getRawBeanDefinition());</p>
+<p> // 返回<br> return SpringContextUtil.getBean(beanName);<br>}</p>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>注册一个Class到IOC容器，并且返回调用</li>
+<li>此name对应的class必须在classpath下</li>
+<li>这种不会出现BeanInfo和Customize的后缀问题<br>*</li>
+<li>@param name 类的全名，如java.util.concurrent.ConcurrentHashMap</li>
+<li>@param beanName 注册的bean Id</li>
+<li>@return<br>*/<br>public static Object register(String name, String beanName) {<br> Class&lt;?&gt; cls = null;<br> try {<pre><code> // 如果此name对应的class必须在classpath下，则反射成功
+ cls = Class.forName(name);
+</code></pre> } catch (ClassNotFoundException e) {<pre><code> e.printStackTrace();
+</code></pre> }<br> return register(cls, beanName);<br>}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>}</p>
+<pre><code>最核心的一个工具类，这些spring都封装很多了，spring容器相当于把加载到方法区Class获取创建id-class对象的形式维护到一个map中，  
+这里的builder先获取class定义（创建者模式源码内部创建了一个实例，属于bean生命周期第一步）然后加入属性（就是属性setter注入，属于bean生命周期的第二步）。  
+最后就算注册到容器了。  
+
+&gt;这里的判断容器是否存在一个bean这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断。  
+&gt;因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行。  
+使用boolean defaultListableBeanFactory.isBeanNameInUse(beanName)才是正解
+
+
+# 三、问题事项
+1. 会报错XxxBeanInfo.class 或者 XxxCustomizer.class找不到  
+&gt;Xxx表示的是加载的类名，调试源码显示除了加载DynamicClassBO，还加载了DynamicClassBOBeanInfo和DynamicClassBOCustomizer  
+
+这两个不知道为啥还是调用了自定义加载器的findClass方法，因为这两个应该是Spring加载器加载的，是一些bean的属性和信息类。不过并不影响使用  
+```console
+2019-08-24 22:07:54.476  WARN 4420 --- [nio-8080-exec-8] x.c.hotloading.util.CustomClassLoader    : 使用了自定义加载器加载该类: file:///F:/project/hotloading/src/main/resources/hotLoadingClasses/xyz/cglzwz/hotloading/bo/DynamicClass7BOCustomizer.class
+java.nio.file.NoSuchFileException: F:\project\hotloading\src\main\resources\hotLoadingClasses\xyz\cglzwz\hotloading\bo\DynamicClass7BOCustomizer.class
+    at sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:79)
+    at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:97)
+    at sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:102)
+    at sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:230)
+    at java.nio.file.Files.newByteChannel(Files.java:361)
+    at java.nio.file.Files.newByteChannel(Files.java:407)
+    at java.nio.file.Files.readAllBytes(Files.java:3152)
+    at xyz.cglzwz.hotloading.util.CustomClassLoader.findClass(CustomClassLoader.java:59)
+    at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+    at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+    at java.lang.Class.forName0(Native Method)
+    at java.lang.Class.forName(Class.java:348)
+    at com.sun.beans.finder.ClassFinder.findClass(ClassFinder.java:103)
+    at java.beans.Introspector.findCustomizerClass(Introspector.java:1301)
+    at java.beans.Introspector.getTargetBeanDescriptor(Introspector.java:1295)
+    at java.beans.Introspector.getBeanInfo(Introspector.java:425)
+    at java.beans.Introspector.getBeanInfo(Introspector.java:262)
+    at java.beans.Introspector.getBeanInfo(Introspector.java:204)
+    at org.springframework.beans.CachedIntrospectionResults.getBeanInfo(CachedIntrospectionResults.java:248)
+    at org.springframework.beans.CachedIntrospectionResults.&lt;init&gt;(CachedIntrospectionResults.java:273)
+    at org.springframework.beans.CachedIntrospectionResults.forClass(CachedIntrospectionResults.java:177)
+    at org.springframework.beans.BeanWrapperImpl.getCachedIntrospectionResults(BeanWrapperImpl.java:174)
+    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:230)
+    at org.springframework.beans.BeanWrapperImpl.getLocalPropertyHandler(BeanWrapperImpl.java:63)
+</code></pre><p>当然如果使用方法1不会出现这种情况。比较保存到外面路径的class本身就无法生成对应的XxxBeanInfo和XxxCustomizer到相同目录下。<br>疑点还是不知道为是作为父加载器的spring加载器不加载。  </p>
+<blockquote>
+<p>这种异常不影响程序执行，不会中断，为解决时可以捕获异常不处理即可。<br><code>`</code>java<br>@Override<br>protected  Class&lt;?&gt; findClass(String name) {<br>    // …    </p>
+</blockquote>
+<pre><code>byte[] classBytes = null;
+Path path = null;
+try {
+    path = Paths.get(new URI(myPath));
+    classBytes = Files.readAllBytes(path);
+} catch (IOException | URISyntaxException e) {
+    // 捕获不处理，不打印
+    // e.printStackTrace();
+}
+Class cls = defineClass(name, classBytes, 0, classBytes.length);
+return cls;
+</code></pre><p>}<br><code>`</code>  </p>
+<ol start="2">
+<li>使用devtools依赖包服务重启问题。<br>如果项目加载了这个包，加载成功容器也会重启。切记去掉这个包。</li>
+</ol>
+
+            </div>
+            <hr/>
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://cglzwz.xyz" class="b-link-green">Chgl16</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/08/22/spring/class-re-jia-zai-re-geng-xin/" class="b-link-green">class热加载热更新实现</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/08/22/spring/class-re-jia-zai-re-geng-xin/">
+                    <div class="card-image">
+                        
+                        <img src="https://sm.ms/image/OYSx1VL67l3pCcW" class="responsive-img" alt="class热加载热更新实现">
+                        
+                        <span class="card-title">class热加载热更新实现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">一、需求描述
+&emsp;&emsp;服务使用过程中，希望在不重启服务的情况下，动态加载某些class/scalar/jar到项目中使用，即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证热更新。&em</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring/" class="post-category" target="_blank">
+                                    Spring
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/" target="_blank">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/ClassLoader/" target="_blank">
+                        <span class="chip bg-color">ClassLoader</span>
+                    </a>
+                    
+                    <a href="/tags/反射/" target="_blank">
+                        <span class="chip bg-color">反射</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/05/java/java8-xin-te-xing-lambda/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+title: Java8新特性date: 2019-07-12 22:50author: chgl16summary: Java8的各种新特性，以及常用的Lambda表达式tag: Lambdacategories: Java
+img: </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-user fa-fw"></i>
+                            chgl16
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <!--
+        <div class="col s12 m8 l8 copy-right">
+            本站由&copy;<a href="https://blinkfox.github.io/" target="_blank">Blinkfox</a>基于
+            <a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">27.5k</span>
+            
+
+            
+			
+        </div>
+        -->
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/chgl16" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:chgl16@yeah.net" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+
+</body>
+</html>
