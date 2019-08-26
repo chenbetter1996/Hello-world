@@ -50,6 +50,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[最长不重复子串]]></title>
+    <url>%2F2019%2F07%2F15%2Fleetcode%2Fzui-chang-bu-chong-fu-zi-chuan%2F</url>
+    <content type="text"><![CDATA[一、题目Given a string, find the length of the longest substring without repeating characters. Example 1: Input: “abcabcbb”Output: 3Explanation: The answer is “abc”, with the length of 3. Example 2: Input: “bbbbb”Output: 1Explanation: The answer is “b”, with the length of 1. Example 3: Input: “pwwkew”Output: 3Explanation: The answer is “wke”, with the length of 3. Note that the answer must be a substring, “pwke” is a subsequence and not a substring. 二、解法复杂度分析子串就是连续的，子序列是可以连续的。爆破的话使用HashSet是O(n^3)，不使用就得O(n^4)。其中获取某个位置某个长度的子串复杂度为O(n^2)，判断一个串是否不重复用HashhSet就是O(n) 动态规划？这个最值问题看似可以用dp实际上有问题，dp想法是： dp[i] # 表示包括第i个字符的前i个字符最长不重复数 dp[i] = (max(dp[i-1] + 1), 1), !s.substring(i-dp[i-1], i).contains(s.charAt(i)) # 只和前面dp[i-1]有关，不存在就加1。存在就独一 但是这样是有问题的。如果s = “dvdf”， dp[1] = 2, dp[2] = 1, dp[3] = dp[2] + 1 = 2;当为第二个d的时候，不应该不要前面全部，至少v是需要的，因此这种转移不满足最优子问题。可以转换为下面正确方法 import java.util.Set; import java.util.HashSet; class Solution { public int lengthOfLongestSubstring(String s) { if (s == null || s.length() == 0) return 0; int max = 1; int len = s.length(); int[] dp = new int[len]; dp[0] = 1; for (int i = 1; i &lt; len; ++i) { dp[i] = 1; // 判断 dp[i-1]子串是否存在第i个字符 Set set = new HashSet(); int start = i - dp[i-1]; for (int k = i; k >= start; --k) { set.add(s.charAt(k)); if (set.size() > dp[i]) dp[i] = set.size(); } if (dp[i] > max) max = set.size(); } return max; } } 从后往前扫，更新dp[i]，也是一种动态规划。即转移方程为 dp[i] = max(1, dp[i-1]的后面不包含s.charAt(i)的某段 + 1) 当然还有滑动窗口这种复杂度为O(n)的贪心算法。重复把前面的去掉，不重复加到后面，用两个变量分别保存起末 public class Solution { public int lengthOfLongestSubstring(String s) { int n = s.length(); Set&lt;Character> set = new HashSet&lt;>(); int ans = 0, i = 0, j = 0; while (i &lt; n &amp;&amp; j &lt; n) { // try to extend the range [i, j] if (!set.contains(s.charAt(j))){ set.add(s.charAt(j++)); ans = Math.max(ans, j - i); } else { set.remove(s.charAt(i++)); } } return ans; } }]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Spring声明式事务]]></title>
     <url>%2F2019%2F07%2F14%2Fspring%2Fspring-sheng-ming-shi-shi-wu%2F</url>
     <content type="text"><![CDATA[Spring声明式事务 事务是对于多个SQL执行才有必要，一个就算了。推荐使用第三种@Transactional，毕竟事务声明是很严谨重要的点。这个可读性等更好。 注解声明配置方式spring-service.xml &lt;?xml version="1.0" encoding="UTF-8" ?> &lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"> &lt;context:component-scan base-package="xyz.cglzwz.service"/> &lt;!-- 配置事务管理器 --> &lt;bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> &lt;!-- 注入数据库连接池 --> &lt;property name="dataSource" ref="dataSource"> &lt;/bean> &lt;!-- 基于注解的声明式事务 --> &lt;tx:annotation-driven transaction-manager="transactionManager"/> &lt;/beans> Spring声明事务回滚Spring声明事务回滚的默认情况是 抛出运行期异常 事务的嵌套传播多个事务嵌套，当内/外回滚提交都出现的时候，不同情况有不同结果。现在暂时没打理。这个也和事务隔离级别有关，MySQL默认是可重复读。一个博主的分享。这里内层事务一旦start transaction就强制前面的外层事务提交了。 事务隔离级别简书一个博客待验证。]]></content>
