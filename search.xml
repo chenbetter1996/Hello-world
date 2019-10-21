@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
+    <title><![CDATA[VMware安装Mac虚拟机]]></title>
     <url>%2F2019%2F10%2F21%2Fza-ji%2Fvmware-an-zhuang-mac-xu-ni-ji%2F</url>
-    <content type="text"><![CDATA[title: VMware安装Mac虚拟机date: 2019-10-21 20:26category: 杂记tags: VM img: https://i.loli.net/2019/10/21/pg9tLrXTbQ8RoOe.jpgVMware安装Mac虚拟机VMware Workstation pro 15 Mac OS 10.13 1. unlock Mac虚拟机默认是VMware新建只有Linux和windows等，但是没有Apple Mac类型。需要下载一个第三方的unlock补丁破解。不同版本的unlock对应不同版本的VM。网上搜索一大把，管理员执行win-install.cmd脚本即可。 2. 选择镜像问题Mac OS的镜像有两种格式，常见的是dmg格式，但是虚拟机不能用这种格式，即便使用UltraISO转换为iso格式也不行，启动会蓝屏进入 Boot Manager 窗口，暂无法解决。 必须下载使用cdr格式的镜像，10.13 3. 安装过程安装盘选项空白问题解决方法 4. 客户机操作系统已禁CPU，请关闭或重置虚拟机这需要开启CPU虚拟化 中间的不要打开，不然报错 “该主机cpu类型不支持虚拟化性能计数器”。 同时编辑编辑 .vmx 文件，添加以下配置信息到最后 cpuid.1.eax = "0000:0000:0000:0001:0000:0110:1010:0101" 5. 分辨率问题安装好的虚拟机分辨率不可调，很小 待续..]]></content>
+    <content type="text"><![CDATA[VMware安装Mac虚拟机VMware Workstation pro 15 Mac OS 10.13 1. unlock Mac虚拟机默认是VMware新建只有Linux和windows等，但是没有Apple Mac类型。需要下载一个第三方的unlock补丁破解。不同版本的unlock对应不同版本的VM。网上搜索一大把，管理员执行win-install.cmd脚本即可。 2. 选择镜像问题Mac OS的镜像有两种格式，常见的是dmg格式，但是虚拟机不能用这种格式，即便使用UltraISO转换为iso格式也不行，启动会蓝屏进入 Boot Manager 窗口，暂无法解决。 必须下载使用cdr格式的镜像，10.13 3. 安装过程安装盘选项空白问题解决方法 4. 客户机操作系统已禁CPU，请关闭或重置虚拟机这需要开启CPU虚拟化 中间的不要打开，不然报错 “该主机cpu类型不支持虚拟化性能计数器”。 同时编辑编辑 .vmx 文件，添加以下配置信息到最后 cpuid.1.eax = "0000:0000:0000:0001:0000:0110:1010:0101" 5. 分辨率问题安装好的虚拟机分辨率不可调，很小 待续..]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>VM</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[class热加载热更新实现]]></title>
