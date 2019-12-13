@@ -408,7 +408,7 @@
 <h4 id="3-地址暴露接口"><a href="#3-地址暴露接口" class="headerlink" title="3. 地址暴露接口"></a>3. 地址暴露接口</h4><p><img src="https://i.loli.net/2019/07/21/5d3442668b72a24330.png" alt="redis缓存方式"></p>
 <ul>
 <li>因为秒杀的时候用户会大量重复刷新页面，而这个秒杀商品对象的一些信息存在数据库，如库存开始结束时间。比较后正确才能给他生成暴露接口。反正是操作数据库了，这个可以使用Redis缓存这些秒杀对象信息。一致性维护采用超时缓存即可。因为商品信息基本不会短时间改变。</li>
-<li>具体可见<a href="https://cglzwz.xyz/2019/07/18/redis/redis-hou-duan-huan-cun-liang-da-de-shu-ju-ku-cha-xun/">Redis后端缓存量大的数据库查询</a>  </li>
+<li>具体可见<a href="https://cglzwz.xyz/2019/07/18/redis/redis-hou-duan-huan-cun-liang-da-de-shu-ju-ku-cha-xun/" target="_blank" rel="noopener">Redis后端缓存量大的数据库查询</a>  </li>
 </ul>
 <h4 id="4-执行秒杀操作"><a href="#4-执行秒杀操作" class="headerlink" title="4. 执行秒杀操作"></a>4. 执行秒杀操作</h4><p>这是优化的重点<br><img src="https://i.loli.net/2019/07/21/5d34347af057a94216.png" alt="事务执行流程"><br>秒杀这些都是一般两个操作： <strong>减库存</strong> 和 <strong>记录用户购买信息</strong> 。</p>
 <p><img src="https://i.loli.net/2019/07/21/5d3443331f8bd20360.png" alt="单条update压力测试"><br><img src="https://i.loli.net/2019/07/21/5d3443331341127657.png" alt="事务处理分析"><br>但是因为update行级锁的影响，一个事务结束才会释放行级锁。加上网络延时和GC，会很慢。如果实现还是在数据库方面，优化主要是减少事务锁的时间。</p>
