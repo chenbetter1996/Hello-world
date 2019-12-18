@@ -4,9 +4,10 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="blog">
-    <meta name="description" content="
-title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用Apache提供的类库pdfBox和fontBox，实现将PDF文件转为高清PNG图片tag: PDFca">
+    <meta name="keywords" content="PDF转图片Java实现, blog">
+    <meta name="description" content="依赖环境使用到的是Apache提供的类库pdfBox和fontBox直接导入依赖即可。  
+&amp;lt;!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox --&gt;
+&amp;l">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,21 +15,21 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Chgl16</title>
+    <title>PDF转图片Java实现 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/aos/2.3.3/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/lightgallery/1.6.12/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     <style type="text/css">
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
@@ -198,13 +199,13 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        
+                        PDF转图片Java实现
                     </div>
                 </div>
             </div>
@@ -217,7 +218,7 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
 <main class="post-container content">
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/tocbot/4.8.1/tocbot.css">
 <style>
     #articleContent h1::before,
     #articleContent h2::before,
@@ -313,12 +314,25 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/PDF/" target="_blank">
+                                <span class="chip bg-color">PDF</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                Java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -326,14 +340,14 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-12-18
+                    2019-11-10
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        457
+                        412
                     </div>
                     
 
@@ -351,9 +365,7 @@ title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<p>title: PDF转图片Java实现<br>date: 2019-11-10 22:50<br>author: chgl16<br>summary: 使用Apache提供的类库pdfBox和fontBox，实现将PDF文件转为高清PNG图片<br>tag: PDF<br>categories: Java</p>
-<h2 id="img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg"><a href="#img-https-i-loli-net-2019-08-05-d3tWHFqTupvPjIK-jpg" class="headerlink" title="img: https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg"></a>img: <a href="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg</a></h2><h2 id="依赖环境"><a href="#依赖环境" class="headerlink" title="依赖环境"></a>依赖环境</h2><p>使用到的是Apache提供的类库<a href="https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox/2.0.17" target="_blank" rel="noopener">pdfBox</a>和<a href="https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox/2.0.17" target="_blank" rel="noopener">fontBox</a><br>直接导入依赖即可。  </p>
+                <h2 id="依赖环境"><a href="#依赖环境" class="headerlink" title="依赖环境"></a>依赖环境</h2><p>使用到的是Apache提供的类库<a href="https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox/2.0.17" target="_blank" rel="noopener">pdfBox</a>和<a href="https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox/2.0.17" target="_blank" rel="noopener">fontBox</a><br>直接导入依赖即可。  </p>
 <pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.pdfbox<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
@@ -480,7 +492,7 @@ ckaging<span class="token operator">=</span>jar
                     </span>
                     <a href="https://chgl16.github.io" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/12/18/java/pdf-zhuan-tu-pian-java-shi-xian/" class="b-link-green"></a>
+                    <a href="/2019/11/10/java/pdf-zhuan-tu-pian-java-shi-xian/" class="b-link-green">PDF转图片Java实现</a>
                 </p>
             </div>
         </div>
@@ -506,31 +518,43 @@ ckaging<span class="token operator">=</span>jar
                 <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2019/12/18/java/pdf-zhuan-tu-pian-java-shi-xian/">
+                <a href="/2019/11/10/java/pdf-zhuan-tu-pian-java-shi-xian/">
                     <div class="card-image">
                         
+                        <img src="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" class="responsive-img" alt="PDF转图片Java实现">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
-                        
-                        <span class="card-title"></span>
+                        <span class="card-title">PDF转图片Java实现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">
-title: PDF转图片Java实现date: 2019-11-10 22:50author: chgl16summary: 使用Apache提供的类库pdfBox和fontBox，实现将PDF文件转为高清PNG图片tag: PDFca</div>
+                    <div class="summary block-with-text">依赖环境使用到的是Apache提供的类库pdfBox和fontBox直接导入依赖即可。  
+&lt;!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+&l</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-18
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-10
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/PDF/" target="_blank">
+                        <span class="chip bg-color">PDF</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -604,7 +628,7 @@ Mac OS 10.13
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
+<script src="https://cdn.bootcss.com/tocbot/4.8.1/tocbot.min.js"></script>
 <script>
     $(function () {
         tocbot.init({
@@ -740,11 +764,11 @@ $(function () {
 </div>
 
 
-<script src="/libs/materialize/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="https://cdn.bootcss.com/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="https://cdn.bootcss.com/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<script src="https://cdn.bootcss.com/aos/2.3.3/aos.js"></script>
+<script src="https://cdn.bootcss.com/scrollprogress/3.0.2/scrollProgress.min.js"></script>
+<script src="https://cdn.bootcss.com/lightgallery/1.6.12/js/lightgallery-all.min.js"></script>
 <script src="/js/matery.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

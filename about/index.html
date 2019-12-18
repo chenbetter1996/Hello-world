@@ -16,18 +16,18 @@
     <title>关于 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/aos/2.3.3/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/lightgallery/1.6.12/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     <style type="text/css">
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
@@ -250,7 +250,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">69</a></span>
+    <span class="count"><a href="/tags" target="_blank">70</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -279,7 +279,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
 
 
 <div class="statis">
-    <span class="count"><a href="/tags" target="_blank">69</a></span>
+    <span class="count"><a href="/tags" target="_blank">70</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -343,7 +343,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
     </div>
 </div>
 
-<script type="text/javascript" src="/libs/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.4.0-rc.1/echarts.min.js"></script>
 <script>
     let postsChart = echarts.init(document.getElementById('posts-chart'));
     let categoriesChart = echarts.init(document.getElementById('categories-chart'));
@@ -372,7 +372,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,2,2,0,9,15,14,14,1,0,1,0,1],
+                data: [0,2,2,0,9,15,14,14,1,0,1,1,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -414,7 +414,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"HTTP","value":2},{"name":"Git","value":1},{"name":"Java","value":9},{"name":"LeetCode","value":4},{"name":"Linux","value":2},{"name":"Python","value":3},{"name":"MySQL","value":7},{"name":"RabbitMQ","value":3},{"name":"Redis","value":2},{"name":"SQL","value":1},{"name":"TensorFlow","value":2},{"name":"Spring","value":3},{"name":"前端","value":1},{"name":"剑指offer","value":3},{"name":"Thrift","value":1},{"name":"多线程并发编程","value":2},{"name":"开发工具","value":2},{"name":"算法&数据结构","value":2},{"name":"杂记","value":7},{"name":"架构","value":1}],
+                data: [{"name":"HTTP","value":2},{"name":"Git","value":1},{"name":"Java","value":10},{"name":"LeetCode","value":4},{"name":"Linux","value":2},{"name":"Python","value":3},{"name":"MySQL","value":7},{"name":"RabbitMQ","value":3},{"name":"Redis","value":2},{"name":"SQL","value":1},{"name":"TensorFlow","value":2},{"name":"Spring","value":3},{"name":"前端","value":1},{"name":"剑指offer","value":3},{"name":"Thrift","value":1},{"name":"多线程并发编程","value":2},{"name":"开发工具","value":2},{"name":"算法&数据结构","value":2},{"name":"杂记","value":7},{"name":"架构","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -438,7 +438,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + num + '.jpg)');
         xAxis: [
             {
                 type: 'category',
-                data: ["MySQL","Python","Spring","RabbitMQ","算法","IDEA","TensorFlow","Redis","安装","JVM"]
+                data: ["MySQL","Python","RabbitMQ","Spring","Redis","安装","序列化与反序列化","TensorFlow","JVM","IDEA"]
             }
         ],
         yAxis: [
@@ -636,11 +636,11 @@ $(function () {
 </div>
 
 
-<script src="/libs/materialize/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="https://cdn.bootcss.com/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="https://cdn.bootcss.com/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<script src="https://cdn.bootcss.com/aos/2.3.3/aos.js"></script>
+<script src="https://cdn.bootcss.com/scrollprogress/3.0.2/scrollProgress.min.js"></script>
+<script src="https://cdn.bootcss.com/lightgallery/1.6.12/js/lightgallery-all.min.js"></script>
 <script src="/js/matery.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
