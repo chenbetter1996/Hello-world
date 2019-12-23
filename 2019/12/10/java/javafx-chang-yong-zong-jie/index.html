@@ -345,14 +345,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2k
+                        2.4k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        8 分
+                        10 分
                     </div>
                     
                 
@@ -590,7 +590,7 @@ String oldValue <span class="token operator">=</span> t<span class="token punctu
 </code></pre>
 <p>否则报错setOnEditCommit的参数需要是Even而不是EventHandler，其实EventHandler就是Even的子类。原因是事件不能先于所在列先声明泛型。不然private TableColumn conditionTableColumnComponent就是原始类型了。后面要强转了。<a href="https://stackoverflow.com/questions/35320398/lambda-operator-in-tablecolumn-setoneditcommit" target="_blank" rel="noopener">见StackOverFlow</a>  </p>
 </blockquote>
-<h2 id="3-打包"><a href="#3-打包" class="headerlink" title="3. 打包"></a>3. 打包</h2><h4 id="文件找不到"><a href="#文件找不到" class="headerlink" title="文件找不到"></a>文件找不到</h4><p><img src="https://i.loli.net/2019/12/23/Zgz8HOji1m6sUIQ.png" alt="打包配置"><br>使用IDEA开发的JavaFX程序，指定好主类后（无需.java后缀）即可在菜单栏Build-&gt;Build Artifacts打包  </p>
+<h2 id="3-打包"><a href="#3-打包" class="headerlink" title="3. 打包"></a>3. 打包</h2><h3 id="3-1文件找不到"><a href="#3-1文件找不到" class="headerlink" title="3.1文件找不到"></a>3.1文件找不到</h3><p><img src="https://i.loli.net/2019/12/23/Zgz8HOji1m6sUIQ.png" alt="打包配置"><br>使用IDEA开发的JavaFX程序，指定好主类后（无需.java后缀）即可在菜单栏Build-&gt;Build Artifacts打包  </p>
 <p>但是打包会有个资源文件路径错乱的情况。打包后jar包的第一层就是src下的包，不包括src目录。类实的如果有文本文件哪怕new File(“filePath”)使用打包后正确的相对路径也没用。打包后已经无法找到文件。  </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String RULES_FILE_PATH <span class="token operator">=</span> <span class="token string">"rules.txt"</span><span class="token punctuation">;</span>
 
@@ -617,9 +617,46 @@ String encoding <span class="token operator">=</span> <span class="token string"
 <span class="token comment" spellcheck="true">//}</span>
 </code></pre>
 <p>可以把new File(filePath)的方式改为Class.getResourceAsStream(path)，返回一个InputStream。这样运行和打包都没问题。  </p>
-<h4 id="部分乱码"><a href="#部分乱码" class="headerlink" title="部分乱码"></a>部分乱码</h4><p>哪怕都是UTF-8，打包后还是存在file.encoding属性被打包程序更改的问题，解决方法是打包程序运行时指定编码。  </p>
+<h3 id="3-2-fxml文件报错Location-is-required"><a href="#3-2-fxml文件报错Location-is-required" class="headerlink" title="3.2 fxml文件报错Location is required."></a>3.2 fxml文件报错Location is required.</h3><p>这个是无法读取到fxml文件，路径错误。运行时一般问题不大。都能调对。比如  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// Main.java 类</span>
+<span class="token operator">/</span><span class="token operator">*</span> 目录结构
+ <span class="token operator">*</span> controller
+ <span class="token operator">*</span>    <span class="token operator">-</span> AaControllerNot
+ <span class="token operator">*</span>    <span class="token operator">-</span> BbController
+ <span class="token operator">*</span> view
+ <span class="token operator">*</span>    <span class="token operator">-</span> index<span class="token punctuation">.</span>fxml
+ <span class="token operator">*</span>    <span class="token operator">-</span> rule<span class="token punctuation">.</span>fmxl
+ <span class="token operator">*</span> Main<span class="token punctuation">.</span>java
+ <span class="token operator">*</span>
+Parent root <span class="token operator">=</span> FXMLLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"view/index.fxml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+</code></pre>
+<p>在Main.java和view目录在一级目录下的时候，调试和打包后执行都没问题。  </p>
+<p>但是如果是</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// AaController.java 类</span>
+Parent root <span class="token operator">=</span> FXMLLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"../view/index.fxml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+</code></pre>
+<p>分别是一个同级目录下的。这样调试运行也没问题，打包路径也对。但是会报错java.lang.NullPointerException: Location is required.  其实还是想不通。打开Jar包看相对路径确实没问题。  </p>
+<p><strong>解决：</strong><br>网上有很多说加入类加载器 getClass().getClassLoader.getResource(“index.fxml”); 或者参数加”/“等等，各种都是不行的。<br>其实换个想法，Main那个可以，那完全可以使用Main的class，如下  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// AaController.java 类</span>
+Parent root <span class="token operator">=</span> FXMLLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>Main<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"view/rules.fxml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>这样调试打包都可以成功</p>
+<h3 id="3-3-部分乱码"><a href="#3-3-部分乱码" class="headerlink" title="3.3 部分乱码"></a>3.3 部分乱码</h3><p>哪怕都是UTF-8，打包后还是存在file.encoding属性被打包程序更改的问题，解决方法是打包程序运行时指定编码。  </p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 运行编码有问题，需指定编码</span>
 java -Dfile.encoding<span class="token operator">=</span>utf-8 -jar xxx.jar
+</code></pre>
+<p>或者在对应乱码的代码处，强制添加编码类型encoding  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 不使用File读取，打包后路径问题无法解决，一般的相对路径也无效。只能Clsss.getResourceAsStream(RULES_FILE_PATH)</span>
+<span class="token comment" spellcheck="true">// 读取初始化文件</span>
+<span class="token comment" spellcheck="true">// File file = new File(RULES_FILE_PATH);</span>
+String encoding <span class="token operator">=</span> <span class="token string">"UTF-8"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//if (file.isFile() &amp;&amp; file.exists()) {</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file), encoding);</span>
+        InputStream inputStream <span class="token operator">=</span> Core<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResourceAsStream</span><span class="token punctuation">(</span>RULES_FILE_PATH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        BufferedReader bufferedReader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>inputStream<span class="token punctuation">,</span> encoding<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String line <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// ...</span>
 </code></pre>
 
             </div>
@@ -867,7 +904,7 @@ java -Dfile.encoding<span class="token operator">=</span>utf-8 -jar xxx.jar
             <!--
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">31.2k</span>
+                <span class="white-color">31.6k</span>
             
 
             
