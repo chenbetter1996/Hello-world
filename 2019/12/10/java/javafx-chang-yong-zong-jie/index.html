@@ -1,0 +1,933 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="JavaFX常用总结, blog">
+    <meta name="description" content="1、安装JavaFX是JavaSE自带的类库，只需要下载可视化插件即可SceneBuilder即可，目前Windows的是直装msi版，只是v2.0，好多年没更新了。另外也可以用OpenJDK的JavaFX的SDK，持续更新。安装好后，在E">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>JavaFX常用总结 | Chgl16</title>
+    <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/aos/2.3.3/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/lightgallery/1.6.12/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.jpg" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Chgl16</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友链</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.jpg" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Chgl16</div>
+        <div class="logo-desc">
+            
+            The harder, the more fortunate
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友链
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/12/23/IfnMxOjJmidYBEV.png')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        JavaFX常用总结
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.bootcss.com/tocbot/4.8.1/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/JavaFX/" target="_blank">
+                                <span class="chip bg-color">JavaFX</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                Java
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-12-10
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        8 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h2><p>JavaFX是JavaSE自带的类库，只需要下载可视化插件即可<a href="https://gluonhq.com/products/scene-builder/" target="_blank" rel="noopener">SceneBuilder</a>即可，目前Windows的是直装msi版，只是v2.0，好多年没更新了。另外也可以用<a href="https://openjfx.io/" target="_blank" rel="noopener">OpenJDK的JavaFX的SDK</a>，持续更新。<br>安装好后，在Eclipse或者IDEA打开fxml文件都可以选择SceneBuilder可视化方式。  </p>
+<p>几个JavaFX教程网站</p>
+<ol>
+<li><a href="https://code.makery.ch/zh-cn/library/javafx-tutorial/" target="_blank" rel="noopener">JavaFX 教程 （中文）</a></li>
+<li><a href="https://www.w3cschool.cn/java/javafx-tableview.html" target="_blank" rel="noopener">W3Cschool</a></li>
+<li><a href="https://www.yiibai.com/javafx/javafx-tutorial-for-beginners.html" target="_blank" rel="noopener">易百教程</a></li>
+<li><a href="https://www.tutorialspoint.com/javafx/index.htm" target="_blank" rel="noopener">官文档</a></li>
+</ol>
+<h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><p><img src="https://i.loli.net/2019/12/23/HT3xzdo6lRbZcyC.png" alt="SceneBuilder">    </p>
+<blockquote>
+<p>程序运行后与可视化编辑界面有出入，布局容易变化  </p>
+</blockquote>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Pane</span> <span class="token attr-name">prefHeight</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>515.0<span class="token punctuation">"</span></span> <span class="token attr-name">prefWidth</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>703.0<span class="token punctuation">"</span></span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://javafx.com/javafx/8<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>fx</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://javafx.com/fxml/1<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">fx:</span>controller</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>chgl16.space.RuleController<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+...
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextField</span> <span class="token attr-name"><span class="token namespace">fx:</span>id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>conditionTextFieldComponent<span class="token punctuation">"</span></span> <span class="token attr-name">layoutX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>12.0<span class="token punctuation">"</span></span> <span class="token attr-name">layoutY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>406.0<span class="token punctuation">"</span></span> <span class="token attr-name">prefHeight</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>39.0<span class="token punctuation">"</span></span> <span class="token attr-name">prefWidth</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>320.0<span class="token punctuation">"</span></span> <span class="token attr-name">promptText</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xx<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">layoutX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>564.0<span class="token punctuation">"</span></span> <span class="token attr-name">layoutY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>349.0<span class="token punctuation">"</span></span> <span class="token attr-name">mnemonicParsing</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token attr-name">onAction</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#goReason<span class="token punctuation">"</span></span> <span class="token attr-name">prefHeight</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>64.0<span class="token punctuation">"</span></span> <span class="token attr-name">prefWidth</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>176.0<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">-fx-background-color</span><span class="token punctuation">:</span> <span class="token hexcode">#28a745</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span> <span class="token attr-name">text</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>进行推理<span class="token punctuation">"</span></span> <span class="token attr-name">textFill</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>WHITE<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+...
+
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Pane</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>最外层的是Pane，有多种。指定控制类fx:controller=”xxx”。<br>各种组件添加fx:id唯一标识就可以在fxml文件对应的Controller中映射注入，同名即可。<br>事件有很多种，最通用的是onAction=”#goReason”，方法无参数。控制器内必须实现。</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@FXML</span>
+<span class="token keyword">private</span> TextField conditionTextFieldComponent
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">reason</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre>
+<h3 id="2-1-窗口切换"><a href="#2-1-窗口切换" class="headerlink" title="2.1 窗口切换"></a>2.1 窗口切换</h3><p>每个窗口是一个Stage对象。主类默认创建了一个  </p>
+<pre class=" language-java"><code class="language-java"> <span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">start</span><span class="token punctuation">(</span>Stage primaryStage<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception<span class="token punctuation">{</span>
+    Parent root <span class="token operator">=</span> FXMLLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"view/index.fxml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    primaryStage<span class="token punctuation">.</span><span class="token function">setTitle</span><span class="token punctuation">(</span><span class="token string">"系统"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    primaryStage<span class="token punctuation">.</span><span class="token function">setScene</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Scene</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 窗口不可伸缩</span>
+    primaryStage<span class="token punctuation">.</span><span class="token function">setResizable</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    primaryStage<span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">launch</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果需要程序同一个窗口，只需要每次更换Scene对象即可。每个Scene对应一个FXML文件，作用域是 Stage &gt; Scene &gt; Component    </p>
+<blockquote>
+<p>需要额外的推出按钮，只需要stage.close()或者stage.hide()  </p>
+</blockquote>
+<h3 id="2-2-样式"><a href="#2-2-样式" class="headerlink" title="2.2 样式"></a>2.2 样式</h3><p>样式也是css，但是属性都特定的前缀 -fx ，有些样式和css也不同。<br>比如文本框内的字体颜色。只能是  </p>
+<pre class=" language-bash"><code class="language-bash">textFieldComponent.setStyle<span class="token punctuation">(</span><span class="token string">" -fx-text-fill:RED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>样式可以每个独立设置，也可也设置一些class。也可使用外部文件。跟前端一样  </p>
+<pre class=" language-java"><code class="language-java">scene<span class="token punctuation">.</span><span class="token function">getStylesheets</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"application.css"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toExternalForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="2-3-表格"><a href="#2-3-表格" class="headerlink" title="2.3 表格"></a>2.3 表格</h3><p>表格是TableView组件，里面包括TableColumn组件，也就是表格的列标题，数据是和TableColumn绑定的。JavaFX对表格有很多API。 </p>
+<blockquote>
+<p>需要打开Scene就加载表格数据，可以使用初始化函数，fxml文件被打开就自动调用  </p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RuleController</span> <span class="token keyword">implements</span> <span class="token class-name">Initializable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initialize</span><span class="token punctuation">(</span>URL location<span class="token punctuation">,</span> ResourceBundle resources<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>表格的数据每个记录都是一个JavaBean，但是这个Bean要是JavaF形式的bean  </p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@FXML</span>
+<span class="token keyword">private</span> TableColumn<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> Integer<span class="token operator">></span> idTableColumnComponent<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@FXML</span>
+<span class="token keyword">private</span> TableColumn<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span> conditionTableColumnComponent<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@FXML</span>
+<span class="token keyword">private</span> TableColumn<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span> resultTableColumnComponent<span class="token punctuation">;</span>
+</code></pre>
+<p>&lt;RuleProperty, Integer&gt; 的RuleProperty就是这种规范的Bean，Bean里面的属性类型都需要用JavaFX的包装属性类，泛型后面的Integer表示的是这个列的数据的类型。对应里面的SimpleIntegerProperty id。  </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RuleProperty</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> SimpleIntegerProperty id<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> SimpleStringProperty condition<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> SimpleStringProperty result<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">RuleProperty</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">,</span> List condition<span class="token punctuation">,</span> String result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleIntegerProperty</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>condition <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleStringProperty</span><span class="token punctuation">(</span>condition<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleStringProperty</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> Integer <span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> id<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setId</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>id<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getCondition</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> condition<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setCondition</span><span class="token punctuation">(</span>List condition<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>condition<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>condition<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setResult</span><span class="token punctuation">(</span>String result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>result<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="填充数据"><a href="#填充数据" class="headerlink" title="填充数据"></a>填充数据</h4><p>TableView每个记录是一个XxProperty的Bean，因此即便有普通的记录对象Rule了，也需要额外写一个RuleProperty，类实JPA的Entity。全部数据就是一个List<xxproperty>，不过JavaFX对这个List也封装要求了，<strong>ObservableList<ruleproperty></ruleproperty></strong>  </xxproperty></p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 填充表格数据</span>
+ObservableList<span class="token operator">&lt;</span>RuleProperty<span class="token operator">></span> data <span class="token operator">=</span> FXCollections<span class="token punctuation">.</span><span class="token function">observableArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    data<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RuleProperty</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 字段数据绑定</span>
+<span class="token comment" spellcheck="true">// 后面的String泛型是列字段类型，最后的condition是映射到RuleProperty对象的condition字段</span>
+conditionTableColumnComponent<span class="token punctuation">.</span><span class="token function">setCellValueFactory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PropertyValueFactory</span><span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"condition"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+idTableColumnComponent<span class="token punctuation">.</span><span class="token function">setCellValueFactory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PropertyValueFactory</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+resultTableColumnComponent<span class="token punctuation">.</span><span class="token function">setCellValueFactory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PropertyValueFactory</span><span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"result"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 加入表格展示</span>
+tableViewComponent<span class="token punctuation">.</span><span class="token function">setItems</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li>ObservableList<ruleproperty>列表可以通过FXCollections.observableArrayList()构造一个空给的。  </ruleproperty></li>
+<li>TableColumn对象必须指定XxProperty Bean中的某个属性名，即数据绑定映射。使用方法etCellValueFactory(new PropertyValueFactory&lt;RuleProperty, String&gt;(“Bean中属性名”));  <blockquote>
+<p>这个泛型必须在@FXML TableComponent xx处声明，不然数据无法解析。  </p>
+</blockquote>
+</li>
+</ol>
+<h4 id="添加记录"><a href="#添加记录" class="headerlink" title="添加记录"></a>添加记录</h4><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 添加按钮事件绑定</span>
+addButtonComponent<span class="token punctuation">.</span><span class="token function">setOnAction</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ActionEvent e<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    String condition <span class="token operator">=</span> conditionTextFieldComponent<span class="token punctuation">.</span><span class="token function">getText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    String result <span class="token operator">=</span> resultTextFieldComponent<span class="token punctuation">.</span><span class="token function">getText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 非空、格式判断</span>
+
+    <span class="token comment" spellcheck="true">// table添加局部刷新，data是ObservableList&lt;RuleProperty></span>
+    data<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RuleProperty</span><span class="token punctuation">(</span>Core<span class="token punctuation">.</span>ruleBase<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> condition<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 清空输入框</span>
+    conditionTextFieldComponent<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    resultTextFieldComponent<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>组件绑定事件，可以通过fxml中onAction=”#方法名”映射到控制器，也可以在控制器代码中直接对fxid的控件setOnAction()，类似html和js调用事件的关系。  </p>
+<blockquote>
+<p>要获取表格的ObservableList<ruleproperty>记录列表，然后直接添加即可。界面会直接刷新。（内部已经实现了，无需重载Scene或者调用initialize(URL location, ResourceBundle resources) 方法）  </ruleproperty></p>
+</blockquote>
+<h4 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h4><pre class=" language-java"><code class="language-java">deleteButtonComponent<span class="token punctuation">.</span><span class="token function">setOnAction</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ActionEvent e<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 获取删除的记录编号</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>idTextFieldComponent<span class="token punctuation">.</span><span class="token function">getText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"编号不允许为空"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    Integer id <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        id <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>idTextFieldComponent<span class="token punctuation">.</span><span class="token function">getText</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NumberFormatException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"非法字符"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>id <span class="token operator">></span> Core<span class="token punctuation">.</span>ruleBase<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> id <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"非法边界"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// data.remove(id - 1);</span>
+    <span class="token comment" spellcheck="true">// 刷新保证不会中断编号</span>
+    <span class="token function">initialize</span><span class="token punctuation">(</span>location<span class="token punctuation">,</span> resources<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    idTextFieldComponent<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>可以获取到记录编号后直接在ObservableList记录表中remove，但是它删了自动局部刷新，有编号字段会断层。因此最好调用initialize(location, resources全局刷新。  </p>
+<h4 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h4><p><img src="https://i.loli.net/2019/12/23/xlhTQyHXDwZm7zr.png" alt="双击修改cell，Enter键保存修改"></p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 字段数据可编辑</span>
+conditionTableColumnComponent<span class="token punctuation">.</span><span class="token function">setCellFactory</span><span class="token punctuation">(</span>TextFieldTableCell<span class="token punctuation">.</span>&lt;RuleProperty<span class="token operator">></span><span class="token function">forTableColumn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+resultTableColumnComponent<span class="token punctuation">.</span><span class="token function">setCellFactory</span><span class="token punctuation">(</span>TextFieldTableCell<span class="token punctuation">.</span>&lt;RuleProperty<span class="token operator">></span><span class="token function">forTableColumn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 编辑提交触发函数</span>
+conditionTableColumnComponent<span class="token punctuation">.</span><span class="token function">setOnEditCommit</span><span class="token punctuation">(</span>
+        <span class="token punctuation">(</span>TableColumn<span class="token punctuation">.</span>CellEditEvent<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span> t<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 修改行数，0起</span>
+            <span class="token keyword">int</span> row <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getTablePosition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 修改后内容</span>
+            String newValue <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getNewValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"修改了第"</span> <span class="token operator">+</span> <span class="token punctuation">(</span>row <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"行体条件，新内容为："</span> <span class="token operator">+</span> newValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 更新到需要的地方</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+resultTableColumnComponent<span class="token punctuation">.</span><span class="token function">setOnEditCommit</span><span class="token punctuation">(</span>
+        <span class="token punctuation">(</span>TableColumn<span class="token punctuation">.</span>CellEditEvent<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span> t<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 修改行数，0起</span>
+            <span class="token keyword">int</span> row <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getTablePosition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 修改后内容</span>
+            String newValue <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getNewValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"修改了第"</span> <span class="token operator">+</span> <span class="token punctuation">(</span>row <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"行结果，新内容为："</span> <span class="token operator">+</span> newValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 更新到需要的地方</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>conditionTableColumnComponent.setCellFactory(TextFieldTableCell.<ruleproperty>forTableColumn());</ruleproperty></strong><br>单位都是列TableColumn，这样就就可以整列的cell单元格变得可以修改了，可以直接双击修改Enter保存。就一个setCellFactory，刚刚的setCellValueFactory是绑定数据。  </p>
+<p>但是这样编辑修改保存，只能临时作用于当前界面。虽然修改到了ObservableList<xxproperty>，但是ObservableList<xxproperty>只是一个中介表，我们需要把修改保存到其他需要的地方。需要一个事件触发的回调函数。  </xxproperty></xxproperty></p>
+<p>也就是conditionTableColumnComponent.setOnEditCommit(EventHandler&lt;CellEditEvent&lt;S,T&gt;&gt; value);<br>参数是一个事件，API提供了TableColumn.CellEditEvent&lt;RuleProperty, String&gt; t类，满足函数式编程，事件变量t可以做很多操作  </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 修改行数，0起</span>
+<span class="token keyword">int</span> row <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getTablePosition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 修改后内容</span>
+String newValue <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getNewValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 原来内容</span>
+String oldValue <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">getOldValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>需要注意的是：声明TableColumn的时候必须注明泛型  </p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@FXML</span>
+<span class="token keyword">private</span> TableColumn<span class="token operator">&lt;</span>RuleProperty<span class="token punctuation">,</span> String<span class="token operator">></span> conditionTableColumnComponent<span class="token punctuation">;</span>
+</code></pre>
+<p>否则报错setOnEditCommit的参数需要是Even而不是EventHandler，其实EventHandler就是Even的子类。原因是事件不能先于所在列先声明泛型。不然private TableColumn conditionTableColumnComponent就是原始类型了。后面要强转了。<a href="https://stackoverflow.com/questions/35320398/lambda-operator-in-tablecolumn-setoneditcommit" target="_blank" rel="noopener">见StackOverFlow</a>  </p>
+</blockquote>
+<h2 id="3-打包"><a href="#3-打包" class="headerlink" title="3. 打包"></a>3. 打包</h2><h4 id="文件找不到"><a href="#文件找不到" class="headerlink" title="文件找不到"></a>文件找不到</h4><p><img src="https://i.loli.net/2019/12/23/Zgz8HOji1m6sUIQ.png" alt="打包配置"><br>使用IDEA开发的JavaFX程序，指定好主类后（无需.java后缀）即可在菜单栏Build-&gt;Build Artifacts打包  </p>
+<p>但是打包会有个资源文件路径错乱的情况。打包后jar包的第一层就是src下的包，不包括src目录。类实的如果有文本文件哪怕new File(“filePath”)使用打包后正确的相对路径也没用。打包后已经无法找到文件。  </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String RULES_FILE_PATH <span class="token operator">=</span> <span class="token string">"rules.txt"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 不使用File读取，打包后路径问题无法解决，一般的相对路径也无效。只能Clsss.getResourceAsStream(RULES_FILE_PATH)</span>
+<span class="token comment" spellcheck="true">// 读取初始化文件</span>
+<span class="token comment" spellcheck="true">// File file = new File(RULES_FILE_PATH);</span>
+String encoding <span class="token operator">=</span> <span class="token string">"UTF-8"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//if (file.isFile() &amp;&amp; file.exists()) {</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file), encoding);</span>
+        InputStream inputStream <span class="token operator">=</span> Core<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResourceAsStream</span><span class="token punctuation">(</span>RULES_FILE_PATH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        BufferedReader bufferedReader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>inputStream<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String line <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>line <span class="token operator">=</span> bufferedReader<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// do</span>
+        <span class="token punctuation">}</span>
+        inputStream<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bufferedReader<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"读取初始化文件内容出错"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//} else {</span>
+    <span class="token comment" spellcheck="true">//  System.out.println("找不到指定文件");</span>
+<span class="token comment" spellcheck="true">//}</span>
+</code></pre>
+<p>可以把new File(filePath)的方式改为Class.getResourceAsStream(path)，返回一个InputStream。这样运行和打包都没问题。  </p>
+<h4 id="部分乱码"><a href="#部分乱码" class="headerlink" title="部分乱码"></a>部分乱码</h4><p>哪怕都是UTF-8，打包后还是存在file.encoding属性被打包程序更改的问题，解决方法是打包程序运行时指定编码。  </p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 运行编码有问题，需指定编码</span>
+java -Dfile.encoding<span class="token operator">=</span>utf-8 -jar xxx.jar
+</code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;转载请注明:
+                    </span>
+                    <a href="https://chgl16.github.io" class="b-link-green">Chgl16</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/12/10/java/javafx-chang-yong-zong-jie/" class="b-link-green">JavaFX常用总结</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/12/10/java/javafx-chang-yong-zong-jie/">
+                    <div class="card-image">
+                        
+                        <img src="https://i.loli.net/2019/12/23/IfnMxOjJmidYBEV.png" class="responsive-img" alt="JavaFX常用总结">
+                        
+                        <span class="card-title">JavaFX常用总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">1、安装JavaFX是JavaSE自带的类库，只需要下载可视化插件即可SceneBuilder即可，目前Windows的是直装msi版，只是v2.0，好多年没更新了。另外也可以用OpenJDK的JavaFX的SDK，持续更新。安装好后，在E</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JavaFX/" target="_blank">
+                        <span class="chip bg-color">JavaFX</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/11/10/java/pdf-zhuan-tu-pian-java-shi-xian/">
+                    <div class="card-image">
+                        
+                        <img src="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" class="responsive-img" alt="PDF转图片Java实现">
+                        
+                        <span class="card-title">PDF转图片Java实现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">依赖环境使用到的是Apache提供的类库pdfBox和fontBox直接导入依赖即可。  
+&lt;!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+&l</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/PDF/" target="_blank">
+                        <span class="chip bg-color">PDF</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.bootcss.com/tocbot/4.8.1/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color" style="padding-top: 19px;">
+    <div class="container row center-align">
+        
+        <div>
+            本站基于 <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery </a>主题搭建
+
+            <!--
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">31.2k</span>
+            
+
+            
+			
+        </div>
+        
+        <div class="col s12 m4 l4 social-link ">
+
+
+
+
+
+</div>
+        -->
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.bootcss.com/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="https://cdn.bootcss.com/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<script src="https://cdn.bootcss.com/aos/2.3.3/aos.js"></script>
+<script src="https://cdn.bootcss.com/scrollprogress/3.0.2/scrollProgress.min.js"></script>
+<script src="https://cdn.bootcss.com/lightgallery/1.6.12/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+
+</body>
+</html>
