@@ -4,11 +4,10 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="blog">
-    <meta name="description" content="
-title: 数据库隔离级别date: 2019-08-03 13:24author: chgl16summary: 四种隔离级别categories: MySQLtags: 
-
-MySQLimg: https://i.loli.net/">
+    <meta name="keywords" content="数据库隔离级别, blog">
+    <meta name="description" content="一、事务完整性问题脏读：可以读取其他事务未提交的数据，如果该事务回滚，则数据为错误数据。
+不可重复读：A事务查看，B事务修改提交，A事务再次查看，数据不一样。  
+幻读：幻读与不可重复读相似，但不可重复读重点在于update和delete，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +15,7 @@ MySQLimg: https://i.loli.net/">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Chgl16</title>
+    <title>数据库隔离级别 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -200,13 +199,13 @@ MySQLimg: https://i.loli.net/">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/11/5d2757718616580779.png')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        
+                        数据库隔离级别
                     </div>
                 </div>
             </div>
@@ -315,12 +314,25 @@ MySQLimg: https://i.loli.net/">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/" target="_blank">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                MySQL
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -328,14 +340,14 @@ MySQLimg: https://i.loli.net/">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-02-16
+                    2019-08-03
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        171
+                        138
                     </div>
                     
 
@@ -353,13 +365,7 @@ MySQLimg: https://i.loli.net/">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<p>title: 数据库隔离级别<br>date: 2019-08-03 13:24<br>author: chgl16<br>summary: 四种隔离级别<br>categories: MySQL<br>tags: </p>
-<ul>
-<li>MySQL<br>img: <a href="https://i.loli.net/2019/07/11/5d2757718616580779.png" target="_blank" rel="noopener">https://i.loli.net/2019/07/11/5d2757718616580779.png</a></li>
-</ul>
-<hr>
-<h2 id="一、事务完整性问题"><a href="#一、事务完整性问题" class="headerlink" title="一、事务完整性问题"></a>一、事务完整性问题</h2><p>脏读：可以读取其他事务未提交的数据，如果该事务回滚，则数据为错误数据。</p>
+                <h2 id="一、事务完整性问题"><a href="#一、事务完整性问题" class="headerlink" title="一、事务完整性问题"></a>一、事务完整性问题</h2><p>脏读：可以读取其他事务未提交的数据，如果该事务回滚，则数据为错误数据。</p>
 <p>不可重复读：A事务查看，B事务修改提交，A事务再次查看，数据不一样。  </p>
 <p>幻读：幻读与不可重复读相似，但不可重复读重点在于update和delete，幻读重点在于insert。</p>
 <ol>
@@ -391,7 +397,7 @@ MySQLimg: https://i.loli.net/">
                     </span>
                     <a href="https://chgl16.github.io" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/02/16/mysql/shu-ju-ku-ge-chi-ji-bie/" class="b-link-green"></a>
+                    <a href="/2019/08/03/mysql/shu-ju-ku-ge-chi-ji-bie/" class="b-link-green">数据库隔离级别</a>
                 </p>
             </div>
         </div>
@@ -416,32 +422,48 @@ MySQLimg: https://i.loli.net/">
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/02/29/shu-ju-jie-gou/dui-pai-xu/">
+                <a href="/2019/08/22/spring/class-re-jia-zai-re-geng-xin/">
                     <div class="card-image">
                         
+                        <img src="https://i.loli.net/2019/08/24/OYSx1VL67l3pCcW.jpg" class="responsive-img" alt="class热加载热更新实现">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
-                        
-                        <span class="card-title"></span>
+                        <span class="card-title">class热加载热更新实现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">
-title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories: 算法&amp;数据结构tags:
-
-算法
-数据结构img: https://i.loli.net/</div>
+                    <div class="summary block-with-text">一、需求描述
+&emsp;&emsp;服务使用过程中，希望在不重启服务的情况下，动态加载某些class/scalar/jar到项目中使用，即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证热更新。&em</div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-29
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-22
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring/" class="post-category" target="_blank">
+                                    Spring
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/" target="_blank">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/ClassLoader/" target="_blank">
+                        <span class="chip bg-color">ClassLoader</span>
+                    </a>
+                    
+                    <a href="/tags/反射/" target="_blank">
+                        <span class="chip bg-color">反射</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -453,28 +475,29 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/23/duo-xian-cheng-bing-fa-bian-cheng/bing-fa-za-ji/">
+                <a href="/2019/07/20/shu-ju-jie-gou/cha-zhao-suan-fa-zong-jie/">
                     <div class="card-image">
                         
-                        <img src="https://i.kinja-img.com/gawker-media/image/upload/s--B53C8CDW--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/18gnjw6jdmvfcjpg.jpg" class="responsive-img" alt="并发杂记">
+                        <img src="https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg" class="responsive-img" alt="查找算法总结">
                         
-                        <span class="card-title">并发杂记</span>
+                        <span class="card-title">查找算法总结</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">1. FutureFuture类是管理线程任务生命周期的，常用来做Callable的结果，同样需要指定泛型。  
-ExecutorService pool = Executors.newFixedThreadPool(3);
-Callabl</div>
+                    <div class="summary block-with-text">常见的查找算法有7种
+1. 顺序查找顺序查找对序列没有排序要求ASL = 1/n(1+2+3+…+n) = (n+1)/2;T((n+1)/2)复杂度为 O(n)
+2. 折半查找也叫二分查找，必须是有序的序列。
+int binarySear</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-23
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-20
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java并发知识杂记-Java-多线程并发编程/" class="post-category" target="_blank">
-                                    Java并发知识杂记 - Java - 多线程并发编程
+                            <a href="/categories/算法-数据结构/" class="post-category" target="_blank">
+                                    算法&数据结构
                                 </a>
                             
                             
@@ -484,28 +507,12 @@ Callabl</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Future/" target="_blank">
-                        <span class="chip bg-color">Future</span>
+                    <a href="/tags/算法/" target="_blank">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/ThreadLocal/" target="_blank">
-                        <span class="chip bg-color">ThreadLocal</span>
-                    </a>
-                    
-                    <a href="/tags/线程池/" target="_blank">
-                        <span class="chip bg-color">线程池</span>
-                    </a>
-                    
-                    <a href="/tags/CountDownLatch/" target="_blank">
-                        <span class="chip bg-color">CountDownLatch</span>
-                    </a>
-                    
-                    <a href="/tags/ReentrantLock/" target="_blank">
-                        <span class="chip bg-color">ReentrantLock</span>
-                    </a>
-                    
-                    <a href="/tags/Synchronized/" target="_blank">
-                        <span class="chip bg-color">Synchronized</span>
+                    <a href="/tags/数据结构/" target="_blank">
+                        <span class="chip bg-color">数据结构</span>
                     </a>
                     
                 </div>
@@ -625,7 +632,7 @@ Callabl</div>
             <!--
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">33.6k</span>
+                <span class="white-color">33.5k</span>
             
 
             

@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2F2020%2F02%2F29%2Fshu-ju-jie-gou%2Fdui-pai-xu%2F</url>
-    <content type="text"><![CDATA[title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories: 算法&amp;数据结构tags: 算法 数据结构img: https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg 算法 堆排序的时间复杂度为O(nlog(n))，在原数组操作，空间复杂度为O(1)。是不稳定的排序。大顶堆是升序排序。 堆是一颗完全二叉树，是满二叉树的一种按规定残缺形式，从后往前第一个非叶子节点是 len / 2 + 1 (从0开始)。index为i的左右子节点分别为2 i + 1, 2 i + 2。 流程是先构建堆，第一次建堆从后往前第一个非叶子节点开始。构建完把第一个把堆顶下沉，后面堆就小一个元素。之后从堆顶开始调整即可。因为调整会可能影响置换的子树，所以递归调整子树问题。也正好解决后续从堆顶开始的问题。 package xyz.cglzwz.demo.sort; import java.util.Scanner; public class HeapSort { public static void main(String[] args) { Scanner in = new Scanner(System.in); int n = in.nextInt(); int[] arr = new int[n]; for (int i = 0; i &lt; n; ++i) arr[i] = in.nextInt(); printArr(arr); System.out.println("#######################"); // heap-sort heapSort(arr); printArr(arr); } public static void heapSort(int[] arr) { if (arr == null || arr.length == 1) return; // 构造最大堆，从第一个非叶子节点开始 for (int i = arr.length / 2 - 1; i >= 0; --i) { adjustHeap(arr, i, arr.length); } // 堆顶下沉，重新调整堆 for (int i = arr.length - 1; i > 0; --i) { swap(arr, 0, i); // 重新调整堆顶开始即可，堆的大小变成i adjustHeap(arr, 0, i); } } public static void adjustHeap(int[] arr, int index, int len) { // 当前index节点的左右节点下标 int left = index * 2 + 1; int right = index * 2 + 2; int max = index; if (left &lt; len &amp;&amp; arr[left] > arr[max]) { max = left; } if (right &lt; len &amp;&amp; arr[right] > arr[max]) { max = right; } // 交换 if (max != index) { swap(arr, index, max); // 处理因为调整而可能不满足条件的子树 adjustHeap(arr, max, len); } } public static void printArr(int[] arr) { for (int i = 0; i &lt; arr.length - 1; ++i) { System.out.print(arr[i] + ", "); } System.out.println(arr[arr.length - 1]); } public static void swap(int[] arr, int i, int j) { arr[i] = arr[i] ^ arr[j]; arr[j] = arr[i] ^ arr[j]; arr[i] = arr[i] ^ arr[j]; } } 参考 Java实现堆排序和图解 堆排序(Heapsort)之Java实现]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>%2F2020%2F02%2F16%2Fmysql%2Fshu-ju-ku-ge-chi-ji-bie%2F</url>
-    <content type="text"><![CDATA[title: 数据库隔离级别date: 2019-08-03 13:24author: chgl16summary: 四种隔离级别categories: MySQLtags: MySQLimg: https://i.loli.net/2019/07/11/5d2757718616580779.png 一、事务完整性问题脏读：可以读取其他事务未提交的数据，如果该事务回滚，则数据为错误数据。 不可重复读：A事务查看，B事务修改提交，A事务再次查看，数据不一样。 幻读：幻读与不可重复读相似，但不可重复读重点在于update和delete，幻读重点在于insert。 读未提交（Read Uncommited）：未提交读，就是事务A在操作数据库，事务B读取了事务A将要提交的。 参考 CSDN博客]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[并发杂记]]></title>
     <url>%2F2019%2F12%2F23%2Fduo-xian-cheng-bing-fa-bian-cheng%2Fbing-fa-za-ji%2F</url>
     <content type="text"><![CDATA[1. FutureFuture类是管理线程任务生命周期的，常用来做Callable的结果，同样需要指定泛型。 ExecutorService pool = Executors.newFixedThreadPool(3); Callable&lt;Integer> task = () -> handlerTask(); Future&lt;Integer> ans = pool.submit(task); System.err.println(ans.isDone()); 里面的方法包括isDone(), isCancelled(), cancel(), get()get()方法需要抛出异常，因为这个方法会阻塞当前线程，一直到任务现成处理完成结果返回。 2. ThreadLocalThreadLocal目的是让线程拥有局部变量，当然也可以解决全局变量多线程操作造成的问题，比如全局i++在多线程的情况下。 每个Thread维护着一个ThreadLocalMap的引用 ThreadLocalMap是ThreadLocal的内部类，用Entry来进行存储 调用ThreadLocal的set()方法时，实际上就是往ThreadLocalMap设置值，key是ThreadLocal对象，值是传递进来的对象 调用ThreadLocal的get()方法时，实际上就是往ThreadLocalMap获取值，key是ThreadLocal对象 ThreadLocal本身并不存储值，它只是作为一个key来让线程从ThreadLocalMap获取value。 public T get() { Thread t = Thread.currentThread(); // 获取当前线程的ThreadLocalMap ThreadLocalMap map = getMap(t); if (map != null) { // this就是当前的ThreadLocal，作为key ThreadLocalMap.Entry e = map.getEntry(this); if (e != null) { @SuppressWarnings("unchecked") T result = (T)e.value; return result; } } return setInitialValue(); } 3. 线程池线程池的状态：RUNNING：线程池能够接受新任务，以及对新添加的任务进行处理。SHUTDOWN：线程池不可以接受新任务，但是可以对已添加的任务进行处理。STOP：线程池不接收新任务，不处理已添加的任务，并且会中断正在处理的任务。TIDYING：当所有的任务已终止，ctl记录的”任务数量”为0，线程池会变为TIDYING状态。当线程池变为TIDYING状态时，会执行钩子函数terminated()。terminated()在ThreadPoolExecutor类中是空的，若用户想在线程池变为TIDYING时，进行相应的处理；可以通过重载terminated()函数来实现。TERMINATED：线程池彻底终止的状态。 调用shutdown()方法会进入SHUTDOWN状态，shutdownNow()方法进入STOP状态，terminated()方法是在进入了TINYING状态后自动执行的 线程池的内部关键属性：private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); // 为32 - 3 = 29 private static final int COUNT_BITS = Integer.SIZE - 3; private static final int CAPACITY = (1 &lt;&lt; COUNT_BITS) - 1; // runState is stored in the high-order bits private static final int RUNNING = -1 &lt;&lt; COUNT_BITS; private static final int SHUTDOWN = 0 &lt;&lt; COUNT_BITS; private static final int STOP = 1 &lt;&lt; COUNT_BITS; private static final int TIDYING = 2 &lt;&lt; COUNT_BITS; private static final int TERMINATED = 3 &lt;&lt; COUNT_BITS; // 高三位为线程池状态 private static int runStateOf(int c) { return c &amp; ~CAPACITY; } // 低29位为线程池当前线程数量 private static int workerCountOf(int c) { return c &amp; CAPACITY; } private static int ctlOf(int rs, int wc) { return rs | wc; } ctl是一个JUC原子类型，包括了线程池的状态和线程数量。原子类型使用CAS实现。这也是处理任务的第一步，获取状态数量，判断是否还需要创建新线程还是放入阻塞队列里面处理。 工作队列 BlockingQueue workQueue：用来保存等待被执行的任务的阻塞队列，且任务必须实现Runable接口，在JDK中提供了如下阻塞队列： （1）ArrayBlockingQueue：基于数组结构的有界阻塞队列，按FIFO排序任务；（2）LinkedBlockingQuene：基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQuene；（3）SynchronousQuene：一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于LinkedBlockingQuene；（4）priorityBlockingQuene：具有优先级的无界阻塞队列； 线程池的饱和策略：当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必须采取一种策略处理该任务，线程池提供了4种策略：（1）AbortPolicy：直接抛出异常，默认策略；（2）CallerRunsPolicy：用调用者所在的线程来执行任务；（3）DiscardOldestPolicy：丢弃阻塞队列中靠最前的任务，并执行当前任务；（4）DiscardPolicy：直接丢弃任务；当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如记录日志或持久化存储不能处理的任务。 4. CountDownLatch这个和join的作用很像 // 主线程创建，传入的参数为计数器个数 CountDownLatch instance = new CountDownLatch(2); Runnable task = () -> { // 计数器减一 instance.countDown(); }; Thread t1 = new Thread("t1", task); Thread t2 = new Thread("t2", task); t1.start(); t2.start(); // 主线程等待 instance.await(); 5. synchronized和ReentrantLocksynchornized是在JVM层面实现的隐式锁，Javap反编译可以看到monitor_enter和monitor_exit，保证中间的代码每次只能有一个线程访问执行，监听器是绑定在对象上的，Class也是对象。类似wait()，notify()这些是Object方法，而不是Thread的方法。 ReentrantLock是JDK层面实现的，可以完全可见源码。核心是一个抽象队列同步器AQS，内部的state和acquire()和release()方法（使用CAS修改state）。线程阻塞的状态包括WAITING和BLOCKED，而synchronized只会是BLOCKED]]></content>
@@ -70,6 +60,17 @@
         <tag>Spring</tag>
         <tag>ClassLoader</tag>
         <tag>反射</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数据库隔离级别]]></title>
+    <url>%2F2019%2F08%2F03%2Fmysql%2Fshu-ju-ku-ge-chi-ji-bie%2F</url>
+    <content type="text"><![CDATA[一、事务完整性问题脏读：可以读取其他事务未提交的数据，如果该事务回滚，则数据为错误数据。 不可重复读：A事务查看，B事务修改提交，A事务再次查看，数据不一样。 幻读：幻读与不可重复读相似，但不可重复读重点在于update和delete，幻读重点在于insert。 读未提交（Read Uncommited）：未提交读，就是事务A在操作数据库，事务B读取了事务A将要提交的。 参考 CSDN博客]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -689,6 +690,18 @@
       <categories>
         <category>LeetCode</category>
       </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[堆排序]]></title>
+    <url>%2F2019%2F02%2F20%2Fshu-ju-jie-gou%2Fdui-pai-xu%2F</url>
+    <content type="text"><![CDATA[算法 堆排序的时间复杂度为O(nlog(n))，在原数组操作，空间复杂度为O(1)。是不稳定的排序。大顶堆是升序排序。 堆是一颗完全二叉树，是满二叉树的一种按规定残缺形式，从后往前第一个非叶子节点是 len / 2 + 1 (从0开始)。index为i的左右子节点分别为2 i + 1, 2 i + 2。 流程是先构建堆，第一次建堆从后往前第一个非叶子节点开始。构建完把第一个把堆顶下沉，后面堆就小一个元素。之后从堆顶开始调整即可。因为调整会可能影响置换的子树，所以递归调整子树问题。也正好解决后续从堆顶开始的问题。 package xyz.cglzwz.demo.sort; import java.util.Scanner; public class HeapSort { public static void main(String[] args) { Scanner in = new Scanner(System.in); int n = in.nextInt(); int[] arr = new int[n]; for (int i = 0; i &lt; n; ++i) arr[i] = in.nextInt(); printArr(arr); System.out.println("#######################"); // heap-sort heapSort(arr); printArr(arr); } public static void heapSort(int[] arr) { if (arr == null || arr.length == 1) return; // 构造最大堆，从第一个非叶子节点开始 for (int i = arr.length / 2 - 1; i >= 0; --i) { adjustHeap(arr, i, arr.length); } // 堆顶下沉，重新调整堆 for (int i = arr.length - 1; i > 0; --i) { swap(arr, 0, i); // 重新调整堆顶开始即可，堆的大小变成i adjustHeap(arr, 0, i); } } public static void adjustHeap(int[] arr, int index, int len) { // 当前index节点的左右节点下标 int left = index * 2 + 1; int right = index * 2 + 2; int max = index; if (left &lt; len &amp;&amp; arr[left] > arr[max]) { max = left; } if (right &lt; len &amp;&amp; arr[right] > arr[max]) { max = right; } // 交换 if (max != index) { swap(arr, index, max); // 处理因为调整而可能不满足条件的子树 adjustHeap(arr, max, len); } } public static void printArr(int[] arr) { for (int i = 0; i &lt; arr.length - 1; ++i) { System.out.print(arr[i] + ", "); } System.out.println(arr[arr.length - 1]); } public static void swap(int[] arr, int i, int j) { arr[i] = arr[i] ^ arr[j]; arr[j] = arr[i] ^ arr[j]; arr[i] = arr[i] ^ arr[j]; } } 参考 Java实现堆排序和图解 堆排序(Heapsort)之Java实现]]></content>
+      <categories>
+        <category>算法&amp;数据结构</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>数据结构</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[测试]]></title>

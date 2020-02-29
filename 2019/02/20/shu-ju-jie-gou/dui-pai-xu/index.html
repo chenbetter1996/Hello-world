@@ -4,12 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="blog">
-    <meta name="description" content="
-title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories: 算法&amp;amp;数据结构tags:
-
-算法
-数据结构img: https://i.loli.net/">
+    <meta name="keywords" content="堆排序, blog">
+    <meta name="description" content="算法  堆排序的时间复杂度为O(nlog(n))，在原数组操作，空间复杂度为O(1)。是不稳定的排序。大顶堆是升序排序。   
+堆是一颗完全二叉树，是满二叉树的一种按规定残缺形式，从后往前第一个非叶子节点是 len / 2 + 1 (从0开">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +14,7 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Chgl16</title>
+    <title>堆排序 | Chgl16</title>
     <link rel="icon" type="image/jpeg" href="/medias/logo.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -201,13 +198,13 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        
+                        堆排序
                     </div>
                 </div>
             </div>
@@ -316,12 +313,29 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/算法/" target="_blank">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/数据结构/" target="_blank">
+                                <span class="chip bg-color">数据结构</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/算法-数据结构/" class="post-category" target="_blank">
+                                算法&数据结构
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -329,14 +343,14 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-02-29
+                    2019-02-20
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        547
+                        508
                     </div>
                     
 
@@ -354,14 +368,7 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<p>title: 堆排序<br>date: 2019-02-20 23:36<br>author: chgl16<br>summary: 堆排序<br>categories: 算法&amp;数据结构<br>tags:</p>
-<ul>
-<li>算法</li>
-<li>数据结构<br>img: <a href="https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/07/22/5d35d17f0814b23966.jpg</a></li>
-</ul>
-<hr>
-<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>  堆排序的时间复杂度为O(nlog(n))，在原数组操作，空间复杂度为O(1)。是不稳定的排序。大顶堆是升序排序。   </p>
+                <h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>  堆排序的时间复杂度为O(nlog(n))，在原数组操作，空间复杂度为O(1)。是不稳定的排序。大顶堆是升序排序。   </p>
 <p>堆是一颗完全二叉树，是满二叉树的一种按规定残缺形式，从后往前第一个非叶子节点是 len / 2 + 1 (从0开始)。index为i的左右子节点分别为2 <em> i + 1, 2 </em> i + 2。  </p>
 <p>流程是先构建堆，第一次建堆从后往前第一个非叶子节点开始。构建完把第一个把堆顶下沉，后面堆就小一个元素。之后从堆顶开始调整即可。因为调整会可能影响置换的子树，所以递归调整子树问题。也正好解决后续从堆顶开始的问题。  </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> xyz<span class="token punctuation">.</span>cglzwz<span class="token punctuation">.</span>demo<span class="token punctuation">.</span>sort<span class="token punctuation">;</span>
@@ -465,7 +472,7 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
                     </span>
                     <a href="https://chgl16.github.io" class="b-link-green">Chgl16</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2020/02/29/shu-ju-jie-gou/dui-pai-xu/" class="b-link-green"></a>
+                    <a href="/2019/02/20/shu-ju-jie-gou/dui-pai-xu/" class="b-link-green">堆排序</a>
                 </p>
             </div>
         </div>
@@ -486,39 +493,42 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/02/29/shu-ju-jie-gou/dui-pai-xu/">
+                <a href="/2019/02/21/leetcode/tong-ji-shu-zi-zai-you-xu-shu-zu-zhong-chu-xian-de-ci-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="统计数字在有序数组中出现的次数">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">统计数字在有序数组中出现的次数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">
-title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories: 算法&amp;数据结构tags:
+                    <div class="summary block-with-text">这是有序数组，直接遍历也就O(n)  
+有序可以考虑折半查找。找到第一个，然后向两边扩散即可。  
+public class Findk {
 
-算法
-数据结构img: https://i.loli.net/</div>
+    public static void main(String[] args) {
+   </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/LeetCode/" class="post-category" target="_blank">
+                                    LeetCode
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -529,28 +539,40 @@ title: 堆排序date: 2019-02-20 23:36author: chgl16summary: 堆排序categories
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/02/16/mysql/shu-ju-ku-ge-chi-ji-bie/">
+                <a href="/2019/01/14/za-ji/ce-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="测试">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">测试</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">
-title: 数据库隔离级别date: 2019-08-03 13:24author: chgl16summary: 四种隔离级别categories: MySQLtags: 
+                    <div class="summary block-with-text">测试显示加重内容
+正文…. 
+==使用颜色标志==
+加粗
+斜体
 
-MySQLimg: https://i.loli.net/</div>
+引用…
+
+// ...
+System.out.println("Java 代码");
+
+</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-16
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            chgl16
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/杂记/" class="post-category" target="_blank">
+                                    杂记
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -671,7 +693,7 @@ MySQLimg: https://i.loli.net/</div>
             <!--
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">33.6k</span>
+                <span class="white-color">33.5k</span>
             
 
             
