@@ -772,28 +772,27 @@ Callabl</div>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/11/10/java/pdf-zhuan-tu-pian-java-shi-xian/">
+                <a href="/2019/11/26/mysql/like-tong-pei-fu-suo-yin-shi-xiao-wen-ti/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2019/08/05/d3tWHFqTupvPjIK.jpg" class="responsive-img" alt="PDF转图片Java实现">
+                        <img src="https://i.loli.net/2019/07/11/5d2757718616580779.png" class="responsive-img" alt="LIKE通配符索引失效问题">
                         
-                        <span class="card-title">PDF转图片Java实现</span>
+                        <span class="card-title">LIKE通配符索引失效问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary block-with-text">依赖环境使用到的是Apache提供的类库pdfBox和fontBox直接导入依赖即可。  
-&lt;!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
-&l</div>
+                    <div class="summary block-with-text">问题因为B+树是叶子节点区间检索。对于匹配串左边，使用通配符肯定无法使用索引。除非SELECT只检索当前索引所属字段。  
+网上的方法说的用LOCATE(#{keyword}, column)和INSTR(column, #{keyword</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-10
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java/" class="post-category" target="_blank">
-                                    Java
+                            <a href="/categories/MySQL/" class="post-category" target="_blank">
+                                    MySQL
                                 </a>
                             
                             
@@ -803,8 +802,8 @@ Callabl</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/PDF/" target="_blank">
-                        <span class="chip bg-color">PDF</span>
+                    <a href="/tags/MySQL/" target="_blank">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>
@@ -924,7 +923,7 @@ Callabl</div>
             <!--
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">33.5k</span>
+                <span class="white-color">33.9k</span>
             
 
             
